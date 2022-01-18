@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="mkmr" >
+    <xacro:arg name="is_sim" default="false"/>
+    <xacro:arg name="robot_id" default="mkmr0"/>
+    <xacro:arg name="gazebo_world_name" default="empty"/>
+
+
+    <xacro:property name="ROBOT_ID" value="$(arg robot_id)"/>
+    <xacro:property name="IS_SIM" value="$(arg is_sim)"/>
+    <xacro:property name="GZ_WORLD" value="$(arg gazebo_world_name)"/>
+
+    <xacro:include filename="$(find mkmr_description)/urdf/common/materials.xacro"/>
+    <xacro:include filename="$(find mkmr_description)/urdf/common/utils.urdf.xacro"/>
+    <xacro:include filename="$(find mkmr_description)/urdf/common/plugins.gazebo.xacro"/>
+
+
+    <xacro:include filename="$(find mkmr_description)/urdf/mkmr/mkmr_base.urdf.xacro"/>
+    <!-- <xacro:include filename="$(find mkmr_description)/urdf/sensors/rplidar_a1.urdf.xacro"/> -->
+
+    <!-- Robot Base-->
+    <xacro:mkmr_base/>
+
+    <!-- Laser -->
+    <!-- <xacro:rplidar_a1 name="front_laser"
+                    x_offset="0.22" y_offset="0" z_offset="0.2196"
+                    roll_offset="3.14159265359" yaw_offset="0"
+                    parent="${ROBOT_ID}/base_link"/> -->
+
+</robot>

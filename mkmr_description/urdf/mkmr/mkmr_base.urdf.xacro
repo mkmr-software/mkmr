@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="mkmr" >
+    <xacro:macro name="mkmr_base">
+
+
+        <!-- Base footprint -->
+        <link name="${ROBOT_ID}/base_footprint">
+            <visual>
+                <origin xyz="0.28 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size ="0.3 0.4 0.001"/>
+                </geometry>
+                <material name="Orange"/>
+            </visual>
+        </link>
+
+        <!-- Base link -->
+        <link name="${ROBOT_ID}/base_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/base_link.STL" />
+                </geometry>
+                <material name="Black"/>
+            </visual>
+
+            <collision>
+                <origin xyz="0 0 0.01" rpy="0 0 0"/><!-- 1 cm above for wheel trick -->
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/base_link.STL" />
+                </geometry>
+            </collision>
+
+            <inertial>
+                <origin xyz="0.277007577638953 -0.338806344571783 0.0633776923791692"/>
+                <mass value="0.1"/>
+                <inertia
+                    ixx="0.000191833350350532"
+                    ixy="3.81016043819389E-18"
+                    ixz="1.43353501127755E-11"
+                    iyy="0.000732589595457571"
+                    iyz="2.42104727054767E-16"
+                    izz="0.000540911588861397" />
+            </inertial>
+        </link>
+            
+        <joint name="${ROBOT_ID}/base_footprint_joint" type="fixed">
+            <origin xyz="-0.274  -0.062   -0.275" rpy="-1.57 0 0"/> <!-- drive wheel radius-->
+            <parent link="${ROBOT_ID}/base_footprint"/>
+            <child link="${ROBOT_ID}/base_link"/>
+        </joint>
+
+
+        <!-- fMotor -->
+        <link name="${ROBOT_ID}/fMotor">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/fMotor.STL" />
+                </geometry>
+                <material name="Black"/>
+            </visual>
+
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/fMotor.STL" />
+                </geometry>
+            </collision>
+
+            <inertial>
+                <origin xyz="-2.35922392732846E-16 -0.0329974549151947 -0.02859664503564"/>
+                <mass value="0.8"/>
+                <inertia
+                    ixx="3.18777376766978E-05"
+                    ixy="2.71802092193263E-07"
+                    ixz="8.53012918247537E-17"
+                    iyy="5.51232387338385E-05"
+                    iyz="1.0709267346185E-19"
+                    izz="5.4667129576926E-05" />
+            </inertial>
+        </link>
+            
+        <joint name="${ROBOT_ID}/base_link_joint" type="fixed">
+            <origin xyz="0.30386 -0.34031 0.063378" rpy="1.5708 1.5708 0"/> 
+            <parent link="${ROBOT_ID}/base_link"/>
+            <child link="${ROBOT_ID}/fMotor"/>
+        </joint>
+
+
+    </xacro:macro>
+
+</robot>

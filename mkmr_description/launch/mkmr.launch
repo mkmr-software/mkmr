@@ -1,0 +1,21 @@
+<launch>
+    <arg name="robot_id" default="mkmr0"/>
+    <arg name="is_sim" default="false"/>
+    <arg name="posx" default="0.0"/>
+    <arg name="posy" default="0.0"/>
+    <arg name="posz" default="0.17"/>
+    <arg name="yaw" default="0.0"/>
+
+    <include file="$(find mkmr_description)/launch/mkmr_description.launch">
+        <arg name="robot_id" value="$(arg robot_id)"/>
+        <arg name="is_sim" value="true"/>
+    </include>
+
+
+<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" ns="$(arg robot_id)"/>
+
+   
+
+
+
+</launch>
