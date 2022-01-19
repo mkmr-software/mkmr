@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="mkmr" >
+    <xacro:macro name="rplidar_a1" params="parent name origin_xyz origin_rpy">
+
+
+
+        <link name="${ROBOT_ID}/${name}">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/${name}.STL" />
+                </geometry>
+                <material name="Black"/>
+            </visual>
+
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/${name}.STL" />
+                </geometry>
+            </collision>
+
+            <inertial>
+                <origin xyz="2.20994875371749E-06 0.0137458677668464 1.25513774595909E-07"/>
+                <mass value="0.8"/>
+                <inertia
+                    ixx="0.000614917940454093"
+                    ixy="0.000158243025911173"
+                    ixz="8.0198431897521E-07"
+                    iyy="0.00109815200027136"
+                    iyz="3.09162986587588E-06"
+                    izz="0.000960697335617222" />
+            </inertial>
+        </link>
+            
+        <joint name="${ROBOT_ID}/${name}" type="fixed"> 
+            <origin xyz="${origin_xyz}" rpy="${origin_rpy}"/> 
+            <parent link="${parent}"/>
+            <child link="${ROBOT_ID}/${name}"/>
+        </joint>
+
+
+
+    </xacro:macro>
+
+</robot>
