@@ -1,11 +1,13 @@
 <launch>
     <arg name="robot_id" default="mkmrX"/>
     <arg name="is_sim" default="false"/>
+    <arg name="use_ros_control_for_base" default="true"/>
     <arg name="gazebo_world_name" default="mkmr_test_world"/>
 
 
     <param name="$(arg robot_id)/robot_description" command="$(find xacro)/xacro '$(find mkmr_description)/urdf/mkmr.xacro'
                                              robot_id:=$(arg robot_id)
+                                             use_ros_control_for_base:=$(arg use_ros_control_for_base)
                                              is_sim:=$(arg is_sim)"/>
                                         
 
