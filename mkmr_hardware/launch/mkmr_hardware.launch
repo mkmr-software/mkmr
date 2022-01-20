@@ -1,0 +1,15 @@
+<launch>
+    <arg name="robot_id" default="$(env MKMR_ROBOT_ID)"/>
+    <arg name="is_sim" default="false"/>
+
+    <include file="$(find mkmr_description)/launch/mkmr_description.launch">
+        <arg name="robot_id" value="$(arg robot_id)"/>
+        <arg name="is_sim" value="false"/>
+    </include>
+
+    <include file="$(find mkmr_control)/launch/mkmr_controllers.launch">
+        <arg name="robot_id" value="$(arg robot_id)"/>
+    </include>
+
+
+</launch> 
