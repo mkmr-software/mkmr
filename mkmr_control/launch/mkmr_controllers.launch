@@ -1,0 +1,16 @@
+<launch>
+    <arg name="robot_id" default="mkmrX"/>
+
+    <rosparam file="$(find mkmr_control)/config/joint_state_controller.yaml" command="load" subst_value="true" ns="$(arg robot_id)"/>
+    <rosparam file="$(find mkmr_control)/config/mecanum_drive_controller.yaml" command="load" subst_value="true" ns="$(arg robot_id)"/>
+    <!-- <rosparam file="$(find mkmr_control)/config/gazebo_ros_control.yaml" command="load" subst_value="true" ns="$(arg robot_id)"/> -->
+
+    <node name="mkmr_ctrl_spawner" pkg="controller_manager" type="spawner" output="screen" ns="$(arg robot_id)"
+        args="joint_state_controller mkmr_controller" />
+
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" ns="$(arg robot_id)"/>
+
+
+
+</launch>
