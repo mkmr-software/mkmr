@@ -4,12 +4,12 @@
     <xacro:macro name="mkmr_wheels" params="parent name origin_xyz origin_rpy axis">
 
 
-
         <link name="${ROBOT_ID}/${name}">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="package://mkmr_description/meshes/${name}.STL" />
+                    <!-- <mesh filename="package://mkmr_description/meshes/${name}.STL" /> -->
+                    <mesh filename="package://mkmr_description/meshes/front_left_wheel.STL" />
                 </geometry>
                 <material name="Black"/>
             </visual>
@@ -35,13 +35,21 @@
             </inertial>
         </link>
             
-        <joint name="${ROBOT_ID}/${name}" type="fixed"> <!-- continuous -->
+        <joint name="${ROBOT_ID}/${name}" type="continuous"> 
             <origin xyz="${origin_xyz}" rpy="${origin_rpy}"/> 
             <parent link="${parent}"/>
             <child link="${ROBOT_ID}/${name}"/>
             <axis xyz="${axis}" />
         </joint>
 
+
+        <xacro:if value="$(arg use_ros_control_for_base)">
+        <xacro:simple_transmission name="${ROBOT_ID}/${name}" interface="VelocityJointInterface"/>
+        </xacro:if>
+
+
+        <xacro:include filename="$(find mkmr_description)/urdf/mkmr/mkmr_wheels.gazebo.xacro"/>
+        <xacro:mkmr_wheels_gazebo/>
 
 
     </xacro:macro>
