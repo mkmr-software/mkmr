@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+    <world name="mkmr">
+
+        <gui>
+            <camera name="user_camera">
+                <pose>21.633459 12.143675 15.392241 0 0.418000 -2.717190</pose>
+            </camera>
+        </gui>
+
+        <include>
+            <uri>model://sun</uri>
+        </include>
+
+        <include>
+            <uri>model://ground_plane</uri>
+        </include>
+
+    </world>
+</sdf>
