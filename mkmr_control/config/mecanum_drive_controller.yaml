@@ -2,10 +2,11 @@ mkmr_controller:
   type: "mecanum_drive_controller/MecanumDriveController"
   publish_rate: 50.0
 
-  front_left_wheel_joint: $(arg robot_id)/front_left_wheel
-  back_left_wheel_joint: $(arg robot_id)/rear_left_wheel
-  front_right_wheel_joint: $(arg robot_id)/front_right_wheel
-  back_right_wheel_joint: $(arg robot_id)/rear_right_wheel
+  front_left_wheel_joint: $(arg robot_id)/front_left_wheel_joint    # wheel 0
+  back_left_wheel_joint: $(arg robot_id)/rear_left_wheel_joint      # wheel 1
+  back_right_wheel_joint: $(arg robot_id)/rear_right_wheel_joint    # wheel 2
+  front_right_wheel_joint: $(arg robot_id)/front_right_wheel_joint  # wheel 3
+ 
 
   pose_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 0.03]
   twist_covariance_diagonal: [0.001, 0.001, 0.001, 1000000.0, 1000000.0, 0.03]
