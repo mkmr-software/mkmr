@@ -17,19 +17,12 @@
 
 
     <xacro:include filename="$(find mkmr_description)/urdf/mkmr/mkmr_base.urdf.xacro"/>
-    <xacro:include filename="$(find mkmr_description)/urdf/mkmr/mkmr_wheels.urdf.xacro"/>
+
+
     <xacro:include filename="$(find mkmr_description)/urdf/sensors/rplidar_a1.urdf.xacro"/>
 
     <!-- Robot Base-->
     <xacro:mkmr_base/>
-
-    
-     <!-- Wheels -->
-    <xacro:mkmr_wheels parent="${ROBOT_ID}/base_link" name="front_left_wheel" origin_xyz="0.35336 -0.30481 0.15788" origin_rpy="1.5708 0 -3.1416" axis="0 1 0"/>
-    <xacro:mkmr_wheels parent="${ROBOT_ID}/base_link" name="rear_left_wheel" origin_xyz="0.18836 -0.30481 0.15588" origin_rpy="-1.5708 0 0" axis="0 -1 0"/>
-    <xacro:mkmr_wheels parent="${ROBOT_ID}/base_link" name="front_right_wheel" origin_xyz="0.35336 -0.30481 -0.029122" origin_rpy="1.5708 0 -3.1416" axis="0 1 0"/>
-    <xacro:mkmr_wheels parent="${ROBOT_ID}/base_link" name="rear_right_wheel" origin_xyz="0.18836 -0.30481 -0.031122" origin_rpy="-1.5708 0 0" axis="0 -1 0"/>
-
 
     <!-- Laser -->
     <!-- <xacro:rplidar_a1 parent="${ROBOT_ID}/base_link" name="scan" origin_xyz="0.374625946277677 -0.494903544571783 0.0633776911630922" origin_rpy="0 0 3.14159265358979"/> -->

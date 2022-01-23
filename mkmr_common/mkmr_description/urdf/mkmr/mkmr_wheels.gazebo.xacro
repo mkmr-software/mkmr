@@ -2,7 +2,7 @@
 
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:macro name="mkmr_wheels_gazebo">
+    <xacro:macro name="mkmr_wheels_gazebo" params="name">
 
       <gazebo reference="${ROBOT_ID}/${name}">
         <visual>
@@ -21,8 +21,6 @@
         <minDepth>0.000</minDepth>
         <maxVel>2.0</maxVel>
       </gazebo>
-
-
 
     </xacro:macro>
 

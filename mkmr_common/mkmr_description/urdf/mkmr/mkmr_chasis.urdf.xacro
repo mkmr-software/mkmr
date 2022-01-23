@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="chasis" params="parent">
+
+
+    <xacro:property name="effort" value="500.0"/>
+    <xacro:property name="velocity" value="1.0"/>
+    <xacro:property name="wheel_radius" value="0.04"/>
+    <xacro:property name="wheel_width" value="0.04"/>
+    <xacro:property name="wheel_collusion_width" value="0.00001"/>
+    <xacro:property name="wheels_separation_x" value="0.1648"/>
+    <xacro:property name="wheels_separation_y" value="0.229"/>
+    <xacro:property name="wheels_height" value="0.0"/>
+
+
+    <!-- Chasis -->
+    <link name="${ROBOT_ID}/chasis_link">
+      <inertial>
+        <mass value="30.0"/>
+        <origin xyz="0.05 0 0" rpy="0 0 0"/>
+        <xacro:cylinder_inertia m="30.0" h="0.45" r="0.25"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size ="0.01 0.01 0.01"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size ="0.01 0.01 0.01"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${ROBOT_ID}/chasis_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="${parent}"/>
+      <child link="${ROBOT_ID}/chasis_link"/>
+    </joint>
+
+
+
+
+
+    <!-- Left Wheel-->
+    <link name="${ROBOT_ID}/front_left_wheel_link">
+      <inertial>
+        <mass value="3"/>
+        <origin xyz="0 0 0" rpy="0 ${M_PI/2} ${M_PI/2}"/>
+        <xacro:cylinder_inertia m="3" r="${wheel_radius}" h="${wheel_width}"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 -0.0137 0" rpy="0 ${M_PI/2} 0"/>
+        <geometry>
+           <mesh filename="package://mkmr_description/meshes/front_left_wheel.STL" />
+          <!-- <cylinder length="${wheel_width}" radius="${wheel_radius}"/> -->
+        </geometry>
+        <material name="WheelsGreen"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 ${M_PI/2} ${M_PI/2}"/>
+        <geometry>
+          <cylinder length="${wheel_collusion_width}" radius="${wheel_radius}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${ROBOT_ID}/front_left_wheel_joint" type="continuous">
+      <origin xyz="${wheels_separation_x/2} ${wheels_separation_y/2} ${wheels_height}" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="${effort}" velocity="${velocity/wheel_radius}"/>
+      <dynamics damping="0.0" friction="0.0"/>
+      <parent link="${ROBOT_ID}/chasis_link"/>
+      <child link="${ROBOT_ID}/front_left_wheel_link"/>
+    </joint>
+
+    <xacro:if value="$(arg use_ros_control_for_base)">
+      <xacro:simple_transmission name="${ROBOT_ID}/front_left_wheel" interface="VelocityJointInterface"/>
+    </xacro:if>
+
+    <!-- Right Wheel-->
+    <link name="${ROBOT_ID}/front_right_wheel_link">
+      <inertial>
+        <mass value="3"/>
+        <origin xyz="0 0 0" rpy="0 ${M_PI/2} ${M_PI/2}"/>
+        <xacro:cylinder_inertia m="3" r="${wheel_radius}" h="${wheel_width}"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0.016 0" rpy="0 ${M_PI/2} 0"/>
+        <geometry>
+          <mesh filename="package://mkmr_description/meshes/front_right_wheel.STL" />
+          <!-- <cylinder length="${wheel_width}" radius="${wheel_radius}"/> -->
+        </geometry>
+        <material name="WheelsGreen"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 ${M_PI/2} ${M_PI/2}"/>
+        <geometry>
+          <cylinder length="${wheel_collusion_width}" radius="${wheel_radius}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${ROBOT_ID}/front_right_wheel_joint" type="continuous">
+      <origin xyz="${wheels_separation_x/2} ${(-1*wheels_separation_y)/2} ${wheels_height}" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="${effort}" velocity="${velocity/wheel_radius}"/>
+      <dynamics damping="0.0000" friction="0.0"/>
+      <parent link="${ROBOT_ID}/chasis_link"/>
+      <child link="${ROBOT_ID}/front_right_wheel_link"/>
+    </joint>
+
+    <xacro:if value="$(arg use_ros_control_for_base)">
+      <xacro:simple_transmission name="${ROBOT_ID}/front_right_wheel" interface="VelocityJointInterface"/>
+    </xacro:if>
+
+
+
+
+    <!-- Back Left Wheel-->
+    <link name="${ROBOT_ID}/rear_left_wheel_link">
+      <inertial>
+        <mass value="3"/>
+        <origin xyz="0 0 0" rpy="0 ${M_PI/2} ${M_PI/2}"/>
+        <xacro:cylinder_inertia m="3" r="${wheel_radius}" h="${wheel_width}"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0.016 0" rpy="0 ${M_PI/2} 0"/>
+        <geometry>
+          <mesh filename="package://mkmr_description/meshes/rear_left_wheel.STL" />
+          <!-- <cylinder length="${wheel_width}" radius="${wheel_radius}"/> -->
+        </geometry>
+        <material name="WheelsGreen"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 ${M_PI/2} ${M_PI/2}"/>
+        <geometry>
+          <cylinder length="${wheel_collusion_width}" radius="${wheel_radius}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${ROBOT_ID}/rear_left_wheel_joint" type="continuous">
+      <origin xyz="-${wheels_separation_x/2} ${wheels_separation_y/2} ${wheels_height}" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="${effort}" velocity="${velocity/wheel_radius}"/>
+      <dynamics damping="0.0" friction="0.0"/>
+      <parent link="${ROBOT_ID}/chasis_link"/>
+      <child link="${ROBOT_ID}/rear_left_wheel_link"/>
+    </joint>
+
+    <xacro:if value="$(arg use_ros_control_for_base)">
+      <xacro:simple_transmission name="${ROBOT_ID}/rear_left_wheel" interface="VelocityJointInterface"/>
+    </xacro:if>
+
+
+
+
+    <!-- Back Right Wheel-->
+    <link name="${ROBOT_ID}/rear_right_wheel_link">
+      <inertial>
+        <mass value="3"/>
+        <origin xyz="0 0 0" rpy="0 ${M_PI/2} ${M_PI/2}"/>
+        <xacro:cylinder_inertia m="3" r="${wheel_radius}" h="${wheel_width}"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 -0.0137 0" rpy="0 ${M_PI/2} 0"/>
+        <geometry>
+          <mesh filename="package://mkmr_description/meshes/rear_right_wheel.STL" />
+          <!-- <cylinder length="${wheel_width}" radius="${wheel_radius}"/> -->
+        </geometry>
+        <material name="WheelsGreen"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 ${M_PI/2} ${M_PI/2}"/>
+        <geometry>
+          <cylinder length="${wheel_collusion_width}" radius="${wheel_radius}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${ROBOT_ID}/rear_right_wheel_joint" type="continuous">
+      <origin xyz="-${wheels_separation_x/2} ${(-1*wheels_separation_y)/2} ${wheels_height}" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="${effort}" velocity="${velocity/wheel_radius}"/>
+      <dynamics damping="0.0000" friction="0.0"/>
+      <parent link="${ROBOT_ID}/chasis_link"/>
+      <child link="${ROBOT_ID}/rear_right_wheel_link"/>
+    </joint>
+
+    <xacro:if value="$(arg use_ros_control_for_base)">
+      <xacro:simple_transmission name="${ROBOT_ID}/rear_right_wheel" interface="VelocityJointInterface"/>
+    </xacro:if>
+
+
+    <xacro:include filename="$(find mkmr_description)/urdf/mkmr/mkmr_chasis.gazebo.xacro"/>
+    <xacro:mkmr_chasis_gazebo/>
+
+
+
+    </xacro:macro>
+
+</robot>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:macro name="mkmr_chasis_gazebo">
+
+      <gazebo reference="${ROBOT_ID}/chasis_link">
+        <material>Gazebo/White</material>
+      </gazebo>
+
+
+        <xacro:include filename="$(find mkmr_description)/urdf/mkmr/mkmr_wheels.gazebo.xacro"/>
+        <xacro:mkmr_wheels_gazebo name="front_left_wheel"/>
+        <xacro:mkmr_wheels_gazebo name="rear_left_wheel"/>  
+        <xacro:mkmr_wheels_gazebo name="rear_right_wheel"/>
+        <xacro:mkmr_wheels_gazebo name="front_right_wheel"/>
+
+
+    </xacro:macro>
+
+</robot>
