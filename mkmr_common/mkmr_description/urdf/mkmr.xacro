@@ -18,7 +18,6 @@
 
     <xacro:include filename="$(find mkmr_description)/urdf/mkmr/mkmr_base.urdf.xacro"/>
     <xacro:include filename="$(find mkmr_description)/urdf/mkmr/mkmr_fixed.urdf.xacro"/>
-
     <xacro:include filename="$(find mkmr_description)/urdf/sensors/rplidar_a1.urdf.xacro"/>
 
     <!-- Robot Base-->
@@ -28,7 +27,7 @@
     <xacro:mkmr_fixed/>
 
     <!-- Laser -->
-    <!-- <xacro:rplidar_a1 parent="${ROBOT_ID}/base_link" name="scan" origin_xyz="0.374625946277677 -0.494903544571783 0.0633776911630922" origin_rpy="0 0 3.14159265358979"/> -->
+    <xacro:rplidar_a1 parent="${ROBOT_ID}/base_link" name="scan"/>
 
 
 </robot>

@@ -1,0 +1,231 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="mkmr_fixed">
+
+
+        <!-- fBase -->
+        <link name="${ROBOT_ID}/fBase">
+            <visual>
+                <origin xyz="-0.303 0.339 -0.064" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/base_link.STL" />
+                </geometry>
+                <material name="Black"/>
+            </visual>
+
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/base_link.STL" />
+                </geometry>
+            </collision>
+
+            <inertial>
+                <origin xyz="-0.0268483686387245 1.21607692108899E-09 -0.00150000000000019"/>
+                <mass value="0.3"/>
+                <inertia
+                    ixx="0.000191833350350532"
+                    ixy="1.43353504923239E-11"
+                    ixz="-3.78740971049399E-18"
+                    iyy="0.000540911588861398"
+                    iyz="-2.42123745732002E-16"
+                    izz="0.000732589595457573" />
+            </inertial>
+        </link>
+            
+        <joint name="${ROBOT_ID}/fBase_joint" type="fixed">
+            <origin xyz="0.034 0 0.035" rpy="-1.57 0 0"/> 
+            <parent link="${ROBOT_ID}/base_link"/>
+            <child link="${ROBOT_ID}/fBase"/>
+        </joint>
+
+
+        <!-- fMotorBracket -->
+        <link name="${ROBOT_ID}/fMotorBracket">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/fMotorBracket.STL" />
+                </geometry>
+                <material name="Black"/>
+            </visual>
+
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/fMotorBracket.STL" />
+                </geometry>
+            </collision>
+
+            <inertial>
+                <origin xyz="-0.0610000000000015 -0.0674547790002785 -0.0116887463358963"/>
+                <mass value="0.2"/>
+                <inertia
+                    ixx="3.51055038644331E-06"
+                    ixy="-6.12729326621837E-19"
+                    ixz="8.524624284462E-17"
+                    iyy="3.95634077909559E-06"
+                    iyz="1.11448332781975E-19"
+                    izz="3.62492890882267E-06" />
+            </inertial>
+        </link>
+            
+        <joint name="${ROBOT_ID}/fMotorBracket_joint" type="fixed">
+            <origin xyz="0.0345000000000004 0 -0.0609999999999998" rpy="1.5707963267949 1.5707963267949 0"/> 
+            <parent link="${ROBOT_ID}/fBase"/>
+            <child link="${ROBOT_ID}/fMotorBracket"/>
+        </joint>
+
+
+        <!-- fMotor -->
+        <link name="${ROBOT_ID}/fMotor">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/fMotor.STL" />
+                </geometry>
+                <material name="Black"/>
+            </visual>
+
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/fMotor.STL" />
+                </geometry>
+            </collision>
+
+            <inertial>
+                <origin xyz="0.0012598162449621 0.0824999999999999 -0.079"/>
+                <mass value="0.2"/>
+                <inertia
+                    ixx="5.17259698645822E-05"
+                    ixy="-5.07691498136368E-23"
+                    ixz="-7.9467054546941E-20"
+                    iyy="5.18506671512217E-05"
+                    iyz="2.71802092193946E-07"
+                    izz="2.83766813003582E-05" />
+            </inertial>
+        </link>
+            
+        <joint name="${ROBOT_ID}/fMotor_joint" type="fixed">
+            <origin xyz="0.0179999999999999 -0.15 -0.0285000000000011" rpy="0 1.5707963267949 0"/> 
+            <parent link="${ROBOT_ID}/fMotorBracket"/>
+            <child link="${ROBOT_ID}/fMotor"/>
+        </joint>
+
+
+        <!-- fDrivers -->
+        <link name="${ROBOT_ID}/fDrivers">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/fDrivers.STL" />
+                </geometry>
+                <material name="Black"/>
+            </visual>
+
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/fDrivers.STL" />
+                </geometry>
+            </collision>
+
+            <inertial>
+                <origin xyz="-0.00660140608489862 0.0452390915749958 -0.00380039164943846"/>
+                <mass value="0.3"/>
+                <inertia
+                    ixx="9.00028132290921E-06"
+                    ixy="1.23322543868992E-07"
+                    ixz="1.33828527421449E-07"
+                    iyy="2.17066983097978E-05"
+                    iyz="7.70745731959558E-07"
+                    izz="2.83837538531001E-05" />
+            </inertial>
+        </link>
+            
+        <joint name="${ROBOT_ID}/fDrivers_joint" type="fixed">
+            <origin xyz="-0.03 0.006 -0.04" rpy="-1.5708 3.14 -3.1416"/> 
+            <parent link="${ROBOT_ID}/fBase"/>
+            <child link="${ROBOT_ID}/fDrivers"/>
+        </joint>
+
+ 
+         <!-- fBattery -->
+        <link name="${ROBOT_ID}/fBattery">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/fBattery.STL" />
+                </geometry>
+                <material name="White"/>
+            </visual>
+
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/fBattery.STL" />
+                </geometry>
+            </collision>
+
+            <inertial>
+                <origin xyz="1.38777878078145E-17 -6.93889390390723E-18 1.57000591617927E-16"/>
+                <mass value="0.3"/>
+                <inertia
+                    ixx="0.0016474672455433"
+                    ixy="7.03543185374577E-20"
+                    ixz="-2.37638873019888E-20"
+                    iyy="0.00178853200699095"
+                    iyz="-3.34779396182049E-20"
+                    izz="0.0014610820587575" />
+            </inertial>
+        </link>
+            
+        <joint name="${ROBOT_ID}/fBattery_joint" type="fixed">
+            <origin xyz="-0.09476040070881 -0.047958 0" rpy="-3.14159265358979 0 0"/> 
+            <parent link="${ROBOT_ID}/fBase"/>
+            <child link="${ROBOT_ID}/fBattery"/>
+        </joint>   
+
+
+         <!-- fPC -->
+        <link name="${ROBOT_ID}/fPC">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/fPC.STL" />
+                </geometry>
+                <material name="White"/>
+            </visual>
+
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://mkmr_description/meshes/fPC.STL" />
+                </geometry>
+            </collision>
+
+            <inertial>
+                <origin xyz="-2.40586424375708E-18 0 0"/>
+                <mass value="0.3"/>
+                <inertia
+                    ixx="0.001459055406619"
+                    ixy="3.99889838699416E-20"
+                    ixz="-7.176882190073E-20"
+                    iyy="0.00195188655713094"
+                    iyz="1.15181796798229E-19"
+                    izz="0.000955287897127547" />
+            </inertial>
+        </link>
+            
+        <joint name="${ROBOT_ID}/fPC_joint" type="fixed">
+            <origin xyz="0.02413 -0.0322100000000002 0" rpy="3.14159265358979 1.5707963267949 0"/> 
+            <parent link="${ROBOT_ID}/fBase"/>
+            <child link="${ROBOT_ID}/fPC"/>
+        </joint> 
+
+
+    </xacro:macro>
+
+</robot>
