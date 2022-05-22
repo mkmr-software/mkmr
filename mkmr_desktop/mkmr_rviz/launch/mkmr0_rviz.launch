@@ -1,0 +1,5 @@
+<launch>
+
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find mkmr_rviz)/config/mkmr0.rviz"/>
+</launch>
