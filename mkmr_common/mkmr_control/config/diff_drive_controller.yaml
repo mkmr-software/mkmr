@@ -14,7 +14,7 @@ mkmr_controller:
   odom_frame_id: $(arg robot_id)/odom
 
   wheel_radius : 0.04
-  enable_odom_tf: true
+  enable_odom_tf: false
 
   open_loop: false
 
