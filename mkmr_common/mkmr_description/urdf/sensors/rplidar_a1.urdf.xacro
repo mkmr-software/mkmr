@@ -7,7 +7,7 @@
 
         <link name="${ROBOT_ID}/${name}">
             <visual>
-                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <origin xyz="0 0 0" rpy="1.57 0 0"/>
                 <geometry>
                     <mesh filename="package://mkmr_description/meshes/${name}.STL" />
                 </geometry>
