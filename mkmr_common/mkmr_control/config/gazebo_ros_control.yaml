@@ -1,6 +1,6 @@
 gazebo_ros_control:
   pid_gains/$(arg robot_id):
-    front_left_wheel: {p: 2.0, i: 0.01, d: 0.0001}
-    rear_left_wheel: {p: 2.0, i: 0.01, d: 0.0001}
-    front_right_wheel: {p: 2.0, i: 0.01, d: 0.0001}
-    rear_right_wheel: {p: 2.0, i: 0.01, d: 0.0001}
+    front_left_wheel_joint: {p: 2.0, i: 0.01, d: 0.0001}
+    rear_left_wheel_joint: {p: 2.0, i: 0.01, d: 0.0001}
+    front_right_wheel_joint: {p: 2.0, i: 0.01, d: 0.0001}
+    rear_right_wheel_joint: {p: 2.0, i: 0.01, d: 0.0001}
