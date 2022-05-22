@@ -41,6 +41,9 @@
         </joint>
 
 
+    <xacro:include filename="$(find mkmr_description)/urdf/sensors/rplidar_a1.gazebo.xacro"/>
+    <xacro:rplidar_a1_gazebo name="scan"/>
+
 
     </xacro:macro>
 
