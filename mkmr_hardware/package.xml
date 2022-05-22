@@ -51,6 +51,9 @@
   <buildtool_depend>catkin</buildtool_depend>
   <depend>roscpp</depend>
   <depend>rospy</depend>
+  <depend>rplidar_ros</depend>
+
+  
 
 
   <!-- The export tag contains other, unspecified, tags -->
