@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="robot_id" default="$(env MKMR_ROBOT_ID)"/>
+    <arg name="config_dir" default="$(eval env ('MKMR_CONFIG_PKG'))"/>
+    <arg name="is_sim" default="false"/>    
+
+    <group ns="$(arg robot_id)">
+        <node pkg="move_base" type="move_base" respawn="true" name="move_base" output="screen">
+
+
+
+        </node>
+    </group>
+
+</launch>

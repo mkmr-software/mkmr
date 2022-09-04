@@ -14,7 +14,7 @@ from std_msgs.msg import *
 class MkmrBase:
     def __init__(self):
 
-        self.RID = os.getenv('SMR_ROBOT_ID')
+        self.RID = os.getenv('MKMR_ROBOT_ID')
         if self.RID is None:
             self.RID = "NOTSET"
 
@@ -42,7 +42,7 @@ class MkmrBase:
         return resp
 
     def consoleCyan(self, s: str):
-        color = self.getCyanStr(s)
+        color = self.getBoldStr(self.getCyanStr(s))
         pfx = self.getDateTime()
         if rospy.core.is_initialized():
             rospy.loginfo(pfx + color)
@@ -77,6 +77,10 @@ class MkmrBase:
     @staticmethod
     def getRedStr(s: str) -> str:
         return "\x1B[31m" + s.strip("\n") + "\x1B[m"
+        
+    @staticmethod
+    def getBoldStr(s: str) -> str:
+        return "\x1B[1m" + s.strip("\n") + "\x1B[m"
 
     @staticmethod
     def bytesToStr(val: bytes) -> str:
@@ -102,4 +106,3 @@ class MkmrBase:
     @staticmethod
     def createFile(fileName):
         os.system("touch " +  fileName)           
-        

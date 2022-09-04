@@ -1,0 +1,26 @@
+<launch>
+
+    <arg name="robot_id" default="$(env MKMR_ROBOT_ID)"/>
+    <arg name="is_sim" default="false"/>
+    <arg name="config_dir" default="$(eval env ('MKMR_CONFIG_PKG'))"/>
+    <arg name="map" default="map_0"/>
+
+    <include file="$(find mkmr_description)/launch/mkmr_description.launch">
+        <arg name="robot_id" value="$(arg robot_id)"/>
+        <arg name="is_sim" value="$(arg is_sim)"/>
+    </include>
+
+    <include file="$(find mkmr_control)/launch/mkmr_controllers.launch">
+        <arg name="robot_id" value="$(arg robot_id)"/>
+    </include>
+
+    <!-- <node pkg="mkmr_services" type="launcher.py" name="$(arg robot_id)_launcher" 
+                                                            output="screen" respawn="true" respawn_delay="3">
+        <param name="config_dir" value="$(arg config_dir)"/>
+        <param name="launch_directory" value="$(find mkmr_navigation)/launch"/>
+        <param name="robot_id" value="$(arg robot_id)"/>
+        <param name="is_sim" value="$(arg is_sim)"/>
+        <param name="map" value="$(arg map)"/>
+    </node>  -->
+
+</launch>
