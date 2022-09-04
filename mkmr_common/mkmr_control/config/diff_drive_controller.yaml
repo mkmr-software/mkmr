@@ -14,7 +14,7 @@ mkmr_controller:
   odom_frame_id: $(arg robot_id)/odom
 
   wheel_radius : 0.04
-  enable_odom_tf: false
+  enable_odom_tf: true
 
   open_loop: false
 
@@ -23,8 +23,8 @@ mkmr_controller:
   linear:
       x:
         has_velocity_limits    : true
-        max_velocity           : 0.7   # m/s
-        min_velocity           : -0.3   # m/s
+        max_velocity           : 1.0   # m/s
+        min_velocity           : -1.0   # m/s
         has_acceleration_limits: true
         max_acceleration       : 0.3   # m/s^2
         min_acceleration       : -1.0   # m/s^2
