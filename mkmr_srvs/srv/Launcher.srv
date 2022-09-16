@@ -1,5 +1,8 @@
 bool mapping
 string map
 string floor
+float64 init_px
+float64 init_py
+float64 init_yaw_deg
 ---
 bool response

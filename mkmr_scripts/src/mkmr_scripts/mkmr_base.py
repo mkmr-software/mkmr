@@ -6,10 +6,14 @@ import sys
 import time
 import rospy
 import json
+import rosparam
+import yaml
+import rospkg
+
 from mkmr_msgs.msg import *
 from mkmr_srvs.srv import *
 from std_msgs.msg import *
-
+from rospy_message_converter import json_message_converter, message_converter
 
 class MkmrBase:
     def __init__(self):
@@ -27,6 +31,37 @@ class MkmrBase:
 
         self.disabled_bool_msg = Bool()
         self.disabled_bool_msg.data = False
+
+        self.config_pub = rospy.Publisher(self.CFG_TOPIC, String, queue_size=10, latch=True)
+
+        self.rospack = rospkg.RosPack()
+        self.config_folder = self.rospack.get_path(os.getenv('MKMR_CONFIG_PKG')) 
+        self.file_path =  self.config_folder + "/" + "config.yaml"
+
+        self.loadParamsFromYaml(self.file_path)
+        self.updateCFG()
+
+
+    def loadParamsFromYaml(self, file_path):
+        try:
+            f = open(file_path, 'r')
+            yamlfile = yaml.load(f)
+            f.close()
+            rosparam.upload_params('/' + self.RID + "/config/main", yamlfile)
+        except Exception as e:
+            self.consoleError("Error" + str(e))
+
+    def updateCFG(self):
+        self.CFG = rospy.get_param('/' + self.RID + "/config/main")
+        self.setStaticConfigs()
+        print(self.CFG)
+
+    def getCFG(self):
+        return self.CFG
+
+    def setStaticConfigs(self):
+        self.CFG["launch_directory"] = self.rospack.get_path("mkmr_navigation") + "/" + "launch"
+        self.CFG["config_directory"] = self.config_folder
 
     def callRosService(self, name: str, msg_type: type, msg, print_info: bool = True) -> bool:
         rospy.wait_for_service(name)

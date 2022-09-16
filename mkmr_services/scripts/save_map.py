@@ -12,6 +12,7 @@ from mkmr_scripts.mkmr_base import MkmrBase
 
 class SaveMapModule(MkmrBase):
     def __init__(self):
+        super().__init__()
         rospy.init_node('save_map')
 
         self.CONFIG_DIR = rospy.get_param('~config_dir', "/UNKNOWN/") 

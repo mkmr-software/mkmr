@@ -11,6 +11,7 @@ from mkmr_scripts.mkmr_base import MkmrBase
 
 class LocationModule(MkmrBase):
     def __init__(self):
+        super().__init__()
         rospy.init_node('location')
 
         self.location_server = rospy.Service("location", Location, self.execute)

@@ -3,7 +3,7 @@
 <launch>
     <arg name="robot_id" default="$(env MKMR_ROBOT_ID)"/>
     <arg name="config_dir" default="$(eval env ('MKMR_CONFIG_PKG'))"/>
-    
+
     <group ns="$(arg robot_id)">
         <node name="cartographer_node" pkg="cartographer_ros"
             type="cartographer_node" args="
