@@ -22,8 +22,8 @@ class LauncherModule(MkmrBase):
         req.floor = self.CFG["floor"]
         self.setCurrentArgs(req)
 
-        self.mapping_active_pub = rospy.Publisher("mapping_active", Bool, queue_size=1, latch=True)
-        self.localization_active_pub = rospy.Publisher("localization_active", Bool, queue_size=1, latch=True)
+        self.mapping_active_pub = rospy.Publisher(self.RID + "/mapping_active", Bool, queue_size=1, latch=True)
+        self.localization_active_pub = rospy.Publisher(self.RID + "/localization_active", Bool, queue_size=1, latch=True)
 
         self.uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
 

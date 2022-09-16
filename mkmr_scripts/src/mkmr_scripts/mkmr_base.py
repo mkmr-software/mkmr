@@ -32,7 +32,7 @@ class MkmrBase:
         self.disabled_bool_msg = Bool()
         self.disabled_bool_msg.data = False
 
-        self.config_pub = rospy.Publisher(self.CFG_TOPIC, String, queue_size=10, latch=True)
+        self.config_pub = rospy.Publisher(self.RID+ "/" + self.CFG_TOPIC, String, queue_size=10, latch=True)
 
         self.rospack = rospkg.RosPack()
         self.config_folder = self.rospack.get_path(os.getenv('MKMR_CONFIG_PKG')) 
