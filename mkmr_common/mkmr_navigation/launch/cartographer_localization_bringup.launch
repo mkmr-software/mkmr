@@ -19,8 +19,8 @@
         </node>
     </group>
 
-    <!-- <include file="$(find mkmr_navigation)/launch/move_base.launch">
+    <include file="$(find mkmr_navigation)/launch/move_base.launch">
         <arg name="robot_id" value="$(arg robot_id)"/>
-    </include> -->
+    </include>
 
 </launch>
