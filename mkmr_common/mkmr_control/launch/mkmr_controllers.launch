@@ -13,5 +13,23 @@
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" ns="$(arg robot_id)"/>
 
 
+    <group ns = "$(arg robot_id)">
+        <node pkg="twist_mux" type="twist_mux" name="twist_mux">
+            <rosparam command="load" file="$(find mkmr_control)/config/twist_mux.yaml" />
+            <remap from="cmd_vel_out" to="mkmr_controller/cmd_vel" />
+        </node>
 
+        <node pkg="twist_mux" type="twist_marker" name="twist_marker">
+          <remap from="twist"  to="mkmr_controller/cmd_vel"/>
+          <remap from="marker" to="twist_marker"/>
+        </node>
+
+        <node pkg="interactive_marker_twist_server" type="marker_server" name="twist_marker_server">
+            <param name="link_name" value="$(arg robot_id)/base_footprint" />
+            <param name="robot_name" value="$(arg robot_id)" />
+            <remap from="twist_marker_server/cmd_vel" to="marker_vel" />
+        </node>
+
+    </group>
+    
 </launch>
