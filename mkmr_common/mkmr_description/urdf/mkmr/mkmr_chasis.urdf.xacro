@@ -49,9 +49,9 @@
     <!-- Left Wheel-->
     <link name="${ROBOT_ID}/front_left_wheel_link">
       <inertial>
-        <mass value="3"/>
+        <mass value="0.5"/>
         <origin xyz="0 0 0" rpy="0 ${M_PI/2} ${M_PI/2}"/>
-        <xacro:cylinder_inertia m="3" r="${wheel_radius}" h="${wheel_width}"/>
+        <xacro:cylinder_inertia m="0.5" r="${wheel_radius}" h="${wheel_width}"/>
       </inertial>
       <visual>
         <origin xyz="0 -0.0137 0" rpy="0 ${M_PI/2} 0"/>
@@ -85,9 +85,9 @@
     <!-- Right Wheel-->
     <link name="${ROBOT_ID}/front_right_wheel_link">
       <inertial>
-        <mass value="3"/>
+        <mass value="0.5"/>
         <origin xyz="0 0 0" rpy="0 ${M_PI/2} ${M_PI/2}"/>
-        <xacro:cylinder_inertia m="3" r="${wheel_radius}" h="${wheel_width}"/>
+        <xacro:cylinder_inertia m="0.5" r="${wheel_radius}" h="${wheel_width}"/>
       </inertial>
       <visual>
         <origin xyz="0 0.016 0" rpy="0 ${M_PI/2} 0"/>
@@ -124,9 +124,9 @@
     <!-- Back Left Wheel-->
     <link name="${ROBOT_ID}/rear_left_wheel_link">
       <inertial>
-        <mass value="3"/>
+        <mass value="0.5"/>
         <origin xyz="0 0 0" rpy="0 ${M_PI/2} ${M_PI/2}"/>
-        <xacro:cylinder_inertia m="3" r="${wheel_radius}" h="${wheel_width}"/>
+        <xacro:cylinder_inertia m="0.5" r="${wheel_radius}" h="${wheel_width}"/>
       </inertial>
       <visual>
         <origin xyz="0 0.016 0" rpy="0 ${M_PI/2} 0"/>
@@ -163,9 +163,9 @@
     <!-- Back Right Wheel-->
     <link name="${ROBOT_ID}/rear_right_wheel_link">
       <inertial>
-        <mass value="3"/>
+        <mass value="0.5"/>
         <origin xyz="0 0 0" rpy="0 ${M_PI/2} ${M_PI/2}"/>
-        <xacro:cylinder_inertia m="3" r="${wheel_radius}" h="${wheel_width}"/>
+        <xacro:cylinder_inertia m="0.5" r="${wheel_radius}" h="${wheel_width}"/>
       </inertial>
       <visual>
         <origin xyz="0 -0.0137 0" rpy="0 ${M_PI/2} 0"/>
