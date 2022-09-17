@@ -15,7 +15,7 @@ class LauncherModule(MkmrBase):
         super().__init__()
         rospy.init_node('launcher')
   
-        self.launcher_server = rospy.Service("nav_launcher", Launcher, self.execute)
+        self.launcher_server = rospy.Service(self.RID + "/nav_launcher", Launcher, self.execute)
 
         req = LauncherRequest()
         req.map = self.CFG["map"]

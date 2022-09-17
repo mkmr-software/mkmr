@@ -15,7 +15,7 @@
 
 
     <node pkg="mkmr_services" type="launcher.py" name="$(arg robot_id)_launcher" 
-                                                            output="screen" respawn="true" respawn_delay="3">
+                                                output="screen" respawn="true" respawn_delay="3">
     </node> 
 
 
@@ -24,10 +24,10 @@
         <include file="$(find mkmr_bringup)/launch/mkmr_sim_bringup.launch">
             <arg name="robot_id" value="$(arg robot_id)"/>
             <arg name="is_sim" value="$(arg is_sim)"/>
-            <arg name="posx" value="0.0"/>
-            <arg name="posy" value="0.0"/>
-            <arg name="posz" value="0.17"/>
-            <arg name="yaw" value="0.0"/>
+            <arg name="posx" value="15.0"/>
+            <arg name="posy" value="-38.0"/>
+            <arg name="posz" value="0.1"/>
+            <arg name="yaw" value="1.57"/>
         </include>
 
     </group>

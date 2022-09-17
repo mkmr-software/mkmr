@@ -1,7 +1,7 @@
 <launch>
 
     <arg name="verbose" value="false" />
-    <arg name="world_name" default="$(find mkmr_gazebo)/worlds/mkmr_test.world"/>
+    <arg name="world_name" default="$(find mkmr_gazebo)/worlds/mk_hotel.world"/>
 
     <include file="$(find mkmr_gazebo)/launch/empty_gazebo.launch">
         <arg name="verbose" value="$(arg verbose)"/>

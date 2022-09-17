@@ -2,6 +2,7 @@
 # coding=utf-8
 import rospy
 import os
+import yaml
 import roslaunch.rlutil, roslaunch.parent
 from mkmr_msgs.msg import *
 from mkmr_srvs.srv import *
@@ -50,6 +51,18 @@ class SaveMapModule(MkmrBase):
         req.filename = self.CONFIG_DIR + "/maps/pbstreams/" + site_floor + ".pbstream"
         req.include_unfinished_submaps = True
         self.callRosService( "/" + self.RID + "/" + "write_state", WriteState, req, print_info=True)
+
+        self.refactorPgmPath(self.CONFIG_DIR + "/maps/" + site_floor + ".yaml", site_floor)
+
+    def refactorPgmPath(self, file_path:str, site_floor:str):
+            data = None
+
+            with open(file_path) as f:
+                data = yaml.load(f)
+
+            with open(file_path, 'w') as f:
+                data['image'] = site_floor + ".pgm"
+                yaml.dump(data, f)
 
 def main():
     smm = SaveMapModule()
