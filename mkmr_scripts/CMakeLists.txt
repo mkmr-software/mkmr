@@ -10,6 +10,8 @@ project(mkmr_scripts)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  cartographer_ros_msgs
+  tf2_ros
 )
 
 ## System dependencies are found with CMake's conventions
@@ -111,6 +113,9 @@ catkin_package(
 ###########
 ## Build ##
 ###########
+
+add_executable(pose src/pose.cpp)
+target_link_libraries(pose ${catkin_LIBRARIES})
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
