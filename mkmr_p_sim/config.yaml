@@ -1,7 +1,8 @@
 
 project_id: 0
-is_sim: True
+is_sim: true
 map: sim
 floor: "0"
 ui_ip: "192.168.1.60"
 ui_port: "5000"
+ui_debug: true

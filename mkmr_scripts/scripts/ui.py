@@ -18,6 +18,9 @@ class UIModule(MkmrBase):
     def __init__(self):
         super().__init__()
         rospy.init_node('ui')
+
+        self.STATUS_COMM = False
+        
         self.initialize()
         self.defineProcessFunctions()
         self.initWebSocketServer()
@@ -133,7 +136,7 @@ class UIModule(MkmrBase):
             topic = msg_json["topic"]
             data = msg_json["message"]
             if not topic == "":
-                if self.IS_DEBUG and topic != "heartbeat_ui":
+                if self.CFG["sl_debug"] and topic != "heartbeat_ui":
                     self.consoleInfo("Client " + str(client["id"]) + " *topic::: " + str(topic) + " *data: " + str(data))
 
                 if topic in self.process_functions:

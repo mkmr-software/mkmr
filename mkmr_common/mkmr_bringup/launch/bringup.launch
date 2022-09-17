@@ -20,13 +20,15 @@
 
 
     <group ns="$(arg robot_id)">
-
-        <node pkg="mkmr_scripts" type="ui.py" name="ui" 
-                                                    output="screen" respawn="true" respawn_delay="3">
-        </node> 
-
+        <node pkg="mkmr_scripts" type="ui.py" name="ui" output="screen" respawn="true" respawn_delay="3"/>
+    
     </group>
 
+
+    <include file="$(find mkmr_bringup)/launch/free_fleet.launch">
+        <arg name="robot_id" value="$(arg robot_id)"/>
+        <arg name="robot_name" value="$(arg robot_id)"/>
+    </include>
 
     <group if = "$(arg is_sim)">
 
