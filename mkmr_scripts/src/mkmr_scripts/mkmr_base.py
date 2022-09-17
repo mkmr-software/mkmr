@@ -92,6 +92,14 @@ class MkmrBase:
         else:
             print(pfx + color)
 
+    def consoleInfo(self, s: str):
+        bold = self.getBoldStr(s)
+        pfx = self.getDateTime()
+        if rospy.core.is_initialized():
+            rospy.loginfo(pfx + bold)
+        else:
+            print(pfx + bold)
+
     def getLocalTimeString(self) -> str:
         # (tm_year,tm_mon,tm_mday,tm_hour,tm_min, tm_sec,tm_wday,tm_yday,tm_isdst)
         self.l_time = time.localtime()
@@ -140,4 +148,34 @@ class MkmrBase:
 
     @staticmethod
     def createFile(fileName):
-        os.system("touch " +  fileName)           
+        os.system("touch " +  fileName) 
+
+    @staticmethod
+    def bytesToStr(val: bytes) -> str:
+        return val.decode("utf-8")
+
+    @staticmethod
+    def strToBytes(val: str) -> bytes:
+        return bytes(val, encoding="utf-8")
+
+    @staticmethod
+    def strToJson(val: str) -> json:
+        return json.loads(val)
+
+    @staticmethod
+    def jsonStrToDict(val: str) -> dict:
+        return json.loads(val)
+
+    @staticmethod
+    def dictToJsonStr(val: dict) -> str:
+        return json.dumps(val, separators=(',', ':'))
+
+    @staticmethod
+    def jsonToStr(val: json) -> str:
+        return json.dumps(val, separators=(',', ':'))
+        
+    @staticmethod
+    def addTopicToJson(topic: str, val: json, project_id: str,
+                       robot_id: str) -> json:
+        return {"project_id": project_id,
+                "robot_id": robot_id, "topic": topic, "message": val}          

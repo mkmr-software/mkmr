@@ -19,6 +19,15 @@
     </node> 
 
 
+    <group ns="$(arg robot_id)">
+
+        <node pkg="mkmr_scripts" type="ui.py" name="ui" 
+                                                    output="screen" respawn="true" respawn_delay="3">
+        </node> 
+
+    </group>
+
+
     <group if = "$(arg is_sim)">
 
         <include file="$(find mkmr_bringup)/launch/mkmr_sim_bringup.launch">

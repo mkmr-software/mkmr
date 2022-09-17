@@ -5,6 +5,9 @@ from setuptools import setup
 d = generate_distutils_setup(
     packages=['mkmr_scripts'],
     package_dir={'': 'src'},
+    scripts=[
+        'scripts/ui.py',
+    ],
 )
 
 setup(**d)
