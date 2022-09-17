@@ -1,0 +1,23 @@
+local_costmap:
+  obstacle_range: 3.5
+  raytrace_range: 4.0
+  update_frequency: 14.0
+  publish_frequency: 14.0
+  transform_tolerance: 0.2
+  rolling_window: true
+  width: 3.0
+  height: 3.0
+
+  robot_radius: 0.18
+  inflation_radius: 10.0
+
+  plugins: 
+    - {name: static_layer, type: "costmap_2d::StaticLayer"}
+    - {name: lidar_obstacle_layer, type: "costmap_2d::ObstacleLayer"}
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
+
+  inflation_layer:
+    enabled: true
+    cost_scaling_factor: 50.0
+    inflate_unknown: true
+    inflation_radius: 10.0
