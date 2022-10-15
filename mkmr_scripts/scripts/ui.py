@@ -10,6 +10,8 @@ from std_msgs.msg import *
 from sensor_msgs.msg import *
 from mkmr_msgs.msg import *
 from mkmr_srvs.srv import *
+from nav_msgs.msg import OccupancyGrid
+
 from websocket_server import WebsocketServer
 from rospy_message_converter import json_message_converter, message_converter
 
@@ -32,7 +34,8 @@ class UIModule(MkmrBase):
     def initialize(self):
         self.currents = {
             'latest_received_heartbeat_time' : time.time(),
-            'mkmr': Mkmr()        
+            'mkmr': Mkmr(),
+            'compressed_map': str()        
         }
         
     # Define Process Functions -----------------------------------------------------------------------------------------
@@ -70,6 +73,8 @@ class UIModule(MkmrBase):
                     self.ui_status_pub = rospy.Publisher("ui_status", Bool, queue_size=1, latch=True)
 
                     self.mkmr_config_sub = rospy.Subscriber("mkmr_config", Bool, self.mkmrConfigCb)
+
+                    self.map_sub = rospy.Subscriber("map", OccupancyGrid, self.mapCb)
 
                     self.heartbeat_timer = rospy.Timer(rospy.Duration(2.0), self.heartbeatTimerCb)
 
@@ -114,6 +119,8 @@ class UIModule(MkmrBase):
 
         self.publishJsonToUi("CFG", self.CFG)
         self.publishJsonStrToUi("mkmr", json_message_converter.convert_ros_message_to_json(self.currents["mkmr"]))
+
+        self.publishStrToUi("compressed_map", self.currents["compressed_map"])
 
     def clientLeft(self, client, server):
         self.consoleInfo(
@@ -233,6 +240,21 @@ class UIModule(MkmrBase):
         self.updateCFG()
         self.publishJsonToUi("CFG", self.CFG)
 
+    def mapCb(self, msg: OccupancyGrid):
+        compressed_map_str = ""
+        compressed_map_str += str(msg.info.width) + ","
+        compressed_map_str += str(msg.info.height) + ","
+        compressed_map_str += str(msg.info.origin.position.x) + ","
+        compressed_map_str += str(msg.info.origin.position.y) + ","
+        list_of_tuples = self.shrinkMapArrayToListOfTuples(msg.data)
+        for i in range(len(list_of_tuples)):
+            compressed_map_str += str(list_of_tuples[i][1]) + "x" + str(list_of_tuples[i][0]) + ","
+        compressed_map_str = compressed_map_str[:-1]  # remove last ","
+
+        if self.currents["compressed_map"] != compressed_map_str:
+            self.publishStrToUi("compressed_map", compressed_map_str)
+
+        self.currents["compressed_map"] = compressed_map_str
 
 def main():
     uim = UIModule()

@@ -11,6 +11,7 @@ import yaml
 import rospkg
 import math
 import tf.transformations
+from itertools import groupby
 
 from mkmr_msgs.msg import *
 from mkmr_srvs.srv import *
@@ -219,8 +220,7 @@ class MkmrBase:
     @staticmethod
     def addTopicToJson(topic: str, val: json, project_id: str,
                        robot_id: str) -> json:
-        return {"project_id": project_id,
-                "robot_id": robot_id, "topic": topic, "message": val}          
+        return {"project_id": project_id, "robot_id": robot_id, "topic": topic, "message": val}          
 
     @staticmethod
     def getYawDegFromQuatZw(z: float, w: float) -> float:
@@ -230,6 +230,19 @@ class MkmrBase:
     @staticmethod
     def getBool(val: str) -> bool:
         return val.lower() in ("yes", "true", "t", "1")
+
+    def shrinkMapArrayToListOfTuples(self, lst):
+        return ([(self.getCharFromCellValue(element), len(list(i)))
+                 for element, i in groupby(lst)])
+
+    @staticmethod
+    def getCharFromCellValue(element: int):
+        if element == -1:
+            return "U"  # Unknown
+        elif element == 0:
+            return "F"  # Free
+        elif element == 100:
+            return "O"  # Obstacle
 
     def mkmrCb(self, msg: Mkmr):
         self.cur_mkmr_msg = msg
