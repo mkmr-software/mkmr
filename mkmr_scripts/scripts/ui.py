@@ -31,7 +31,8 @@ class UIModule(MkmrBase):
 
     def initialize(self):
         self.currents = {
-            'latest_received_heartbeat_time' : time.time(),         
+            'latest_received_heartbeat_time' : time.time(),
+            'mkmr': Mkmr()        
         }
         
     # Define Process Functions -----------------------------------------------------------------------------------------
@@ -39,7 +40,10 @@ class UIModule(MkmrBase):
     def defineProcessFunctions(self):
         self.process_functions = {
             "heartbeat_ui" : self.processHearbeatUi,
-            "add_loc" : self.processAddLoc # {"project_id":0,"robot_id":"mkmr0","topic":"add_loc","message":{"type":"target","name":"loc1"}}
+            "add_loc" : self.processAddLoc, # {"project_id":0,"robot_id":"mkmr0","topic":"add_loc","message":{"type":"target","name":"loc1"}}
+            "start_map" : self.processStartMap, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":1}
+            "save_map" : self.processSaveMap, # {"project_id":0,"robot_id":"mkmr0","topic":"save_map","message":{"map":"test","floor":"1"}}
+            "start_nav" : self.processStartNav # {"project_id":0,"robot_id":"mkmr0","topic":"start_nav","message":{"map":"test","floor":"1"}}
         }
 
     # Initialize Websocket Server  -------------------------------------------------------------------------------------
@@ -65,7 +69,11 @@ class UIModule(MkmrBase):
 
                     self.ui_status_pub = rospy.Publisher("ui_status", Bool, queue_size=1, latch=True)
 
+                    self.mkmr_config_sub = rospy.Subscriber("mkmr_config", Bool, self.mkmrConfigCb)
+
                     self.heartbeat_timer = rospy.Timer(rospy.Duration(2.0), self.heartbeatTimerCb)
+
+                    self.mkmr_timer = rospy.Timer(rospy.Duration(1 / 5), self.mkmrTimerCb)
 
                     # must be last line
                     # self.server.run_forever()
@@ -89,6 +97,11 @@ class UIModule(MkmrBase):
             self.publishUiStatus(True)
         self.publishStrToUi("heartbeat_ui", "")
 
+    def mkmrTimerCb(self, timer):
+        if self.currents["mkmr"] != self.cur_mkmr_msg:
+            self.publishJsonStrToUi("mkmr", json_message_converter.convert_ros_message_to_json(self.cur_mkmr_msg))
+        self.currents["mkmr"] = self.cur_mkmr_msg
+
     # Websocket Functions ----------------------------------------------------------------------------------------------
 
     def newClient(self, client, server):
@@ -100,6 +113,7 @@ class UIModule(MkmrBase):
             "client_connected", "success", self.CFG["project_id"], self.RID)))
 
         self.publishJsonToUi("CFG", self.CFG)
+        self.publishJsonStrToUi("mkmr", json_message_converter.convert_ros_message_to_json(self.currents["mkmr"]))
 
     def clientLeft(self, client, server):
         self.consoleInfo(
@@ -182,6 +196,43 @@ class UIModule(MkmrBase):
             return False
         
         self.callRosService( "/" + self.RID + "/" + "location", Location, req, print_info=True)
+
+    def processStartMap(self, topic, message):
+        if self.getBool(str(message)):
+            req = LauncherRequest()
+            req.mapping = True
+            self.callRosService( "/" + self.RID + "/" + "launcher", Launcher, req, print_info=True)
+
+    def processSaveMap(self, topic, message):
+        req = SaveMapRequest()
+        try:
+            req.map = message["map"]
+            req.floor = message["floor"]
+
+        except Exception as e:
+            self.consoleError("Error UI processSaveMap " + str(e))
+            return False
+
+        self.callRosService( "/" + self.RID + "/" + "save_map", SaveMap, req, print_info=True)
+
+    def processStartNav(self, topic, message):
+        req = LauncherRequest()
+        try:
+            req.map = message["map"]
+            req.floor = message["floor"]
+
+        except Exception as e:
+            self.consoleError("Error UI processStartNav " + str(e))
+            return False
+
+        self.callRosService( "/" + self.RID + "/" + "launcher", Launcher, req, print_info=True)
+
+    # ROS Callbacks ----------------------------------------------------------------------------------------------------
+
+    def mkmrConfigCb(self, msg: Bool):
+        self.updateCFG()
+        self.publishJsonToUi("CFG", self.CFG)
+
 
 def main():
     uim = UIModule()

@@ -38,8 +38,8 @@ class MkmrModule(MkmrBase):
         self.mkmr_pub.publish(self.mkmr_msg)
 
     def localizationPoseCb(self, msg: PoseWithCovarianceStamped):
-        self.mkmr_msg.px = round(msg.pose.pose.position.x, 3)
-        self.mkmr_msg.py = round(msg.pose.pose.position.y, 3)
+        self.mkmr_msg.px = round(msg.pose.pose.position.x, 2)
+        self.mkmr_msg.py = round(msg.pose.pose.position.y, 2)
         self.mkmr_msg.yaw = round(self.getYawDegFromQuatZw(msg.pose.pose.orientation.z, msg.pose.pose.orientation.w), 2)
 
     def mappingActiveCb(self, msg: Bool):
@@ -48,11 +48,17 @@ class MkmrModule(MkmrBase):
             self.mkmr_msg.localization_active = False
             self.mkmr_msg.map = ""
             self.mkmr_msg.floor = ""
+            self.mkmr_msg.px = 0
+            self.mkmr_msg.py = 0
+            self.mkmr_msg.yaw = 0
 
     def localizationActiveCb(self, msg: Bool):
         if msg.data:
             self.mkmr_msg.mapping_active = False
             self.mkmr_msg.localization_active = True
+            self.mkmr_msg.px = 0
+            self.mkmr_msg.py = 0
+            self.mkmr_msg.yaw = 0
 
 
     def currentMapCb(self, msg: String):

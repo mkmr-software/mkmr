@@ -36,10 +36,12 @@ class MkmrBase:
 
         self.cur_mkmr_msg = Mkmr()
 
-        self.config_pub = rospy.Publisher("/" + self.RID + "/" + self.CFG_TOPIC, String, queue_size=10, latch=True)
+        self.config_pub = rospy.Publisher("/" + self.RID + "/" + self.CFG_TOPIC, Bool, queue_size=10, latch=True)
 
         self.locations_prefix = '/' + self.RID + "/config/" + "locs"
         self.cur_locs = self.getArrayParamWithPrefix(self.locations_prefix)
+
+        self.main_prefix = '/' + self.RID + "/config/" + "main"
 
         self.rospack = rospkg.RosPack()
         self.config_folder = self.rospack.get_path(os.getenv('MKMR_CONFIG_PKG')) 
@@ -48,8 +50,7 @@ class MkmrBase:
         self.loadParamsFromYaml(self.file_path , '/' + self.RID + "/config/main")
         self.updateCFG()
 
-        self.loc_pos_sub = rospy.Subscriber(
-            "/" + self.RID + "/" + "mkmr", Mkmr, self.mkmrCb)
+        self.loc_pos_sub = rospy.Subscriber("/" + self.RID + "/" + "mkmr", Mkmr, self.mkmrCb)
 
 
     def loadParamsFromYaml(self, file_path , prefix):
@@ -71,13 +72,26 @@ class MkmrBase:
             self.consoleError("Error " + str(e))
 
     def updateCFG(self):
-        self.CFG = rospy.get_param('/' + self.RID + "/config/main")
+        self.CFG = self.getArrayParamWithPrefix(self.main_prefix)
+        self.CFG["locs"] = self.getArrayParamWithPrefix(self.locations_prefix)
         self.setStaticConfigs()
+        self.setMaps()
         print(self.CFG)
 
     def setStaticConfigs(self):
         self.CFG["launch_directory"] = self.rospack.get_path("mkmr_navigation") + "/" + "launch"
         self.CFG["config_directory"] = self.config_folder
+
+    def setMaps(self):
+        files_list = os.listdir(self.config_folder + "/maps")
+        maps_list = []
+
+        for ex in files_list:
+            result = ex.find(".yaml")
+            if result != -1 :
+                maps_list.append(ex[0:result])
+     
+        self.CFG["maps"] = maps_list
 
     def getCFG(self):
         return self.CFG
@@ -212,6 +226,10 @@ class MkmrBase:
     def getYawDegFromQuatZw(z: float, w: float) -> float:
         r, p, y = tf.transformations.euler_from_quaternion((0, 0, z, w))
         return math.degrees(y)
+
+    @staticmethod
+    def getBool(val: str) -> bool:
+        return val.lower() in ("yes", "true", "t", "1")
 
     def mkmrCb(self, msg: Mkmr):
         self.cur_mkmr_msg = msg

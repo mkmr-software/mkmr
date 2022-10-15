@@ -32,6 +32,8 @@ class SaveMapModule(MkmrBase):
         try:
             while not rospy.is_shutdown():
                 self.mapSaver(req.map + "_" + req.floor)
+                self.updateCFG()
+                self.config_pub.publish(Bool(data = True))
                 return True
 
         except Exception as e:

@@ -21,6 +21,19 @@
         <node pkg="mkmr_services" type="save_map.py" name="save_map" output="screen">
             <param name="config_dir" value="$(arg config_dir)" />
         </node> 
+
+        <node name="pose" pkg="mkmr_scripts" type="pose" output="screen">
+            <param name="configuration_directory" value="$(find mkmr_cfg_files)/config/cartographer" />
+            <param name="configuration_basename" value="mapping.lua" />
+
+            <param name="initial_pose_x" value="0.0" />
+            <param name="initial_pose_y" value="0.0" />
+            <param name="initial_yaw" value="0.0" />
+
+            <param name="publish_pose_topic" value="true" />
+            <param name="map_frame" value="$(arg robot_id)/map" />
+            <param name="base_frame" value="$(arg robot_id)/base_footprint" />
+        </node>
     </group>
 
     <include file="$(find mkmr_navigation)/launch/move_base.launch">

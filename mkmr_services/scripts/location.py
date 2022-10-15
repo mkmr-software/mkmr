@@ -20,6 +20,9 @@ class LocationModule(MkmrBase):
         
         self.location_server = rospy.Service("location", Location, self.execute)
 
+        self.updateCFG()
+        self.config_pub.publish(Bool(data = True))
+
     def execute(self, req:LocationRequest):
         try:
             while not rospy.is_shutdown():
@@ -41,6 +44,8 @@ class LocationModule(MkmrBase):
     def update(self):
         rospy.set_param(self.locations_prefix, self.cur_locs)
         self.saveParamsToYaml(self.locations_file_path, self.locations_prefix)
+        self.updateCFG()
+        self.config_pub.publish(Bool(data = True))
 
 def main():
     lm = LocationModule()
