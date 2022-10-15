@@ -8,6 +8,8 @@ import threading
 import json
 from std_msgs.msg import *
 from sensor_msgs.msg import *
+from mkmr_msgs.msg import *
+from mkmr_srvs.srv import *
 from websocket_server import WebsocketServer
 from rospy_message_converter import json_message_converter, message_converter
 
@@ -37,6 +39,7 @@ class UIModule(MkmrBase):
     def defineProcessFunctions(self):
         self.process_functions = {
             "heartbeat_ui" : self.processHearbeatUi,
+            "add_loc" : self.processAddLoc # {"project_id":0,"robot_id":"mkmr0","topic":"add_loc","message":{"type":"target","name":"loc1"}}
         }
 
     # Initialize Websocket Server  -------------------------------------------------------------------------------------
@@ -136,7 +139,7 @@ class UIModule(MkmrBase):
             topic = msg_json["topic"]
             data = msg_json["message"]
             if not topic == "":
-                if self.CFG["sl_debug"] and topic != "heartbeat_ui":
+                if self.CFG["ui_debug"] and topic != "heartbeat_ui":
                     self.consoleInfo("Client " + str(client["id"]) + " *topic::: " + str(topic) + " *data: " + str(data))
 
                 if topic in self.process_functions:
@@ -152,14 +155,33 @@ class UIModule(MkmrBase):
             msg = Bool(data = status)
             self.ui_status_pub.publish(msg)
             if status:
-               self.consoleCyan("Screen Link Status: " + str(status))     
+               self.consoleCyan("UI Status: " + str(status))     
             else:
-                self.consoleError("Screen Link Status: " + str(status))  
+                self.consoleError("UI Status: " + str(status))  
 
     # Process Functions ------------------------------------------------------------------------------------------------     
 
     def processHearbeatUi(self, topic, message):
         self.currents['latest_received_heartbeat_time'] = time.time()
+
+    def processAddLoc(self, topic, message):
+        req = LocationRequest()
+        req.process = "add"
+
+        try:
+            req.location.type = message["type"]
+            req.location.name = message["name"]
+            req.location.map = self.cur_mkmr_msg.map
+            req.location.floor = self.cur_mkmr_msg.floor
+            req.location.px = str(self.cur_mkmr_msg.px)
+            req.location.py = str(self.cur_mkmr_msg.py)
+            req.location.yaw = str(self.cur_mkmr_msg.yaw)
+
+        except Exception as e:
+            self.consoleError("Error UI processAddLoc " + str(e))
+            return False
+        
+        self.callRosService( "/" + self.RID + "/" + "location", Location, req, print_info=True)
 
 def main():
     uim = UIModule()

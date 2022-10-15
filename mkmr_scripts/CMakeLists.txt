@@ -190,7 +190,9 @@ include_directories(
 # )
 
 install(
-  DIRECTORY scripts
+  PROGRAMS scripts/robot_scripts/startup_mkmr_noetic.sh
+  PROGRAMS scripts/ui.py
+  PROGRAMS scripts/mkmr.py
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 

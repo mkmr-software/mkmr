@@ -9,6 +9,8 @@ import json
 import rosparam
 import yaml
 import rospkg
+import math
+import tf.transformations
 
 from mkmr_msgs.msg import *
 from mkmr_srvs.srv import *
@@ -32,36 +34,62 @@ class MkmrBase:
         self.disabled_bool_msg = Bool()
         self.disabled_bool_msg.data = False
 
-        self.config_pub = rospy.Publisher(self.RID+ "/" + self.CFG_TOPIC, String, queue_size=10, latch=True)
+        self.cur_mkmr_msg = Mkmr()
+
+        self.config_pub = rospy.Publisher("/" + self.RID + "/" + self.CFG_TOPIC, String, queue_size=10, latch=True)
+
+        self.locations_prefix = '/' + self.RID + "/config/" + "locs"
+        self.cur_locs = self.getArrayParamWithPrefix(self.locations_prefix)
 
         self.rospack = rospkg.RosPack()
         self.config_folder = self.rospack.get_path(os.getenv('MKMR_CONFIG_PKG')) 
         self.file_path =  self.config_folder + "/" + "config.yaml"
 
-        self.loadParamsFromYaml(self.file_path)
+        self.loadParamsFromYaml(self.file_path , '/' + self.RID + "/config/main")
         self.updateCFG()
 
+        self.loc_pos_sub = rospy.Subscriber(
+            "/" + self.RID + "/" + "mkmr", Mkmr, self.mkmrCb)
 
-    def loadParamsFromYaml(self, file_path):
+
+    def loadParamsFromYaml(self, file_path , prefix):
         try:
             f = open(file_path, 'r')
             yamlfile = yaml.load(f)
             f.close()
-            rosparam.upload_params('/' + self.RID + "/config/main", yamlfile)
+            rosparam.upload_params(prefix, yamlfile)
         except Exception as e:
-            self.consoleError("Error" + str(e))
+            self.consoleError("Error " + str(e))
+            self.createFile(file_path)
+
+    def saveParamsToYaml(self, filename: str, prefix):
+        configuration = rospy.get_param(prefix)
+        try:
+            with open(filename, "w") as f:
+                yaml.dump(configuration, f)
+        except Exception as e:
+            self.consoleError("Error " + str(e))
 
     def updateCFG(self):
         self.CFG = rospy.get_param('/' + self.RID + "/config/main")
         self.setStaticConfigs()
         print(self.CFG)
 
-    def getCFG(self):
-        return self.CFG
-
     def setStaticConfigs(self):
         self.CFG["launch_directory"] = self.rospack.get_path("mkmr_navigation") + "/" + "launch"
         self.CFG["config_directory"] = self.config_folder
+
+    def getCFG(self):
+        return self.CFG
+
+    def getArrayParamWithPrefix(self,prefix):
+        return rospy.get_param(prefix, [])
+
+    def getStringParamWithPrefix(self,prefix):
+        return rospy.get_param(prefix, "")
+
+    def getIntParamWithPrefix(self,prefix):
+        return rospy.get_param(prefix, 0)
 
     def callRosService(self, name: str, msg_type: type, msg, print_info: bool = True) -> bool:
         rospy.wait_for_service(name)
@@ -179,3 +207,11 @@ class MkmrBase:
                        robot_id: str) -> json:
         return {"project_id": project_id,
                 "robot_id": robot_id, "topic": topic, "message": val}          
+
+    @staticmethod
+    def getYawDegFromQuatZw(z: float, w: float) -> float:
+        r, p, y = tf.transformations.euler_from_quaternion((0, 0, z, w))
+        return math.degrees(y)
+
+    def mkmrCb(self, msg: Mkmr):
+        self.cur_mkmr_msg = msg

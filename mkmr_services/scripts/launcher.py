@@ -24,6 +24,7 @@ class LauncherModule(MkmrBase):
 
         self.mapping_active_pub = rospy.Publisher(self.RID + "/mapping_active", Bool, queue_size=1, latch=True)
         self.localization_active_pub = rospy.Publisher(self.RID + "/localization_active", Bool, queue_size=1, latch=True)
+        self.current_map_pub = rospy.Publisher(self.RID + "/current_map", String, queue_size=1, latch=True)
 
         self.uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
 
@@ -93,6 +94,7 @@ class LauncherModule(MkmrBase):
         self.initRosLaunch()
         self.mapping_active_pub.publish(self.disabled_bool_msg)
         self.localization_active_pub.publish(self.enabled_bool_msg)
+        self.current_map_pub.publish(String(data = self.default_map_arg))
 
     def getMappingLaunchFile(self) -> str:
         return self.CFG["launch_directory"] + "/" + "cartographer_mapping_bringup.launch"
