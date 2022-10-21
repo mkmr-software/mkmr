@@ -44,7 +44,7 @@ class UIModule(MkmrBase):
         self.process_functions = {
             "heartbeat_ui" : self.processHearbeatUi,
             "add_loc" : self.processAddLoc, # {"project_id":0,"robot_id":"mkmr0","topic":"add_loc","message":{"type":"target","name":"loc1"}}
-            "start_map" : self.processStartMap, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":1}
+            "start_map" : self.processStartMap, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":{"enable":"True"}}
             "save_map" : self.processSaveMap, # {"project_id":0,"robot_id":"mkmr0","topic":"save_map","message":{"map":"test","floor":"1"}}
             "start_nav" : self.processStartNav # {"project_id":0,"robot_id":"mkmr0","topic":"start_nav","message":{"map":"test","floor":"1"}}
         }
@@ -205,7 +205,7 @@ class UIModule(MkmrBase):
         self.callRosService( "/" + self.RID + "/" + "location", Location, req, print_info=True)
 
     def processStartMap(self, topic, message):
-        if self.getBool(str(message)):
+        if self.getBool(str(message["enable"])):
             req = LauncherRequest()
             req.mapping = True
             self.callRosService( "/" + self.RID + "/" + "launcher", Launcher, req, print_info=True)
