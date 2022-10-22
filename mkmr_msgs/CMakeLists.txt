@@ -55,6 +55,7 @@ add_message_files(
   FILES
   Location.msg
   Mkmr.msg
+  State.msg
 )
 
 ## Generate services in the 'srv' folder
