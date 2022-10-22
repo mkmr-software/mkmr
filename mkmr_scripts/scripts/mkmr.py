@@ -10,6 +10,7 @@ from std_msgs.msg import *
 from mkmr_scripts.mkmr_base import MkmrBase
 from rospy_message_converter import json_message_converter, message_converter
 from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
+from mkmr_srvs.msg import *
 
 class MkmrModule(MkmrBase):
     def __init__(self):
@@ -31,6 +32,9 @@ class MkmrModule(MkmrBase):
 
         self.current_map_sub = rospy.Subscriber(
             "current_map", String, self.currentMapCb)
+
+        self.current_map_sub = rospy.Subscriber(
+            "task_base/feedback", TaskBaseActionFeedback, self.taskBaseFeedbackCb)
 
         self.publish_mkmr_timer = rospy.Timer(rospy.Duration(1.0 / 5.0), self.publishMkmrTimerCb)
 
@@ -71,9 +75,10 @@ class MkmrModule(MkmrBase):
         self.mkmr_msg.map = map
         self.mkmr_msg.floor = floor
 
-
-
-
+    def taskBaseFeedbackCb(self, msg: TaskBaseActionFeedback):
+        self.mkmr_msg.target_name = msg.feedback.TargetName
+        self.mkmr_msg.last_done_target_name = msg.feedback.LastDoneTargetName
+        self.mkmr_msg.state = msg.feedback.STATE
 
 
 
