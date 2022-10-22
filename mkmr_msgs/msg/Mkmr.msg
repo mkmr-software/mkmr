@@ -5,3 +5,6 @@ string floor
 float64 px
 float64 py
 float64 yaw
+string target_name
+string last_done_target_name
+string state
