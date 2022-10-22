@@ -17,6 +17,8 @@ from rospy_message_converter import json_message_converter, message_converter
 
 from mkmr_scripts.mkmr_base import MkmrBase
 
+from mkmr_srvs.msg import TaskBaseAction, TaskBaseActionFeedback, TaskBaseActionGoal, TaskBaseActionResult \
+        ,TaskBaseFeedback, TaskBaseGoal,TaskBaseResult
 
 class UIModule(MkmrBase):
     def __init__(self):
@@ -46,7 +48,11 @@ class UIModule(MkmrBase):
             "add_loc" : self.processAddLoc, # {"project_id":0,"robot_id":"mkmr0","topic":"add_loc","message":{"type":"target","name":"loc1"}}
             "start_map" : self.processStartMap, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":{"enable":"True"}}
             "save_map" : self.processSaveMap, # {"project_id":0,"robot_id":"mkmr0","topic":"save_map","message":{"map":"test","floor":"1"}}
-            "start_nav" : self.processStartNav # {"project_id":0,"robot_id":"mkmr0","topic":"start_nav","message":{"map":"test","floor":"1"}}
+            "start_nav" : self.processStartNav, # {"project_id":0,"robot_id":"mkmr0","topic":"start_nav","message":{"map":"test","floor":"1"}}
+            "run_task_base" : self.processRunTaskBase, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":{"enable":"True"}}
+            "start_task" : self.processStartTask, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":{"loc_name":"locX"}}
+            "pause_task" : self.processPauseTask, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":{"enable":"True"}}
+            "continue_task" : self.processContinueTask, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":{"enable":"True"}}
         }
 
     # Initialize Websocket Server  -------------------------------------------------------------------------------------
@@ -71,6 +77,8 @@ class UIModule(MkmrBase):
                     self.server.set_fn_message_received(self.wsMessageReceivedCallback)
 
                     self.ui_status_pub = rospy.Publisher("ui_status", Bool, queue_size=1, latch=True)
+
+                    self.task_base_goal_pub = rospy.Publisher("task_base/goal", TaskBaseActionGoal, queue_size=1)
 
                     self.mkmr_config_sub = rospy.Subscriber("mkmr_config", Bool, self.mkmrConfigCb)
 
@@ -134,7 +142,7 @@ class UIModule(MkmrBase):
                 self.server.send_message_to_all(self.jsonToStr(self.addTopicToJson(
                         topic, data, self.CFG["project_id"], self.RID)))
             except Exception as e:
-                self.consoleError("Error" + str(e))
+                self.consoleError("Error publishJsonToUi" + str(e))
             
     def publishJsonStrToUi(self, topic: str, data: str):
         """ Convert string before pub if data is json str """
@@ -143,7 +151,7 @@ class UIModule(MkmrBase):
                 self.server.send_message_to_all(self.jsonToStr(self.addTopicToJson(
                         topic, self.strToJson(data), self.CFG["project_id"], self.RID)))
             except Exception as e:
-                self.consoleError("Error" + str(e))
+                self.consoleError("Error publishJsonStrToUi" + str(e))
 
     def publishStrToUi(self, topic: str, data: str):
         """ Publish directly if data is str """
@@ -152,7 +160,7 @@ class UIModule(MkmrBase):
                 self.server.send_message_to_all(self.jsonToStr(self.addTopicToJson(
                         topic, data, self.CFG["project_id"], self.RID)))
             except Exception as e:
-                self.consoleError("Error" + str(e))
+                self.consoleError("Error publishStrToUi" + str(e))
 
     def wsMessageReceivedCallback(self, client, server, message):
         msg_json = self.strToJson(message)
@@ -233,6 +241,31 @@ class UIModule(MkmrBase):
             return False
 
         self.callRosService( "/" + self.RID + "/" + "launcher", Launcher, req, print_info=True)
+
+    def processRunTaskBase(self, topic, message):
+        if self.getBool(str(message["enable"])):
+            msg = TaskBaseActionGoal()
+            msg.goal.RunTaskBase = True
+            self.task_base_goal_pub.publish(msg)
+
+    def processPauseTask(self, topic, message):
+        if self.getBool(str(message["enable"])):
+            msg = TaskBaseActionGoal()
+            msg.goal.Pause = True
+            self.task_base_goal_pub.publish(msg)
+
+    def processContinueTask(self, topic, message):
+        if self.getBool(str(message["enable"])):
+            msg = TaskBaseActionGoal()
+            msg.goal.Continue = True
+            self.task_base_goal_pub.publish(msg)
+
+    def processStartTask(self, topic, message):
+        if message["loc_name"] != "":
+            msg = TaskBaseActionGoal()
+            msg.goal.Start = True
+            msg.goal.TargetName = message["loc_name"]
+            self.task_base_goal_pub.publish(msg)
 
     # ROS Callbacks ----------------------------------------------------------------------------------------------------
 
