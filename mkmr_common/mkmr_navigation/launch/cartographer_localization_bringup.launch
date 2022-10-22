@@ -38,4 +38,9 @@
         <arg name="robot_id" value="$(arg robot_id)"/>
     </include>
 
+    <group ns="$(arg robot_id)">
+        <node pkg="mkmr_services" type="task_base_node.py" name="task_base" output="screen" respawn="true" respawn_delay="3"/>
+    
+    </group>
+
 </launch>

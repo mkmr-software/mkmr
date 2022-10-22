@@ -166,6 +166,7 @@ catkin_install_python(PROGRAMS
   scripts/launcher.py
   scripts/location.py
   scripts/save_map.py
+  scripts/task_base_node.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}/scripts
 )
 
