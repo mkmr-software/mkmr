@@ -1,0 +1,15 @@
+
+#goal definition
+bool RunTaskBase
+bool Start
+bool Continue
+bool Pause
+string TargetName
+---
+#result definition
+int32[] sequence
+---
+#feedback
+string TargetName
+string LastDoneTargetName
+string STATE
