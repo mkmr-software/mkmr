@@ -74,10 +74,18 @@ class MkmrBase:
 
     def updateCFG(self):
         self.CFG = self.getArrayParamWithPrefix(self.main_prefix)
-        self.CFG["locs"] = self.getArrayParamWithPrefix(self.locations_prefix)
+        self.CFG["locs"] = self.getLocations()
         self.setStaticConfigs()
         self.setMaps()
         print(self.CFG)
+
+    def getLocations(self):
+        dict_array_locs = []
+        locs = self.getArrayParamWithPrefix(self.locations_prefix)
+
+        for i in range(0,len(locs)):
+            dict_array_locs.append(self.strToJson(locs[i]))
+        return dict_array_locs
 
     def setStaticConfigs(self):
         self.CFG["launch_directory"] = self.rospack.get_path("mkmr_navigation") + "/" + "launch"
@@ -243,6 +251,8 @@ class MkmrBase:
             return "F"  # Free
         elif element == 100:
             return "O"  # Obstacle
+        else:
+            return "U"  # Unknown
 
     def mkmrCb(self, msg: Mkmr):
         self.cur_mkmr_msg = msg
