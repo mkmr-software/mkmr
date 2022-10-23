@@ -8,6 +8,7 @@ import actionlib
 from mkmr_msgs.msg import *
 from mkmr_srvs.srv import *
 from std_msgs.msg import *
+from std_srvs.srv import *
 
 from rospy_message_converter import json_message_converter, message_converter
 
@@ -94,6 +95,8 @@ class TaskBaseModule(MkmrBase):
         self.updateCFG()
 
     def publishGoal(self, x , y , z):
+        self.clearCostmap()
+        self.clearCostmap()
         data = PoseStamped()
         data.header.stamp = rospy.Time.now()
         data.header.frame_id = self.RID + "/map"
@@ -112,6 +115,15 @@ class TaskBaseModule(MkmrBase):
         data.stamp = rospy.Time.now()
         data.id = ''
         self.goal_cancel_pub.publish(data)
+
+    def clearCostmap(self):
+        req = EmptyRequest()
+        try:
+            self.callRosService( "/" + self.RID + "/" + "move_base/clear_costmaps", Empty, req, print_info = False)
+
+        except Exception as e:
+            self.consoleError("Error clearCostmap " + str(e))
+
 
     def execute_cb(self, goal:TaskBaseActionGoal):
 
@@ -153,9 +165,15 @@ class TaskBaseModule(MkmrBase):
 
         if goal.Continue:  
             self.updateState(self.state_previous_pause)
-            self.publishGoal(self.last_goal_req["px"],
-                                self.last_goal_req["py"],
-                                self.last_goal_req["yaw"])
+
+            if self._feedback.STATE == State.GOAL:       
+                self.publishGoal(self.last_goal_req["px"],
+                                    self.last_goal_req["py"],
+                                    self.last_goal_req["yaw"])
+
+
+
+        
             self.RUN = True
 
         r = rospy.Rate(10)
