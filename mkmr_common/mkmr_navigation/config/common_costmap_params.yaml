@@ -28,6 +28,7 @@
       expected_update_rate: 14.0
       max_obstacle_height: 0.5
       min_obstacle_height: 0.0
+      inf_is_valid: true
       data_type: LaserScan
       topic: /$(arg robot_id)/scan
       marking: true
