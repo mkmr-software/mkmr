@@ -49,6 +49,7 @@ class TaskBaseModule(MkmrBase):
         self.move_base_updated = False 
         self.last_goal_req = dict()
         self.status_move_base = 0
+        self.state_previous_pause = ""
 
 
         self.goal_cancel_pub = rospy.Publisher("/" + self.RID + "/move_base/cancel", GoalID, queue_size=10)
@@ -112,42 +113,24 @@ class TaskBaseModule(MkmrBase):
         data.id = ''
         self.goal_cancel_pub.publish(data)
 
-    def STARTUP_P(self):
-        pass
-
-    def STARTUP_N(self):
-        pass
-
-    def READY_FOR_TASK_P(self):
-        pass
-
-    def READY_FOR_TASK_N(self):
-        pass
-
-    def GOAL_P(self):
-        pass
-
-    def GOAL_N(self):
-        pass
-
     def execute_cb(self, goal:TaskBaseActionGoal):
 
 
         if goal.RunTaskBase:
-            self.consoleInfo('%s: ACTION START TRIGGER' % self._action_name)
+            self.consoleInfo('RunTaskBase')
 
             self.RUN = True 
 
-            self.consoleInfo('%s: STARTUP ' % self._action_name)
-            self._feedback.STATE = State.STARTUP
+            self.updateState(State.STARTUP)
+
 
         if goal.Start and self._feedback.STATE != State.STARTUP:
             for i in range(0,len(self.CFG["locs"])):
                 if goal.TargetName == (self.CFG["locs"][i])["name"]:
                     self.last_goal_req = self.CFG["locs"][i]
-                    self.consoleInfo('%s: NEW TASK TRIGGER' % self._action_name)
 
-                    self._feedback.STATE = State.GOAL
+                    self.updateState(State.GOAL)
+                    self.consoleInfo('NEW TASK TRIGGER --> %s' % (self.CFG["locs"][i])["name"])
 
                     self._feedback.TargetName = self.last_goal_req["name"]
         
@@ -161,10 +144,19 @@ class TaskBaseModule(MkmrBase):
             
             # self.consoleInfo('%s: error unknown loc' % self._action_name) TODO
 
-        # if goal.Pause: 
-        #     self.publishGoalCancel()   
-        #     self.RUN = True
+        if goal.Pause: 
+            self.publishGoalCancel() 
+            self.state_previous_pause =  self._feedback.STATE
+            self.updateState(State.PAUSE)
+            
+            self.RUN = True
 
+        if goal.Continue:  
+            self.updateState(self.state_previous_pause)
+            self.publishGoal(self.last_goal_req["px"],
+                                self.last_goal_req["py"],
+                                self.last_goal_req["yaw"])
+            self.RUN = True
 
         r = rospy.Rate(10)
        
@@ -183,8 +175,7 @@ class TaskBaseModule(MkmrBase):
 
                 # STARTUP Transitions ----------------------------------------------------------------------------------
                 if int(self.STATE_COUNTER_TIME[State.STARTUP]) == self.STATE_SET_TIME[State.STARTUP]:
-                    self.consoleInfo('%s: STARTUP to READY_FOR_TASK' % self._action_name)
-                    self._feedback.STATE = State.READY_FOR_TASK
+                    self.updateState(State.READY_FOR_TASK)
                                
             else:
                 self.STATE_COUNTER_TIME[State.STARTUP] = 0
@@ -204,8 +195,7 @@ class TaskBaseModule(MkmrBase):
                     
                     if self.status_move_base == GoalStatus.SUCCEEDED:
                         self.move_base_updated = False   
-                        rospy.loginfo('%s: GOAL to SIGNAL' % self._action_name)
-                        self._feedback.STATE = State.READY_FOR_TASK
+                        self.updateState(State.READY_FOR_TASK)
                         self._feedback.LastDoneTargetName = self.last_goal_req["name"]
             
                      
@@ -225,7 +215,9 @@ class TaskBaseModule(MkmrBase):
             self._as.publish_feedback(self._feedback)
             r.sleep()
 
-
+    def updateState(self, state):
+        self.consoleInfo(state)
+        self._feedback.STATE = state
 
 def main():
     smm = TaskBaseModule()
