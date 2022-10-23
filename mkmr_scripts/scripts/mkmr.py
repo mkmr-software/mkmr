@@ -55,6 +55,9 @@ class MkmrModule(MkmrBase):
             self.mkmr_msg.px = 0
             self.mkmr_msg.py = 0
             self.mkmr_msg.yaw = 0
+            self.mkmr_msg.target_name = ""
+            self.mkmr_msg.last_done_target_name = ""
+            self.mkmr_msg.state = ""
 
     def localizationActiveCb(self, msg: Bool):
         if msg.data:
