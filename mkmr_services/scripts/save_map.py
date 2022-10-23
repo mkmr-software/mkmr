@@ -32,6 +32,7 @@ class SaveMapModule(MkmrBase):
         try:
             while not rospy.is_shutdown():
                 self.mapSaver(req.map + "_" + req.floor)
+                self.runSavedMap(req.map , req.floor)
                 self.updateCFG()
                 self.config_pub.publish(Bool(data = True))
                 return True
@@ -55,6 +56,18 @@ class SaveMapModule(MkmrBase):
         self.callRosService( "/" + self.RID + "/" + "write_state", WriteState, req, print_info=True)
 
         self.refactorPgmPath(self.CONFIG_DIR + "/maps/" + site_floor + ".yaml", site_floor)
+
+    def runSavedMap(self, site, floor):
+        req = LauncherRequest()
+        try:
+            req.map = site
+            req.floor = floor
+
+        except Exception as e:
+            self.consoleError("Error runSavedMap " + str(e))
+            return False
+
+        self.callRosService( "/" + self.RID + "/" + "launcher", Launcher, req, print_info=True)
 
     def refactorPgmPath(self, file_path:str, site_floor:str):
             data = None
