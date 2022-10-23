@@ -9,7 +9,7 @@ from std_msgs.msg import *
 
 from mkmr_scripts.mkmr_base import MkmrBase
 from rospy_message_converter import json_message_converter, message_converter
-from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
+from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped, Twist
 from mkmr_srvs.msg import *
 
 class MkmrModule(MkmrBase):
@@ -35,6 +35,9 @@ class MkmrModule(MkmrBase):
 
         self.current_map_sub = rospy.Subscriber(
             "task_base/feedback", TaskBaseActionFeedback, self.taskBaseFeedbackCb)
+
+        self.cmd_vel_sub = rospy.Subscriber(
+            "mkmr_controller/cmd_vel", Twist, self.cmdVelCb)
 
         self.publish_mkmr_timer = rospy.Timer(rospy.Duration(1.0 / 5.0), self.publishMkmrTimerCb)
 
@@ -83,6 +86,9 @@ class MkmrModule(MkmrBase):
         self.mkmr_msg.last_done_target_name = msg.feedback.LastDoneTargetName
         self.mkmr_msg.state = msg.feedback.STATE
 
+    def cmdVelCb(self, msg: Twist):
+        self.mkmr_msg.cmd_vel_x = msg.linear.x
+        self.mkmr_msg.cmd_vel_z = msg.angular.z
 
 
 def main():

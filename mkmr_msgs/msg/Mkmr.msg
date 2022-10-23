@@ -8,3 +8,5 @@ float64 yaw
 string target_name
 string last_done_target_name
 string state
+float64 cmd_vel_x
+float64 cmd_vel_z
