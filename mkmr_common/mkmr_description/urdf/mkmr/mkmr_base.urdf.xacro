@@ -3,20 +3,82 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
     <xacro:macro name="mkmr_base">
 
+    <xacro:property name="robot_length_x" value="0.2"/>
+    <xacro:property name="robot_length_y" value="0.15"/>
 
-        <!-- Base footprint -->
-        <link name="${ROBOT_ID}/base_footprint">
-        </link>
+    <xacro:property name="runstop_dist" value="0.07"/>
 
-        <!-- Base link -->
-        <link name="${ROBOT_ID}/base_link">
-        </link>
-            
-        <joint name="${ROBOT_ID}/base_footprint_joint" type="fixed">
-            <origin xyz="0 0 0.04" rpy="0 0 0"/> <!-- drive wheel radius-->
-            <parent link="${ROBOT_ID}/base_footprint"/>
-            <child link="${ROBOT_ID}/base_link"/>
-        </joint>
+    <xacro:property name="normal_dist" value="${robot_length_x*2.6}"/>
+    <xacro:property name="normal_side_dist" value="${robot_length_y*1.5}"/>
+    <xacro:property name="slowdown_dist" value="${robot_length_x*2}"/>
+    <xacro:property name="slowdown_side_dist" value="${robot_length_y*1}"/>
+
+    <!-- Base footprint -->
+    <link name="${ROBOT_ID}/base_footprint">
+    </link>
+
+    <!-- Base link -->
+    <link name="${ROBOT_ID}/base_link">
+    </link>
+        
+    <joint name="${ROBOT_ID}/base_footprint_joint" type="fixed">
+        <origin xyz="0 0 0.04" rpy="0 0 0"/> <!-- drive wheel radius-->
+        <parent link="${ROBOT_ID}/base_footprint"/>
+        <child link="${ROBOT_ID}/base_link"/>
+    </joint>
+
+    <link name="${ROBOT_ID}/base_cautious">
+        <visual>
+            <!-- <origin xyz="0.66875 0 0" rpy="0 0 0"/> -->
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <!-- <box size ="1.3375 1.07 0.001"/> -->
+                <box size ="${normal_dist*2} ${(normal_side_dist+robot_length_x)*2} 0.001"/>
+            </geometry>
+            <material name="Yellow"/>
+        </visual>
+    </link>
+
+    <joint name="${ROBOT_ID}/base_cautious_joint" type="fixed">
+        <origin xyz="0 0 -0.115" rpy="0 0 0"/> <!-- drive wheel radius-->
+        <parent link="${ROBOT_ID}/base_link"/>
+        <child link="${ROBOT_ID}/base_cautious"/>
+    </joint>
+
+    <!-- Base footprint -->
+    <link name="${ROBOT_ID}/base_warning">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size ="${slowdown_dist*2} ${(slowdown_side_dist+robot_length_y)*2} 0.002"/>
+            </geometry>
+            <material name="Orange"/>
+        </visual>
+    </link>
+
+    <joint name="${ROBOT_ID}/base_warning_joint" type="fixed">
+        <origin xyz="0 0 -0.115" rpy="0 0 0"/> <!-- drive wheel radius-->
+        <parent link="${ROBOT_ID}/base_link"/>
+        <child link="${ROBOT_ID}/base_warning"/>
+    </joint>
+
+    <link name="${ROBOT_ID}/base_safety">
+        <visual>
+            <!-- <origin xyz="0.1875 0 0" rpy="0 0 0"/> -->
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <!-- <box size ="0.375 0.535 0.001"/> --> 
+                <box size ="${runstop_dist*2+robot_length_x*2} ${runstop_dist*2+robot_length_y*2} 0.003"/>
+            </geometry>
+            <material name="Red"/>
+        </visual>
+    </link>
+
+    <joint name="${ROBOT_ID}/base_safety_joint" type="fixed">
+        <origin xyz="0 0 -0.115" rpy="0 0 0"/> <!-- drive wheel radius-->
+        <parent link="${ROBOT_ID}/base_link"/>
+        <child link="${ROBOT_ID}/base_safety"/>
+    </joint>
 
 
     <xacro:include filename="$(find mkmr_description)/urdf/mkmr/mkmr_chasis.urdf.xacro"/>
