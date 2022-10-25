@@ -117,10 +117,15 @@ catkin_package(
 add_executable(pose src/pose.cpp)
 target_link_libraries(pose ${catkin_LIBRARIES})
 
+add_executable(manual_controllers src/manual_controllers.cpp src/ManualControllers.cpp)
+target_link_libraries(manual_controllers ${catkin_LIBRARIES})
+
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
+  src
+  scripts
   ${catkin_INCLUDE_DIRS}
 )
 

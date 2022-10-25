@@ -1,0 +1,52 @@
+<launch>
+  
+    <arg name="robot_id"/>
+
+    <!-- r_vertical -->
+    <arg name="robot_length_half_x" default="0.2"/>
+    <!-- r_horizontal -->
+    <arg name="robot_length_half_y" default="0.15"/>
+
+    <arg name="fast_speed" default="0.5"/>
+    <arg name="normal_speed" default="0.3"/>
+    <arg name="slow_speed" default="0.1"/>
+    
+    <!-- lidar_offset -->
+    <arg name="lidar_x" default="0.07"/>  
+
+    <!-- ignore lidar dist -->
+    <arg name="ignore_dist" default="3"/> 
+
+    <!-- safety_offset -->
+    <arg name="safety_offset" default="0.1"/> 
+
+    <node pkg="mkmr_scripts" type="manual_controllers" name="manual_controllers" ns="$(arg robot_id)" output="screen">
+
+        <param name="robot_id" type="string" value="$(arg robot_id)"/>
+
+        <param name="robot_length_half_x"       value="$(arg robot_length_half_x)"/>
+        <param name="robot_length_half_y"       value="$(arg robot_length_half_y)"/>
+
+        <param name="lidar_x"            value="$(arg lidar_x)"/>
+        <param name="lidar_min_range"    value="0.05"/>
+        <param name="statistical_err"    value="0.02"/>
+        <param name="systematic_err"     value="0.03"/>
+
+        <param name="safety_offset"      value="$(arg safety_offset)"/>
+
+        <param name="ignore_dist"        value="$(arg ignore_dist)"/>
+
+        <param name="fast_speed"         value="$(arg fast_speed)"/>
+        <param name="normal_speed"       value="$(arg normal_speed)"/>
+        <param name="slow_speed"         value="$(arg slow_speed)"/>
+
+        <param name="normal_dist"        value="$(eval 4 * arg('robot_length_half_x'))"/>
+        <param name="normal_side_dist"   value="$(eval 2.5 * arg('robot_length_half_y'))"/>
+        <param name="slow_dist"      value="$(eval 3 * arg('robot_length_half_x'))"/>
+        <param name="slow_side_dist" value="$(eval 1.5 * arg('robot_length_half_y'))"/>
+    
+
+    </node>
+
+
+</launch> 
