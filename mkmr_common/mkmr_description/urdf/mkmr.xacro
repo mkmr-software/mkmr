@@ -31,7 +31,7 @@
     <xacro:rplidar_a1 parent="${ROBOT_ID}/base_link" 
                         name="scan"
                         origin_xyz="0.07 0 0.15"   
-                        origin_rpy="0 0 -1.57"/>  
+                        origin_rpy="0 0 0"/>  
 
 
 </robot>
