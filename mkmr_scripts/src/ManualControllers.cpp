@@ -266,17 +266,17 @@ void ManualControllers::speedControllerTimerCb(const ros::TimerEvent &event)
         switch (cur_speed_mode_)
         {
             case SpeedControl::SLOW:
-                ROS_INFO_STREAM("SLOW");
+                // ROS_INFO_STREAM("SLOW");
                 slow_speed_info_pub_.publish(enable_priority_msg_);
                 setMaxPlannerSpeed(slow_speed_);
                 break;
             case SpeedControl::NORMAL:
-                ROS_INFO_STREAM("NORMAL");
+                // ROS_INFO_STREAM("NORMAL");
                 normal_speed_info_pub_.publish(enable_priority_msg_);
                 setMaxPlannerSpeed(normal_speed_);
                 break;
             case SpeedControl::FAST:
-                ROS_INFO_STREAM("FAST");
+                // ROS_INFO_STREAM("FAST");
                 normal_speed_info_pub_.publish(disable_priority_msg_);
                 setMaxPlannerSpeed(fast_speed_);
                 break;
