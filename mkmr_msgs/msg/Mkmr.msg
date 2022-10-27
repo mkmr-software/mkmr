@@ -10,3 +10,4 @@ string last_done_target_name
 string state
 float64 cmd_vel_x
 float64 cmd_vel_z
+bool manual_controller_active
