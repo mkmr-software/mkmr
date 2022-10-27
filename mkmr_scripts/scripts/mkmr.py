@@ -39,6 +39,9 @@ class MkmrModule(MkmrBase):
         self.cmd_vel_sub = rospy.Subscriber(
             "mkmr_controller/cmd_vel", Twist, self.cmdVelCb)
 
+        self.enable_manual_control_sub = rospy.Subscriber(
+            "enable_manual_control", Bool, self.enableManualControlCb)
+
         self.publish_mkmr_timer = rospy.Timer(rospy.Duration(1.0 / 5.0), self.publishMkmrTimerCb)
 
     def publishMkmrTimerCb(self, timer):
@@ -89,6 +92,9 @@ class MkmrModule(MkmrBase):
     def cmdVelCb(self, msg: Twist):
         self.mkmr_msg.cmd_vel_x = msg.linear.x
         self.mkmr_msg.cmd_vel_z = msg.angular.z
+
+    def enableManualControlCb(self, msg: Bool):
+        self.mkmr_msg.manual_controller_active = msg.data
 
 
 def main():
