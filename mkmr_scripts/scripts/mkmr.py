@@ -42,7 +42,16 @@ class MkmrModule(MkmrBase):
         self.enable_manual_control_sub = rospy.Subscriber(
             "enable_manual_control", Bool, self.enableManualControlCb)
 
-        self.publish_mkmr_timer = rospy.Timer(rospy.Duration(1.0 / 5.0), self.publishMkmrTimerCb)
+        self.normal_speed_enabled_sub = rospy.Subscriber(
+            "normal_speed_enabled", Bool, self.normalSpeedEnabledCb)
+
+        self.slow_speed_enabled_sub = rospy.Subscriber(
+            "slow_speed_enabled", Bool, self.slowSpeedEnabledCb)
+
+        self.soft_runstop_priority_sub = rospy.Subscriber(
+            "soft_runstop_priority", Bool, self.softRunstopEnabledCb)
+
+        self.publish_mkmr_timer = rospy.Timer(rospy.Duration(1.0 / 3.0), self.publishMkmrTimerCb)
 
     def publishMkmrTimerCb(self, timer):
         self.mkmr_pub.publish(self.mkmr_msg)
@@ -95,6 +104,19 @@ class MkmrModule(MkmrBase):
 
     def enableManualControlCb(self, msg: Bool):
         self.mkmr_msg.manual_controller_active = msg.data
+
+    def normalSpeedEnabledCb(self, msg: Bool):
+        self.mkmr_msg.normal_speed_enabled = msg.data
+        if not msg.data:
+            self.mkmr_msg.slow_speed_enabled = False
+
+    def slowSpeedEnabledCb(self, msg: Bool):
+        self.mkmr_msg.slow_speed_enabled = msg.data
+        if msg.data:
+            self.mkmr_msg.normal_speed_enabled = True
+
+    def softRunstopEnabledCb(self, msg: Bool):
+        self.mkmr_msg.soft_runstop_priority = msg.data
 
 
 def main():
