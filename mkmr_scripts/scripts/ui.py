@@ -11,6 +11,7 @@ from sensor_msgs.msg import *
 from mkmr_msgs.msg import *
 from mkmr_srvs.srv import *
 from nav_msgs.msg import OccupancyGrid
+from geometry_msgs.msg import Twist
 
 from websocket_server import WebsocketServer
 from rospy_message_converter import json_message_converter, message_converter
@@ -26,6 +27,7 @@ class UIModule(MkmrBase):
         rospy.init_node('ui')
 
         self.STATUS_COMM = False
+        self.CLOUD_VEL_TIMEOUT = 1.5
         
         self.initialize()
         self.defineProcessFunctions()
@@ -37,7 +39,10 @@ class UIModule(MkmrBase):
         self.currents = {
             'latest_received_heartbeat_time' : time.time(),
             'mkmr': Mkmr(),
-            'compressed_map': str()        
+            'compressed_map': str(),
+            'enable_manual_control': False,            
+            'manual_control': Twist(),
+            'latest_received_speed_time'  : time.time(),        
         }
         
     # Define Process Functions -----------------------------------------------------------------------------------------
@@ -53,6 +58,8 @@ class UIModule(MkmrBase):
             "start_task" : self.processStartTask, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":{"loc_name":"locX"}}
             "pause_task" : self.processPauseTask, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":{"enable":"True"}}
             "continue_task" : self.processContinueTask, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":{"enable":"True"}}
+            "enable_manual_control" : self.processEnableManualControl, # {"project_id":0,"robot_id":"mkmr0","topic":"enable_manual_control","message":{"enable":"True"}}
+            "manual_control" : self.processManualControl, # {"project_id":0,"robot_id":"mkmr0","topic":"manual_control","message":{"cmd":"x,z"}}
         }
 
     # Initialize Websocket Server  -------------------------------------------------------------------------------------
@@ -80,6 +87,11 @@ class UIModule(MkmrBase):
 
                     self.task_base_goal_pub = rospy.Publisher("task_base/goal", TaskBaseActionGoal, queue_size=1)
 
+                    self.enable_manual_control_pub = rospy.Publisher("enable_manual_control", Bool, 
+                                                                                        queue_size=1, latch=True)
+
+                    self.manual_control_pub = rospy.Publisher("manual_ctrl_vel", Twist, queue_size=1)
+
                     self.mkmr_config_sub = rospy.Subscriber("mkmr_config", Bool, self.mkmrConfigCb)
 
                     self.map_sub = rospy.Subscriber("map", OccupancyGrid, self.mapCb)
@@ -87,6 +99,11 @@ class UIModule(MkmrBase):
                     self.heartbeat_timer = rospy.Timer(rospy.Duration(2.0), self.heartbeatTimerCb)
 
                     self.mkmr_timer = rospy.Timer(rospy.Duration(1 / 5), self.mkmrTimerCb)
+
+                    self.manual_control_vel_reset_timer = rospy.Timer(rospy.Duration(1 / 2), 
+                                                                    self.manualControlVelResetTimerCb)
+                    self.manual_control_vel_publish_timer = rospy.Timer(rospy.Duration(1 / 10), 
+                                                                    self.manualControlVelPublishTimerCb)
 
                     # must be last line
                     # self.server.run_forever()
@@ -102,6 +119,7 @@ class UIModule(MkmrBase):
                 except AttributeError as error:
                     self.consoleError("ui node failed to initialize -- Check your ip adress" + str(error))
 
+    # ROS Timer Callbacks ----------------------------------------------------------------------------------------------
 
     def heartbeatTimerCb(self, timer):
         if (time.time()- self.currents['latest_received_heartbeat_time']) > 8:
@@ -114,6 +132,15 @@ class UIModule(MkmrBase):
         if self.currents["mkmr"] != self.cur_mkmr_msg:
             self.publishJsonStrToUi("mkmr", json_message_converter.convert_ros_message_to_json(self.cur_mkmr_msg))
         self.currents["mkmr"] = self.cur_mkmr_msg
+
+    def manualControlVelResetTimerCb(self, timer):
+        if self.currents["enable_manual_control"]:
+            if (time.time()- self.currents['latest_received_speed_time']) > self.CLOUD_VEL_TIMEOUT:
+                self.resetCloudVel("manual_control")
+            
+    def manualControlVelPublishTimerCb(self, timer):
+        if self.currents["enable_manual_control"]:
+            self.publishCmdVel("manual_control") 
 
     # Websocket Functions ----------------------------------------------------------------------------------------------
 
@@ -187,6 +214,9 @@ class UIModule(MkmrBase):
                self.consoleCyan("UI Status: " + str(status))     
             else:
                 self.consoleError("UI Status: " + str(status))  
+
+    def publishCmdVel(self, topic):
+        self.manual_control_pub.publish(self.currents[topic])
 
     # Process Functions ------------------------------------------------------------------------------------------------     
 
@@ -267,6 +297,37 @@ class UIModule(MkmrBase):
             msg.goal.TargetName = message["loc_name"]
             self.task_base_goal_pub.publish(msg)
 
+    def processEnableManualControl(self, topic, message):
+        self.currents[topic] = self.getBool(str(message["enable"]))
+        if self.getBool(str(message["enable"])):
+            self.enable_manual_control_pub.publish(self.enabled_bool_msg)
+        else:
+            self.enable_manual_control_pub.publish(self.disabled_bool_msg)
+
+
+    def processManualControl(self, topic, message):
+        if self.currents["enable_" + topic]:
+            speed_str = message['cmd'].split(",")
+            speed_str_size = len(speed_str)
+            speed_str_all_float = True
+            try:
+                self.speed_x = float(speed_str[0])
+            except ValueError:
+                speed_str_all_float = False
+            try:
+                self.speed_z = float(speed_str[1])
+            except ValueError:
+                speed_str_all_float = False
+
+            if speed_str_size != 2 or not speed_str_all_float:
+                self.consoleError("processManualControl syntax error: " + message)
+                return
+
+            self.currents['latest_received_speed_time'] = time.time()
+            self.currents[topic].linear.x = self.speed_x
+            self.currents[topic].angular.z = self.speed_z
+
+
     # ROS Callbacks ----------------------------------------------------------------------------------------------------
 
     def mkmrConfigCb(self, msg: Bool):
@@ -288,6 +349,13 @@ class UIModule(MkmrBase):
             self.publishStrToUi("compressed_map", compressed_map_str)
 
         self.currents["compressed_map"] = compressed_map_str
+
+    # Other Functions ------------------------------------------------------------------------------------------------
+
+    def resetCloudVel(self, topic):
+        self.currents[topic] = Twist() 
+        self.publishCmdVel(topic) 
+
 
 def main():
     uim = UIModule()
