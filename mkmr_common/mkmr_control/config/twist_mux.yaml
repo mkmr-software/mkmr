@@ -16,6 +16,11 @@ locks:
   # Same priority as joystick control, so it'll not block it.
   priority: 100
 -
+  name    : enable_manual_control
+  topic   : enable_manual_control
+  timeout : 0.0
+  priority: 250  
+-
   name    : soft_estop
   topic   : soft_estop_priority
   timeout : 0.0
@@ -42,6 +47,12 @@ topics:
   priority: 95
 -
   name    : soft_estop
-  topic   : soft_estop_cmd_vel
+  topic   : soft_runstop_cmd_vel
   timeout : 0.5
   priority: 254
+-
+  name    : manual_control
+  topic   : manual_ctrl_vel
+  timeout : 0.5
+  priority: 250
+  
