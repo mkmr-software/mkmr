@@ -11,3 +11,6 @@ string state
 float64 cmd_vel_x
 float64 cmd_vel_z
 bool manual_controller_active
+bool normal_speed_enabled
+bool slow_speed_enabled
+bool soft_runstop_priority
