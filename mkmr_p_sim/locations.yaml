@@ -4,4 +4,19 @@
   "py": "2.7", "yaw": "41.97"}'
 - '{"type": "target", "name": "shop_paypoint", "map": "sim", "floor": "0", "px": "0.31",
   "py": "4.26", "yaw": "176.96"}'
-
+- '{"type": "target", "name": "Lobby", "map": "sim", "floor": "0", "px": "8.63", "py":
+  "-1.66", "yaw": "-79.38"}'
+- '{"type": "target", "name": "elevators", "map": "sim", "floor": "0", "px": "16.87",
+  "py": "0.98", "yaw": "-92.97"}'
+- '{"type": "target", "name": "restaurant_kitchen", "map": "sim", "floor": "0", "px":
+  "25.36", "py": "-5.16", "yaw": "25.87"}'
+- '{"type": "target", "name": "restaurant_paypoint", "map": "sim", "floor": "0", "px":
+  "23.5", "py": "0.18", "yaw": "-155.9"}'
+- '{"type": "target", "name": "restaurant_tables", "map": "sim", "floor": "0", "px":
+  "21.81", "py": "5.3", "yaw": "-14.55"}'
+- '{"type": "target", "name": "restaurant_entry", "map": "sim", "floor": "0", "px":
+  "17.03", "py": "5.02", "yaw": "-43.68"}'
+- '{"type": "target", "name": "escalator", "map": "sim", "floor": "0", "px": "6.08",
+  "py": "-16.83", "yaw": "17.79"}'
+- '{"type": "target", "name": "automat", "map": "sim", "floor": "0", "px": "1.51",
+  "py": "-9.66", "yaw": "-159.56"}'
