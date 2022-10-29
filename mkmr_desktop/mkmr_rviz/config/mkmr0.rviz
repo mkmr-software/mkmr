@@ -5,10 +5,8 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /RobotModel1
-        - /TF1/Frames1
-      Splitter Ratio: 0.4583333432674408
-    Tree Height: 732
+      Splitter Ratio: 0.7577464580535889
+    Tree Height: 848
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -24,10 +22,9 @@ Panels:
     Name: Views
     Splitter Ratio: 0.5
   - Class: rviz/Time
-    Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: LidarScan
 Preferences:
   PromptSaveOnExit: false
 Toolbars:
@@ -50,10 +47,10 @@ Visualization Manager:
         Y: 0
         Z: 0
       Plane: XY
-      Plane Cell Count: 10
+      Plane Cell Count: 1
       Reference Frame: <Fixed Frame>
       Value: true
-    - Alpha: 1
+    - Alpha: 0.6000000238418579
       Class: rviz/RobotModel
       Collision Enabled: false
       Enabled: true
@@ -63,6 +60,11 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        mkmr0/base_cautious:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         mkmr0/base_footprint:
           Alpha: 1
           Show Axes: false
@@ -71,6 +73,16 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        mkmr0/base_safety:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mkmr0/base_warning:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         mkmr0/chasis_link:
           Alpha: 1
           Show Axes: false
@@ -132,7 +144,7 @@ Visualization Manager:
           Show Trail: false
           Value: true
       Name: RobotModel
-      Robot Description: /mkmr0/robot_description
+      Robot Description: mkmr0/robot_description
       TF Prefix: ""
       Update Interval: 0
       Value: true
@@ -168,34 +180,6 @@ Visualization Manager:
       Use Timestamp: false
       Value: true
     - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 0.1899999976158142
-        Min Value: 0.1899999976158142
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/LaserScan
-      Color: 255; 255; 255
-      Color Transformer: AxisColor
-      Decay Time: 0
-      Enabled: true
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Min Color: 0; 0; 0
-      Name: LaserScan
-      Position Transformer: XYZ
-      Queue Size: 10
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.05000000074505806
-      Style: Spheres
-      Topic: /mkmr0/scan
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
-    - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
       Color: 0; 89; 167
@@ -218,6 +202,34 @@ Visualization Manager:
       Shaft Length: 0.05000000074505806
       Topic: /mkmr0/move_base/TebLocalPlannerROS/local_plan
       Unreliable: false
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 0.179299995303154
+        Min Value: 0.179299995303154
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/LaserScan
+      Color: 0; 0; 255
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: LidarScan
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.10000000149011612
+      Style: Spheres
+      Topic: /mkmr0/scan
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
       Value: true
     - Alpha: 1
       Buffer Length: 1
@@ -244,23 +256,6 @@ Visualization Manager:
       Unreliable: false
       Value: true
     - Alpha: 1
-      Arrow Length: 0.10000000149011612
-      Axes Length: 0.30000001192092896
-      Axes Radius: 0.009999999776482582
-      Class: rviz/PoseArray
-      Color: 255; 25; 0
-      Enabled: true
-      Head Length: 0.07000000029802322
-      Head Radius: 0.029999999329447746
-      Name: AmclParticles
-      Queue Size: 10
-      Shaft Length: 0.23000000417232513
-      Shaft Radius: 0.009999999776482582
-      Shape: Arrow (Flat)
-      Topic: /mkmr0/particlecloud
-      Unreliable: false
-      Value: true
-    - Alpha: 1
       Class: rviz/Polygon
       Color: 0; 0; 0
       Enabled: true
@@ -272,12 +267,12 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz/Polygon
       Color: 0; 255; 0
-      Enabled: true
+      Enabled: false
       Name: FootprintG
       Queue Size: 1
       Topic: /mkmr0/move_base/global_costmap/footprint
       Unreliable: false
-      Value: true
+      Value: false
     - Class: rviz/InteractiveMarkers
       Enable Transparency: true
       Enabled: false
@@ -287,70 +282,20 @@ Visualization Manager:
       Show Visual Aids: true
       Update Topic: /mkmr0/twist_marker_server/update
       Value: false
-    - Alpha: 0.5
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: RGB8
-      Decay Time: 0
-      Enabled: false
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Min Color: 0; 0; 0
-      Name: FrontDepthColuredCloud
-      Position Transformer: XYZ
-      Queue Size: 1
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.009999999776482582
-      Style: Flat Squares
-      Topic: /mkmr0/d435_front/depth/color/points
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: false
-    - Alpha: 0.5
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: RGB8
-      Decay Time: 0
-      Enabled: false
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Min Color: 0; 0; 0
-      Name: BackDepthColuredCloud
-      Position Transformer: XYZ
-      Queue Size: 1
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.009999999776482582
-      Style: Flat Squares
-      Topic: /mkmr0/d435_back/depth/color/points
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: false
     - Class: rviz/TF
       Enabled: true
       Frame Timeout: 15
       Frames:
         All Enabled: false
+        mkmr0/base_cautious:
+          Value: false
         mkmr0/base_footprint:
           Value: false
         mkmr0/base_link:
+          Value: true
+        mkmr0/base_safety:
+          Value: false
+        mkmr0/base_warning:
           Value: true
         mkmr0/chasis_link:
           Value: false
@@ -385,12 +330,18 @@ Visualization Manager:
       Name: TF
       Show Arrows: true
       Show Axes: true
-      Show Names: false
+      Show Names: true
       Tree:
         mkmr0/map:
           mkmr0/odom:
             mkmr0/base_footprint:
               mkmr0/base_link:
+                mkmr0/base_cautious:
+                  {}
+                mkmr0/base_safety:
+                  {}
+                mkmr0/base_warning:
+                  {}
                 mkmr0/chasis_link:
                   mkmr0/front_left_wheel_link:
                     {}
@@ -414,79 +365,11 @@ Visualization Manager:
                   {}
       Update Interval: 0
       Value: true
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 1
-        Min Value: 0.10000000149011612
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: AxisColor
-      Decay Time: 0
-      Enabled: false
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Min Color: 0; 0; 0
-      Name: GlobalVoxelCloud
-      Position Transformer: XYZ
-      Queue Size: 10
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.05000000074505806
-      Style: Spheres
-      Topic: /mkmr0/move_base/global_costmap/rgbd_double_cam_voxel_layer/voxel_grid
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: false
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 1
-        Min Value: 0.10000000149011612
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: AxisColor
-      Decay Time: 0
-      Enabled: true
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Min Color: 0; 0; 0
-      Name: LocalVoxelCloud
-      Position Transformer: XYZ
-      Queue Size: 10
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.05000000074505806
-      Style: Spheres
-      Topic: /mkmr0/move_base/local_costmap/rgbd_double_cam_voxel_layer/voxel_grid
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
-    - Class: rviz/Image
-      Enabled: false
-      Image Topic: /mkmr0_camera_resizer/image_mono
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Image
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: compressed
-      Unreliable: false
-      Value: false
   Enabled: true
   Global Options:
-    Background Color: 48; 48; 48
+    Background Color: 0; 0; 0
     Default Light: true
-    Fixed Frame: mkmr0/base_footprint
+    Fixed Frame: mkmr0/map
     Frame Rate: 30
   Name: root
   Tools:
@@ -509,26 +392,20 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz/ThirdPersonFollower
-      Distance: 21.293827056884766
+      Angle: -1.5649999380111694
+      Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
-      Field of View: 0.7853981852531433
-      Focal Point:
-        X: -0.059753552079200745
-        Y: -1.5120790004730225
-        Z: -8.910894393920898e-06
-      Focal Shape Fixed Size: true
-      Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.0603982210159302
+      Scale: 34.00773620605469
       Target Frame: <Fixed Frame>
-      Yaw: 4.2604079246521
+      X: 9.236066818237305
+      Y: -1.884485125541687
     Saved: ~
 Window Geometry:
   Displays:
@@ -536,9 +413,7 @@ Window Geometry:
   Height: 999
   Hide Left Dock: false
   Hide Right Dock: true
-  Image:
-    collapsed: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000031a00000319fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d00000319000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d0061006700650000000284000000d00000001600ffffff000000010000012d000002f2fc0200000004fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730000000062000000980000005c00fffffffb0000000a0056006900650077007300000000fd00000257000000a400fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000218000001260000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000007800000006efc0100000002fb0000000800540069006d0065010000000000000780000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000004600000031900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001650000038dfc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d0000038d000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d0061006700650000000284000000d00000000000000000000000010000012d00000728fc0200000004fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730000000058000004ce0000005c00fffffffb0000000a00560069006500770073000000052900000257000000a400fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000218000001260000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000007800000006efc0100000002fb0000000800540069006d0065000000000000000780000003bc00fffffffb0000000800540069006d00650100000000000004500000000000000000000006150000038d00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -548,5 +423,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1920
-  X: 0
+  X: 1366
   Y: 0
