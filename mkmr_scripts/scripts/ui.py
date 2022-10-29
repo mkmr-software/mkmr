@@ -65,15 +65,15 @@ class UIModule(MkmrBase):
     # Initialize Websocket Server  -------------------------------------------------------------------------------------
 
     def initWebSocketServer(self):
-        if not self.CFG["ui_port"] == 0:
-                os.system("fuser -k " + str(self.CFG["ui_port"]) + "/tcp ")
+        if not int(os.getenv('MKMR_UI_PORT')) == 0:
+                os.system("fuser -k " + str(int(os.getenv('MKMR_UI_PORT'),)) + "/tcp ")
                 time.sleep(2)
 
                 try:
                     self.server = WebsocketServer(
-                        host=self.CFG["ui_ip"],
-                        port=int(self.CFG["ui_port"]),
-                        loglevel=logging.INFO)
+                        host = os.getenv('MKMR_UI_IP'),  
+                        port = int(os.getenv('MKMR_UI_PORT'),),
+                        loglevel = logging.INFO)
                 except OSError as error:
                     self.consoleError("Something went wrong Websocket server error -- " + str(error))
 
