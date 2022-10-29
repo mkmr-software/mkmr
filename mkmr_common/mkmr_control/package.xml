@@ -58,7 +58,7 @@
   <depend>velocity_controllers</depend>
   <depend>controller_interface</depend>
   <depend>realtime_tools</depend>
-
+  <depend>twist_mux</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

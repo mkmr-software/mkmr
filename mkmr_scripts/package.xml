@@ -52,7 +52,8 @@
   <depend>roscpp</depend>
   <depend>rospy</depend>
   <depend>move_base</depend>
-  
+  <depend>rospy_message_converter</depend>
+
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->
