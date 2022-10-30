@@ -1,0 +1,12 @@
+float64 FL_RPM
+float64 FL_VEL
+float64 FL_VELDEG
+float64 FR_RPM
+float64 FR_VEL
+float64 FR_VELDEG
+float64 BL_RPM
+float64 BL_VEL
+float64 BL_VELDEG
+float64 BR_RPM
+float64 BR_VEL
+float64 BR_VELDEG

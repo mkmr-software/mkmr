@@ -53,6 +53,8 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   DIRECTORY msg
   FILES
+  ArduinoInput.msg
+  ArduinoOutput.msg
   Location.msg
   Mkmr.msg
   State.msg
