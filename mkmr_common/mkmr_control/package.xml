@@ -60,6 +60,7 @@
   <depend>realtime_tools</depend>
   <depend>twist_mux</depend>
   <depend>interactive_marker_twist_server</depend>
+  <depend>diff_drive_controller</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
