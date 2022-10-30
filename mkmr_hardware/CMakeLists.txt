@@ -185,7 +185,9 @@ include_directories(
 # )
 
 install(
-  PROGRAMS scripts/serial_node.py
+  PROGRAMS 
+  scripts/serial_node.py
+  scripts/arduino_comm.py
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 

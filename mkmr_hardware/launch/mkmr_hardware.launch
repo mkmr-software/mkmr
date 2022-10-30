@@ -9,9 +9,14 @@
             <arg name="robot_id" value="$(arg robot_id)"/>
         </include>
 
-        <node pkg="mkmr_hardware" type="serial_node.py" name="serial_node" output="log" respawn="true" respawn_delay="3">
+        <node pkg="mkmr_hardware" type="serial_node.py" name="serial_node" output="screen" 
+                                                                respawn="true" respawn_delay="3">
             <param name="port" value="/dev/arduino"/>
             <param name="baud" value="57600"/>
+        </node>
+
+        <node pkg="mkmr_hardware" type="arduino_comm.py" name="arduino_comm" output="screen" 
+                                                                respawn="true" respawn_delay="3">
         </node>
 
     </group>
