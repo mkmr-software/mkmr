@@ -52,7 +52,7 @@
   <depend>roscpp</depend>
   <depend>rospy</depend>
   <depend>rplidar_ros</depend>
-
+  <depend>rosserial_python</depend>
   
 
 
