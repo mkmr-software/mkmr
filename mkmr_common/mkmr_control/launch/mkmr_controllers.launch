@@ -1,8 +1,9 @@
 <launch>
     <arg name="robot_id" default="mkmrX"/>
+    <arg name="is_sim" default="true"/>
 
     <rosparam file="$(find mkmr_control)/config/joint_state_controller.yaml" command="load" subst_value="true" ns="$(arg robot_id)"/>
-    <rosparam file="$(find mkmr_control)/config/mecanum_drive_controller.yaml" command="load" subst_value="true" ns="$(arg robot_id)"/>
+    <!-- <rosparam file="$(find mkmr_control)/config/mecanum_drive_controller.yaml" command="load" subst_value="true" ns="$(arg robot_id)"/> -->
     <rosparam file="$(find mkmr_control)/config/diff_drive_controller.yaml" command="load" subst_value="true" ns="$(arg robot_id)"/>
     <!-- <rosparam file="$(find mkmr_control)/config/gazebo_ros_control.yaml" command="load" subst_value="true" ns="$(arg robot_id)"/> -->
 
@@ -11,7 +12,12 @@
 
 
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" ns="$(arg robot_id)"/>
-
+       
+    <group unless = "$(arg is_sim)">
+        <node name="hw_interface"   pkg="joint_trajectory_controller" type="rrbot" output="screen" ns="$(arg robot_id)">
+            <param name="robot_id" type="string" value="$(arg robot_id)"/>
+        </node>
+    </group>
 
     <group ns = "$(arg robot_id)">
         <node pkg="twist_mux" type="twist_mux" name="twist_mux">
