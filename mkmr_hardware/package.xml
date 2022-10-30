@@ -53,7 +53,8 @@
   <depend>rospy</depend>
   <depend>rplidar_ros</depend>
   <depend>rosserial_python</depend>
-  
+  <depend>rosserial_msgs</depend> 
+  <depend>rosserial_arduino</depend> 
 
 
   <!-- The export tag contains other, unspecified, tags -->
