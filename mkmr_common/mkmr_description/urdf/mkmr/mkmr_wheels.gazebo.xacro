@@ -4,7 +4,7 @@
 
     <xacro:macro name="mkmr_wheels_gazebo" params="name">
 
-      <gazebo reference="${ROBOT_ID}/${name}">
+      <gazebo reference="${name}">
         <visual>
           <material>
             <ambient>${0/255} ${102/255} ${62/255} 1.0</ambient>

@@ -69,7 +69,7 @@
       </collision>
     </link>
 
-    <joint name="${ROBOT_ID}/front_left_wheel_joint" type="continuous">
+    <joint name="front_left_wheel_joint" type="continuous">
       <origin xyz="${wheels_separation_x/2} ${wheels_separation_y/2} ${wheels_height}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <limit effort="${effort}" velocity="${velocity/wheel_radius}"/>
@@ -79,7 +79,7 @@
     </joint>
 
     <xacro:if value="$(arg use_ros_control_for_base)">
-      <xacro:simple_transmission name="${ROBOT_ID}/front_left_wheel" interface="VelocityJointInterface"/>
+      <xacro:simple_transmission name="front_left_wheel" interface="VelocityJointInterface"/>
     </xacro:if>
 
     <!-- Right Wheel-->
@@ -105,7 +105,7 @@
       </collision>
     </link>
 
-    <joint name="${ROBOT_ID}/front_right_wheel_joint" type="continuous">
+    <joint name="front_right_wheel_joint" type="continuous">
       <origin xyz="${wheels_separation_x/2} ${(-1*wheels_separation_y)/2} ${wheels_height}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <limit effort="${effort}" velocity="${velocity/wheel_radius}"/>
@@ -115,7 +115,7 @@
     </joint>
 
     <xacro:if value="$(arg use_ros_control_for_base)">
-      <xacro:simple_transmission name="${ROBOT_ID}/front_right_wheel" interface="VelocityJointInterface"/>
+      <xacro:simple_transmission name="front_right_wheel" interface="VelocityJointInterface"/>
     </xacro:if>
 
 
@@ -144,7 +144,7 @@
       </collision>
     </link>
 
-    <joint name="${ROBOT_ID}/rear_left_wheel_joint" type="continuous">
+    <joint name="rear_left_wheel_joint" type="continuous">
       <origin xyz="-${wheels_separation_x/2} ${wheels_separation_y/2} ${wheels_height}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <limit effort="${effort}" velocity="${velocity/wheel_radius}"/>
@@ -154,7 +154,7 @@
     </joint>
 
     <xacro:if value="$(arg use_ros_control_for_base)">
-      <xacro:simple_transmission name="${ROBOT_ID}/rear_left_wheel" interface="VelocityJointInterface"/>
+      <xacro:simple_transmission name="rear_left_wheel" interface="VelocityJointInterface"/>
     </xacro:if>
 
 
@@ -183,7 +183,7 @@
       </collision>
     </link>
 
-    <joint name="${ROBOT_ID}/rear_right_wheel_joint" type="continuous">
+    <joint name="rear_right_wheel_joint" type="continuous">
       <origin xyz="-${wheels_separation_x/2} ${(-1*wheels_separation_y)/2} ${wheels_height}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <limit effort="${effort}" velocity="${velocity/wheel_radius}"/>
@@ -193,7 +193,7 @@
     </joint>
 
     <xacro:if value="$(arg use_ros_control_for_base)">
-      <xacro:simple_transmission name="${ROBOT_ID}/rear_right_wheel" interface="VelocityJointInterface"/>
+      <xacro:simple_transmission name="rear_right_wheel" interface="VelocityJointInterface"/>
     </xacro:if>
 
 
