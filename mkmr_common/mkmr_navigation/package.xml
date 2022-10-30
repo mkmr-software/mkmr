@@ -60,7 +60,7 @@
   <depend>global_planner</depend>
   <depend>nav_core_adapter</depend>
   <depend>dwb_local_planner</depend>
-  <depend>rotate_recovery_cute</depend>
+  <depend>rotate_recovery</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
