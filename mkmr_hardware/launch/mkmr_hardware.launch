@@ -1,15 +1,18 @@
 <launch>
     <arg name="robot_id" default="$(env MKMR_ROBOT_ID)"/>
-    <arg name="is_sim" default="false"/>
-
-    <include file="$(find mkmr_description)/launch/mkmr_description.launch">
-        <arg name="robot_id" value="$(arg robot_id)"/>
-        <arg name="is_sim" value="false"/>
-    </include>
-
-    <include file="$(find mkmr_control)/launch/mkmr_controllers.launch">
-        <arg name="robot_id" value="$(arg robot_id)"/>
-    </include>
+    <!-- <arg name="is_sim" default="false"/> -->
 
 
+    <group ns="$(arg robot_id)">
+  
+        <include file="$(find mkmr_hardware)/launch/rplidar_a1.launch">
+            <arg name="robot_id" value="$(arg robot_id)"/>
+        </include>
+
+        <node pkg="mkmr_hardware" type="serial_node.py" name="serial_node" output="log" respawn="true" respawn_delay="3">
+            <param name="port" value="/dev/arduino"/>
+            <param name="baud" value="57600"/>
+        </node>
+
+    </group>
 </launch> 
