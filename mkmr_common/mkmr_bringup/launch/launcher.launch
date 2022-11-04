@@ -1,0 +1,9 @@
+<launch>
+
+    <arg name="robot_id" default="$(env MKMR_ROBOT_ID)"/>
+
+    <node pkg="mkmr_services" type="launcher.py" name="$(arg robot_id)_launcher" 
+                                                output="screen" respawn="true" respawn_delay="3">
+    </node> 
+
+</launch>
