@@ -18,11 +18,6 @@
         <arg name="robot_id" value="$(arg robot_id)"/>
     </include>
 
-    <node pkg="mkmr_services" type="launcher.py" name="$(arg robot_id)_launcher" 
-                                                output="screen" respawn="true" respawn_delay="3">
-    </node> 
-
-
     <group ns="$(arg robot_id)">
         <node pkg="mkmr_scripts" type="mkmr.py" name="mkmr" output="screen" respawn="true" respawn_delay="3"/>
         <node pkg="mkmr_scripts" type="ui.py" name="ui" output="screen" respawn="true" respawn_delay="3"/>
