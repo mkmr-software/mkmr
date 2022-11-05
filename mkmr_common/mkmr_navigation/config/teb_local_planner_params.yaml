@@ -89,16 +89,16 @@ TebLocalPlannerROS:
 
   # Maximum translational velocity of the robot in meters/sec
   # default: 0.4
-  max_vel_x: 0.6
+  max_vel_x: 0.3
 
   # Maximum absolute translational velocity of the robot while driving backwards
   # in meters/sec. See optimization parameter weight_kinematics_forward_drive
   # default: 0.2
-  max_vel_x_backwards: 0.6
+  max_vel_x_backwards: 0.3
 
   # Maximum angular velocity of the robot in radians/sec
   # default: 0.3
-  max_vel_theta: 0.7
+  max_vel_theta: 0.2
 
   # Maximum translational acceleration of the robot in meters/sec^2
   # default: 0.5
@@ -106,7 +106,7 @@ TebLocalPlannerROS:
 
   # Maximum angular acceleration of the robot in radians/sec^2
   # default: 0.5
-  acc_lim_theta: 0.3
+  acc_lim_theta: 0.1
 
   # The type of the model significantly influences the required computation time.
   # default: "point"
@@ -120,11 +120,11 @@ TebLocalPlannerROS:
 
   # Allowed final euclidean distance to the goal position in meters
   # default: 0.2
-  xy_goal_tolerance: 0.1
+  xy_goal_tolerance: 0.15
 
   # Allowed final orientation error in radians
   # default: 0.2
-  yaw_goal_tolerance: 0.1
+  yaw_goal_tolerance: 0.2
 
   # Remove the goal velocity constraint such that the robot can arrive at
   # the goal with maximum speed

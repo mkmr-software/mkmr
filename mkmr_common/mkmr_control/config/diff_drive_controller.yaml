@@ -23,8 +23,8 @@ mkmr_controller:
   linear:
       x:
         has_velocity_limits    : true
-        max_velocity           : 0.5   # m/s
-        min_velocity           : -0.5   # m/s
+        max_velocity           : 0.2   # m/s
+        min_velocity           : -0.2   # m/s
         has_acceleration_limits: true
         max_acceleration       : 0.3   # m/s^2
         min_acceleration       : -0.7   # m/s^2
@@ -33,8 +33,8 @@ mkmr_controller:
   angular:
       z:
         has_velocity_limits    : true
-        max_velocity           : !degrees 70.0   # rad/s
+        max_velocity           : !degrees 40.0   # rad/s
         has_acceleration_limits: true
-        max_acceleration       : !degrees 70.0   # rad/s^2
+        max_acceleration       : !degrees 40.0   # rad/s^2
         has_jerk_limits        : false
         max_jerk               : 10.0 # rad/s^3
