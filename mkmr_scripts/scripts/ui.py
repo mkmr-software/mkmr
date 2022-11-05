@@ -342,7 +342,12 @@ class UIModule(MkmrBase):
         compressed_map_str += str(msg.info.origin.position.x) + ","
         compressed_map_str += str(msg.info.origin.position.y) + ","
         list_of_tuples = self.shrinkMapArrayToListOfTuples(msg.data)
-        for i in range(3000): # TODO BUG len(list_of_tuples)
+
+        if len(list_of_tuples)>3000:
+            count = 3000 
+        else:
+            count = len(list_of_tuples)
+        for i in range(count):  # TODO BUG len(list_of_tuples)  
             compressed_map_str += str(list_of_tuples[i][1]) + "x" + str(list_of_tuples[i][0]) + ","
         compressed_map_str = compressed_map_str[:-1]  # remove last ","
 
