@@ -9,6 +9,9 @@
             <arg name="robot_id" value="$(arg robot_id)"/>
         </include>
 
+        <node pkg="tf2_ros" type="static_transform_publisher" name="$(arg robot_id)_rplidar_tf_broadcaster" 
+                            args="0 0 0 -1.57 0 0 $(arg robot_id)/scan $(arg robot_id)/rplidar_a1" />
+
         <node pkg="mkmr_hardware" type="serial_node.py" name="serial_node" output="screen" 
                                                                 respawn="true" respawn_delay="3">
             <param name="port" value="/dev/arduino"/>
