@@ -39,7 +39,7 @@ class UIModule(MkmrBase):
         self.currents = {
             'latest_received_heartbeat_time' : time.time(),
             'mkmr': Mkmr(),
-            'compressed_map': str(),
+            'compressed_map': String(),
             'enable_manual_control': False,            
             'manual_control': Twist(),
             'latest_received_speed_time'  : time.time(),        
@@ -130,7 +130,7 @@ class UIModule(MkmrBase):
 
     def mkmrTimerCb(self, timer):
         if self.currents["mkmr"] != self.cur_mkmr_msg:
-            self.publishJsonStrToUi("mkmr", json_message_converter.convert_ros_message_to_json(self.cur_mkmr_msg))
+            self.publishJsonToUi("mkmr", json_message_converter.convert_ros_message_to_json(self.cur_mkmr_msg))
         self.currents["mkmr"] = self.cur_mkmr_msg
 
     def manualControlVelResetTimerCb(self, timer):
@@ -153,9 +153,10 @@ class UIModule(MkmrBase):
             "client_connected", "success", self.CFG["project_id"], self.RID)))
 
         self.publishJsonToUi("CFG", self.CFG)
-        self.publishJsonStrToUi("mkmr", json_message_converter.convert_ros_message_to_json(self.currents["mkmr"]))
+        self.publishJsonToUi("mkmr", json_message_converter.convert_ros_message_to_json(self.currents["mkmr"]))
 
-        self.publishStrToUi("compressed_map", self.currents["compressed_map"])
+        self.publishJsonToUi("compressed_map", json_message_converter.convert_ros_message_to_json(self.currents["compressed_map"]))
+
 
     def clientLeft(self, client, server):
         self.consoleInfo(
@@ -341,14 +342,16 @@ class UIModule(MkmrBase):
         compressed_map_str += str(msg.info.origin.position.x) + ","
         compressed_map_str += str(msg.info.origin.position.y) + ","
         list_of_tuples = self.shrinkMapArrayToListOfTuples(msg.data)
-        for i in range(len(list_of_tuples)):
+        for i in range(3000): # TODO BUG len(list_of_tuples)
             compressed_map_str += str(list_of_tuples[i][1]) + "x" + str(list_of_tuples[i][0]) + ","
         compressed_map_str = compressed_map_str[:-1]  # remove last ","
 
-        if self.currents["compressed_map"] != compressed_map_str:
-            self.publishStrToUi("compressed_map", compressed_map_str)
+        if self.currents["compressed_map"].data != compressed_map_str:
+            self.currents["compressed_map"].data = compressed_map_str
+            self.publishJsonToUi("compressed_map", json_message_converter.convert_ros_message_to_json(self.currents["compressed_map"]))
 
-        self.currents["compressed_map"] = compressed_map_str
+        self.currents["compressed_map"].data = compressed_map_str
+
 
     # Other Functions ------------------------------------------------------------------------------------------------
 
