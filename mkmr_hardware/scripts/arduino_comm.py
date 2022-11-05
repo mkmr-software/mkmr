@@ -3,6 +3,7 @@
 import os , sys 
 import rospy, tf
 
+import math
 from mkmr_msgs.msg import ArduinoInput
 from sensor_msgs.msg import JointState
 
@@ -19,7 +20,7 @@ class ArduinoComm(MkmrBase):
 
 
     def initParams(self):
-        self.rads_to_rpm = 9.5793
+        self.rads_to_rpm = 60/(2 * math.pi)
 
         self.velocity_1 = 0
         self.velocity_2 = 0
@@ -29,7 +30,7 @@ class ArduinoComm(MkmrBase):
 
     def initObj(self):
         rospy.Subscriber("joint_states", JointState, self.jointStatesCb)
-        self.obj_pub = rospy.Publisher('/arduino_input', ArduinoInput, queue_size=1000)
+        self.obj_pub = rospy.Publisher('arduino_input', ArduinoInput, queue_size=1000)
 
 
     def jointStatesCb(self, data):
@@ -47,24 +48,23 @@ class ArduinoComm(MkmrBase):
         pubdata.velocity_4 = round(self.velocity_3)
 
        
-        """
-        self.scale=1
+        
+        self.scale=5
 
 
-        if  self.velocity_1 != 0:  
-            pubdata.velocity_1 = round(self.velocity_1 *self.scale)
+        if  self.velocity_1 != 0:  # FL
+            pubdata.velocity_1 = round(self.velocity_1 *self.scale * 1.17 ) 
 
-        if  self.velocity_2 != 0:
-            pubdata.velocity_2 = round(self.velocity_2 *self.scale)
+        if  self.velocity_2 != 0: # FR
+            pubdata.velocity_2 = round(self.velocity_2 *self.scale * 0.7) 
 
-        if  self.velocity_4 != 0:
-            pubdata.velocity_3 = round(self.velocity_4 *self.scale)
+        if  self.velocity_4 != 0: # BR
+            pubdata.velocity_3 = round(self.velocity_4 *self.scale * 1.05)
 
-        if  self.velocity_3 != 0:
+        if  self.velocity_3 != 0: # BL
             pubdata.velocity_4 = round(self.velocity_3 *self.scale)
 
-        """
-
+        
 
         self.obj_pub.publish(pubdata)
           
