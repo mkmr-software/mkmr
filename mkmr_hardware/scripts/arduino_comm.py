@@ -27,13 +27,17 @@ class ArduinoComm(MkmrBase):
         self.velocity_3 = 0
         self.velocity_4 = 0
 
+        self.pubdata = ArduinoInput()
+
 
     def initObj(self):
-        rospy.Subscriber("joint_states", JointState, self.jointStatesCb)
+
         self.obj_pub = rospy.Publisher('arduino_input', ArduinoInput, queue_size=1000)
 
+        rospy.Subscriber("joint_states", JointState, self.jointStatesCb)
 
-    def jointStatesCb(self, data):
+
+    def jointStatesCb(self, data:JointState):
 
         self.velocity_1 = data.velocity[0]*self.rads_to_rpm
         self.velocity_2 = data.velocity[1]*self.rads_to_rpm
@@ -41,32 +45,30 @@ class ArduinoComm(MkmrBase):
         self.velocity_4 = data.velocity[3]*self.rads_to_rpm
 
 
-        pubdata = ArduinoInput()
-        pubdata.velocity_1 = round(self.velocity_1)
-        pubdata.velocity_2 = round(self.velocity_2)
-        pubdata.velocity_3 = round(self.velocity_4)
-        pubdata.velocity_4 = round(self.velocity_3)
-
-       
+        # ROS --> FL FR BL BR
+        # HARDWARE --> CLOCKWISE --> DC1 FRONT LEFT - DC2 FRONT RIGHT - DC3 BACK RIGHT - DC4 BACK LEFT 
         
-        self.scale=5
+        self.pubdata.velocity_1 = round(self.velocity_1) # FL
+        self.pubdata.velocity_2 = round(self.velocity_2) # FR
+        self.pubdata.velocity_3 = round(self.velocity_4) # BR
+        self.pubdata.velocity_4 = round(self.velocity_3) # BL
 
+        # self.scale=1
 
-        if  self.velocity_1 != 0:  # FL
-            pubdata.velocity_1 = round(self.velocity_1 *self.scale * 1.17 ) 
+        # if  self.velocity_1 != 0:  
+        #     self.pubdata.velocity_1 = round(self.velocity_1 *self.scale ) 
 
-        if  self.velocity_2 != 0: # FR
-            pubdata.velocity_2 = round(self.velocity_2 *self.scale * 0.7) 
+        # if  self.velocity_2 != 0: 
+        #     self.pubdata.velocity_2 = round(self.velocity_2 *self.scale ) 
 
-        if  self.velocity_4 != 0: # BR
-            pubdata.velocity_3 = round(self.velocity_4 *self.scale * 1.05)
+        # if  self.velocity_4 != 0: 
+        #     self.pubdata.velocity_3 = round(self.velocity_4 *self.scale )
 
-        if  self.velocity_3 != 0: # BL
-            pubdata.velocity_4 = round(self.velocity_3 *self.scale)
+        # if  self.velocity_3 != 0: 
+        #     self.pubdata.velocity_4 = round(self.velocity_3 *self.scale )
 
         
-
-        self.obj_pub.publish(pubdata)
+        self.obj_pub.publish(self.pubdata)
           
 
 def main():
