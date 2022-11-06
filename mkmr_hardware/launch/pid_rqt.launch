@@ -1,0 +1,21 @@
+<launch>
+
+    <node name="fl_rqt_plot" pkg="rqt_plot" type="rqt_plot" ns="mkmr0"
+    args="/mkmr0/arduino_input/velocity_1 /mkmr0/arduino_output/FL_RPM /mkmr0/arduino_output/FL_VEL" />
+
+    <node name="fr_rqt_plot" pkg="rqt_plot" type="rqt_plot" ns="mkmr0"
+    args="/mkmr0/arduino_input/velocity_2 /mkmr0/arduino_output/FR_RPM /mkmr0/arduino_output/FR_VEL" />
+
+    <node name="br_rqt_plot" pkg="rqt_plot" type="rqt_plot" ns="mkmr0"
+    args="/mkmr0/arduino_input/velocity_3 /mkmr0/arduino_output/BR_RPM /mkmr0/arduino_output/BR_VEL" />
+
+
+    <node name="bl_rqt_plot" pkg="rqt_plot" type="rqt_plot" ns="mkmr0"
+    args="/mkmr0/arduino_input/velocity_4 /mkmr0/arduino_output/BL_RPM /mkmr0/arduino_output/BL_VEL" />
+
+
+    <node name="rpm_rqt_plot" pkg="rqt_plot" type="rqt_plot" ns="mkmr0"
+    args="/mkmr0/arduino_output/FL_RPM /mkmr0/arduino_output/FR_RPM 
+    /mkmr0/arduino_output/BR_RPM  /mkmr0/arduino_output/BL_RPM" />
+
+</launch>
