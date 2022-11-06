@@ -85,7 +85,7 @@ ros::Subscriber<mkmr_msgs::ArduinoInput> obj_sub("arduino_input", messageCb );
 /* PID*/
 double PIDOutput[]= {0,0,0,0};
 //Specify the links and initial tuning parameters
-double Kp=1; // PID Proportional control Gain   //0.3
+double Kp=0.3; // PID Proportional control Gain   //0.3
 double Ki=1; // PID Integral control gain     // 0.2 
 double Kd=0; // PID Derivitave control gain    //0.1
 
@@ -143,12 +143,14 @@ void setup() {
 
   for (int thisId = 0; thisId < PIDCount; thisId++) {
     allPIDS[thisId].SetMode(AUTOMATIC);
-    if (thisId==0) {
-      allPIDS[thisId].SetOutputLimits(125, 250) ;
-      }
-    allPIDS[thisId].SetOutputLimits(50, 250) ;
-   // allPIDS[thisId].SetSampleTime(20);
+    //allPIDS[thisId].SetOutputLimits(70, 170) ;
+    allPIDS[thisId].SetSampleTime(1);
   }
+  
+  allPIDS[0].SetOutputLimits(45, 165); // FL
+  allPIDS[1].SetOutputLimits(30, 150); // FR
+  allPIDS[2].SetOutputLimits(40, 160); // BR
+  allPIDS[3].SetOutputLimits(35, 155); // BL
 
   
    pinMode(analogInput, INPUT);
@@ -278,7 +280,7 @@ void loop() {
   pub_data2.BR_VELDEG = PIDOutput[1]; 
   
   /*Publishing data*/
-  obj_pub2.publish(&pub_data2);
+  //obj_pub2.publish(&pub_data2);
 
 
   
