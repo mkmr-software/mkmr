@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="robot_id" default="$(env MKMR_ROBOT_ID)"/>
+    <arg name="config_dir" default="$(eval env ('MKMR_CONFIG_PKG'))"/>
+
+    <arg name="initial_pose_x" default="0.0"/>
+    <arg name="initial_pose_y" default="0.0"/>
+    <arg name="initial_yaw"  default="0.0"/>
+    <arg name="initial_cov_xx" default="0.25" />
+    <arg name="initial_cov_yy" default="0.25" />
+    <arg name="initial_cov_aa" default="0.06853892326654787" />
+
+    <group ns="$(arg robot_id)">
+
+        <node pkg="amcl" type="amcl" name="amcl">
+
+            <param name="min_particles" value="500"/>
+            <param name="max_particles" value="5000"/>
+            <param name="kld_err" value="0.05"/>
+            <param name="kld_z" value="0.99"/>
+            <param name="update_min_d" value="0.1"/>
+            <param name="update_min_a" value="0.314"/>
+            <param name="resample_interval" value="1"/>
+            <param name="transform_tolerance" value="0.1"/>
+            <param name="recovery_alpha_slow" value="0.0"/>
+            <param name="recovery_alpha_fast" value="0.0"/>
+
+            <param name="initial_pose_x" value="$(arg initial_pose_x)" />
+            <param name="initial_pose_y" value="$(arg initial_pose_y)" />
+            <param name="initial_pose_a" value="$(arg initial_yaw)"/>
+            <param name="initial_cov_xx" value="$(arg initial_cov_xx)" />
+            <param name="initial_cov_yy" value="$(arg initial_cov_yy)" />
+            <param name="initial_cov_aa" value="$(arg initial_cov_aa)" />
+
+            <param name="gui_publish_rate" value="-1.0"/>
+            <param name="save_pose_rate" value="0.1"/>
+            <param name="use_map_topic" value="true"/>
+            <param name="first_map_only" value="true"/>
+            <param name="selective_resampling" value="true"/>
+
+            <param name="laser_min_range" value="-1.0"/>
+            <param name="laser_max_range" value="-1.0"/>
+            <param name="laser_max_beams" value="1000"/>
+            <param name="laser_z_hit" value="0.99"/>
+            <param name="laser_z_rand" value="0.01"/>
+            <param name="laser_z_short" value="0.5"/>
+            <param name="laser_z_max" value="0.5"/>
+            <param name="laser_sigma_hit" value="0.05"/>
+            <param name="laser_lambda_short" value="0.1"/>
+            <param name="laser_likelihood_max_dist" value="2.0"/>
+            <param name="laser_model_type" value="likelihood_field"/>
+
+            <param name="odom_model_type" value="diff-corrected"/>
+            <param name="odom_alpha1" value="0.04"/>
+            <param name="odom_alpha2" value="0.04"/>
+            <param name="odom_alpha3" value="0.004"/>
+            <param name="odom_alpha4" value="0.04"/>
+            <param name="odom_frame_id" value="$(arg robot_id)/odom"/>
+            <param name="base_frame_id" value="$(arg robot_id)/base_footprint"/>
+            <param name="global_frame_id" value="$(arg robot_id)/map"/>
+            <param name="tf_broadcast" value="true"/>
+
+        </node>
+
+
+        <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_file)" >
+            <param name="frame_id" value="$(arg robot_id)/map" />
+        </node>
+
+
+        <node name="pose" pkg="mkmr_scripts" type="pose" output="screen">
+            <param name="configuration_directory" value="$(find mkmr_cfg_files)/config/cartographer" />
+            <param name="configuration_basename" value="localization.lua" />
+
+            <param name="initial_pose_x" value="0.0" />
+            <param name="initial_pose_y" value="0.0" />
+            <param name="initial_yaw" value="0.0" />
+
+            <param name="publish_pose_topic" value="true" />
+            <param name="map_frame" value="$(arg robot_id)/map" />
+            <param name="base_frame" value="$(arg robot_id)/base_footprint" />
+        </node>
+        
+    </group>
+
+    <include file="$(find mkmr_navigation)/launch/move_base.launch">
+        <arg name="robot_id" value="$(arg robot_id)"/>
+    </include>
+
+    <group ns="$(arg robot_id)">
+        <node pkg="mkmr_services" type="task_base_node.py" name="task_base" output="screen" respawn="true" respawn_delay="3"/>
+    
+    </group>
+
+</launch>

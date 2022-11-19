@@ -4,3 +4,4 @@ is_sim: true
 map: sim
 floor: "0"
 ui_debug: true
+localization: "amcl"

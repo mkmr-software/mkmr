@@ -100,6 +100,10 @@ class LauncherModule(MkmrBase):
         return self.CFG["launch_directory"] + "/" + "cartographer_mapping_bringup.launch"
 
     def getLocalizationLaunchFile(self) -> str:
+        if self.CFG["localization"] == "cartographer":
+            return self.CFG["launch_directory"] + "/" + "cartographer_localization_bringup.launch"
+        elif self.CFG["localization"] == "amcl":
+            return self.CFG["launch_directory"] + "/" + "amcl_bringup.launch"
         return self.CFG["launch_directory"] + "/" + "cartographer_localization_bringup.launch"
 
 
