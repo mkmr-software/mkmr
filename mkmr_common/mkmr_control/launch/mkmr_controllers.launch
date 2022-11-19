@@ -4,8 +4,16 @@
 
     <rosparam file="$(find mkmr_control)/config/joint_state_controller.yaml" command="load" subst_value="true" ns="$(arg robot_id)"/>
     <!-- <rosparam file="$(find mkmr_control)/config/mecanum_drive_controller.yaml" command="load" subst_value="true" ns="$(arg robot_id)"/> -->
-    <rosparam file="$(find mkmr_control)/config/diff_drive_controller.yaml" command="load" subst_value="true" ns="$(arg robot_id)"/>
     <!-- <rosparam file="$(find mkmr_control)/config/gazebo_ros_control.yaml" command="load" subst_value="true" ns="$(arg robot_id)"/> -->
+
+
+    <group unless = "$(arg is_sim)">
+         <rosparam file="$(find mkmr_control)/config/diff_drive_controller.yaml" command="load" subst_value="true" ns="$(arg robot_id)"/>
+    </group>
+
+    <group if = "$(arg is_sim)">
+         <rosparam file="$(find mkmr_control)/config/diff_drive_controller_sim.yaml" command="load" subst_value="true" ns="$(arg robot_id)"/>
+    </group>
 
     <node name="mkmr_ctrl_spawner" pkg="controller_manager" type="spawner" output="screen" ns="$(arg robot_id)"
         args="joint_state_controller mkmr_controller" />
