@@ -54,10 +54,11 @@ class UIModule(MkmrBase):
             "start_map" : self.processStartMap, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":{"enable":"True"}}
             "save_map" : self.processSaveMap, # {"project_id":0,"robot_id":"mkmr0","topic":"save_map","message":{"map":"test","floor":"1"}}
             "start_nav" : self.processStartNav, # {"project_id":0,"robot_id":"mkmr0","topic":"start_nav","message":{"map":"test","floor":"1"}}
-            "run_task_base" : self.processRunTaskBase, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":{"enable":"True"}}
-            "start_task" : self.processStartTask, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":{"loc_name":"locX"}}
-            "pause_task" : self.processPauseTask, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":{"enable":"True"}}
-            "continue_task" : self.processContinueTask, # {"project_id":0,"robot_id":"mkmr0","topic":"start_map","message":{"enable":"True"}}
+            "run_task_base" : self.processRunTaskBase, # {"project_id":0,"robot_id":"mkmr0","topic":"run_task_base","message":{"enable":"True"}}
+            "start_task" : self.processStartTask, # {"project_id":0,"robot_id":"mkmr0","topic":"start_task","message":{"loc_name":"locX"}}
+            "pause_task" : self.processPauseTask, # {"project_id":0,"robot_id":"mkmr0","topic":"pause_task","message":{"enable":"True"}}
+            "continue_task" : self.processContinueTask, # {"project_id":0,"robot_id":"mkmr0","topic":"continue_task","message":{"enable":"True"}}
+            "cancel_task" : self.cancelPauseTask, # {"project_id":0,"robot_id":"mkmr0","topic":"cancel_task","message":{"enable":"True"}}
             "enable_manual_control" : self.processEnableManualControl, # {"project_id":0,"robot_id":"mkmr0","topic":"enable_manual_control","message":{"enable":"True"}}
             "manual_control" : self.processManualControl, # {"project_id":0,"robot_id":"mkmr0","topic":"manual_control","message":{"cmd":"x,z"}}
         }
@@ -291,6 +292,12 @@ class UIModule(MkmrBase):
             msg.goal.Continue = True
             self.task_base_goal_pub.publish(msg)
 
+    def cancelPauseTask(self, topic, message):
+        if self.getBool(str(message["enable"])):
+            msg = TaskBaseActionGoal()
+            msg.goal.Cancel = True
+            self.task_base_goal_pub.publish(msg)
+
     def processStartTask(self, topic, message):
         if message["loc_name"] != "":
             msg = TaskBaseActionGoal()
@@ -347,6 +354,7 @@ class UIModule(MkmrBase):
             count = 3000 
         else:
             count = len(list_of_tuples)
+        count = len(list_of_tuples)
         for i in range(count):  # TODO BUG len(list_of_tuples)  
             compressed_map_str += str(list_of_tuples[i][1]) + "x" + str(list_of_tuples[i][0]) + ","
         compressed_map_str = compressed_map_str[:-1]  # remove last ","

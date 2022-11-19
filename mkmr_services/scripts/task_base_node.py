@@ -171,9 +171,12 @@ class TaskBaseModule(MkmrBase):
                                     self.last_goal_req["py"],
                                     self.last_goal_req["yaw"])
 
+            self.RUN = True
 
-
-        
+        if goal.Cancel: 
+            self.publishGoalCancel() 
+            self.updateState(State.READY_FOR_TASK)
+            
             self.RUN = True
 
         r = rospy.Rate(10)

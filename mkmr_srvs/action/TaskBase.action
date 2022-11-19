@@ -4,6 +4,7 @@ bool RunTaskBase
 bool Start
 bool Continue
 bool Pause
+bool Cancel
 string TargetName
 ---
 #result definition
