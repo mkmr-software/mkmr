@@ -87,13 +87,13 @@ int main(int argc, char **argv)
     ros::Subscriber initial_pose_sub = n.subscribe("initialpose", 1, initial_pose_cb);
 
     // Wait for Cartographer services
-    if(!ros::service::waitForService("get_trajectory_states", 5000) ||
-            !ros::service::waitForService("finish_trajectory", 5000) ||
-            !ros::service::waitForService("start_trajectory", 5000))
-    {
-        ROS_ERROR("Cartographer services not available");
-        return 1;
-    }
+    // if(!ros::service::waitForService("get_trajectory_states", 5000) ||
+    //         !ros::service::waitForService("finish_trajectory", 5000) ||
+    //         !ros::service::waitForService("start_trajectory", 5000))
+    // {
+    //     ROS_ERROR("Cartographer services not available");
+    //     return 1;
+    // }
 
     // ROS Service Clients
     get_trajectory_states_client = n.serviceClient<cartographer_ros_msgs::GetTrajectoryStates>("get_trajectory_states");
