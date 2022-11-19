@@ -28,6 +28,10 @@
 
     <group if = "$(arg is_sim)">
 
+        <node pkg="mkmr_services" type="launcher.py" name="$(arg robot_id)_launcher" 
+                                                    output="screen" respawn="true" respawn_delay="3">
+        </node>
+
         <include file="$(find mkmr_bringup)/launch/mkmr_sim_bringup.launch">
             <arg name="robot_id" value="$(arg robot_id)"/>
             <arg name="is_sim" value="$(arg is_sim)"/>
