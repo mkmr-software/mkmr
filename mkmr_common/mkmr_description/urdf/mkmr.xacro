@@ -30,7 +30,7 @@
     <!-- TODO update origin_xyz -->
     <xacro:rplidar_a1 parent="${ROBOT_ID}/base_link" 
                         name="scan"
-                        origin_xyz="0.07 0 0.124"   
+                        origin_xyz="0.07 0 0.13"   
                         origin_rpy="0 0 0"/>  
 
 

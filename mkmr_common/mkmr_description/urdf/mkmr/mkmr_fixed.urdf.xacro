@@ -220,7 +220,7 @@
         </link>
             
         <joint name="${ROBOT_ID}/fPC_joint" type="fixed">
-            <origin xyz="0.02413 -0.0322100000000002 0" rpy="3.14159265358979 1.5707963267949 0"/> 
+            <origin xyz="0.02413 -0.0322100000000002 0.01" rpy="3.14159265358979 1.5707963267949 0"/> 
             <parent link="${ROBOT_ID}/fBase"/>
             <child link="${ROBOT_ID}/fPC"/>
         </joint> 
