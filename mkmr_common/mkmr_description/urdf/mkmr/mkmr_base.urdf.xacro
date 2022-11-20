@@ -29,10 +29,8 @@
 
     <link name="${ROBOT_ID}/base_cautious">
         <visual>
-            <!-- <origin xyz="0.66875 0 0" rpy="0 0 0"/> -->
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0 0 -0.02" rpy="0 0 0"/>
             <geometry>
-                <!-- <box size ="1.3375 1.07 0.001"/> -->
                 <box size ="${normal_dist*2} ${(normal_side_dist+robot_length_x)*2} 0.001"/>
             </geometry>
             <material name="Light_Blue"/>
@@ -40,15 +38,14 @@
     </link>
 
     <joint name="${ROBOT_ID}/base_cautious_joint" type="fixed">
-        <origin xyz="0 0 -0.115" rpy="0 0 0"/> <!-- drive wheel radius-->
+        <origin xyz="0 0 0.0" rpy="0 0 0"/> 
         <parent link="${ROBOT_ID}/base_link"/>
         <child link="${ROBOT_ID}/base_cautious"/>
     </joint>
 
-    <!-- Base footprint -->
     <link name="${ROBOT_ID}/base_warning">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0 0 -0.01" rpy="0 0 0"/>
             <geometry>
                 <box size ="${slow_dist*2} ${(slow_side_dist+robot_length_y)*2} 0.002"/>
             </geometry>
@@ -57,17 +54,15 @@
     </link>
 
     <joint name="${ROBOT_ID}/base_warning_joint" type="fixed">
-        <origin xyz="0 0 -0.115" rpy="0 0 0"/> <!-- drive wheel radius-->
+        <origin xyz="0 0 0.0" rpy="0 0 0"/> 
         <parent link="${ROBOT_ID}/base_link"/>
         <child link="${ROBOT_ID}/base_warning"/>
     </joint>
 
     <link name="${ROBOT_ID}/base_safety">
         <visual>
-            <!-- <origin xyz="0.1875 0 0" rpy="0 0 0"/> -->
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <!-- <box size ="0.375 0.535 0.001"/> --> 
                 <box size ="${safety_offset*2+robot_length_x*2} ${safety_offset*2+robot_length_y*2} 0.003"/>
             </geometry>
             <material name="Red"/>
@@ -75,7 +70,7 @@
     </link>
 
     <joint name="${ROBOT_ID}/base_safety_joint" type="fixed">
-        <origin xyz="0 0 -0.115" rpy="0 0 0"/> <!-- drive wheel radius-->
+        <origin xyz="0 0 0.0" rpy="0 0 0"/>
         <parent link="${ROBOT_ID}/base_link"/>
         <child link="${ROBOT_ID}/base_safety"/>
     </joint>
