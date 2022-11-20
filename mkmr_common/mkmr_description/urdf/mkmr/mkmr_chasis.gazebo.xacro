@@ -4,10 +4,105 @@
 
     <xacro:macro name="mkmr_chasis_gazebo">
 
-      <gazebo reference="${ROBOT_ID}/chasis_link">
-        <material>Gazebo/White</material>
+
+      <gazebo reference="${ROBOT_ID}/base_safety">
+          <visual>
+              <material>
+                  <ambient>${255/255} ${0/255} ${0/255} 0.5</ambient>
+                  <diffuse>${255/255} ${0/255} ${0/255} 0.5</diffuse>
+                  <specular>0.5 0.5 0.5 0.3</specular>
+                  <emissive>0 0 0 0</emissive>
+              </material>
+          </visual>
       </gazebo>
 
+      <gazebo reference="${ROBOT_ID}/base_warning">
+          <visual>
+              <material>
+                  <ambient>${255/255} ${155/255} ${50/255} 0.5</ambient>
+                  <diffuse>${255/255} ${155/255} ${50/255} 0.5</diffuse>
+                  <specular>0.5 0.5 0.5 0.3</specular>
+                  <emissive>0 0 0 0</emissive>
+              </material>
+          </visual>
+      </gazebo>
+
+      <gazebo reference="${ROBOT_ID}/base_cautious">
+          <visual>
+              <material>
+                  <ambient>${80/255} ${80/255} ${200/255} 0.5</ambient>
+                  <diffuse>${80/255} ${80/255} ${200/255} 0.5</diffuse>
+                  <specular>0.5 0.5 0.5 0.3</specular>
+                  <emissive>0 0 0 0</emissive>
+              </material>
+          </visual>
+      </gazebo>
+
+      <gazebo reference="${ROBOT_ID}/fBase">
+          <visual>
+              <material>
+                  <ambient>${90/255} ${90/255} ${90/255} 0.5</ambient>
+                  <diffuse>${90/255} ${90/255} ${90/255} 0.5</diffuse>
+                  <specular>0.5 0.5 0.5 0.5</specular>
+                  <emissive>0 0 0 0</emissive>
+              </material>
+          </visual>
+      </gazebo>
+
+      <gazebo reference="${ROBOT_ID}/fMotorBracket">
+          <visual>
+              <material>
+                  <ambient>${90/255} ${90/255} ${90/255} 1.0</ambient>
+                  <diffuse>${90/255} ${90/255} ${90/255} 1.0</diffuse>
+                  <specular>0.5 0.5 0.5 1.0</specular>
+                  <emissive>0 0 0 0</emissive>
+              </material>
+          </visual>
+      </gazebo>
+
+      <gazebo reference="${ROBOT_ID}/fMotor">
+          <visual>
+              <material>
+                  <ambient>${90/255} ${90/255} ${90/255} 1.0</ambient>
+                  <diffuse>${90/255} ${90/255} ${90/255} 1.0</diffuse>
+                  <specular>0.5 0.5 0.5 1.0</specular>
+                  <emissive>0 0 0 0</emissive>
+              </material>
+          </visual>
+      </gazebo>
+
+      <gazebo reference="${ROBOT_ID}/fDrivers">
+          <visual>
+              <material>
+                  <ambient>${250/255} ${0/255} ${0/255} 1.0</ambient>
+                  <diffuse>${250/255} ${0/255} ${0/255} 1.0</diffuse>
+                  <specular>0.5 0.5 0.5 1.0</specular>
+                  <emissive>0 0 0 0</emissive>
+              </material>
+          </visual>
+      </gazebo>
+
+      <gazebo reference="${ROBOT_ID}/fBattery">
+          <visual>
+              <material>
+                  <ambient>${90/255} ${90/255} ${90/255} 0.8</ambient>
+                  <diffuse>${90/255} ${90/255} ${90/255} 0.8</diffuse>
+                  <specular>0.5 0.5 0.5 0.8</specular>
+                  <emissive>0 0 0 0</emissive>
+              </material>
+          </visual>
+      </gazebo>
+
+      <gazebo reference="${ROBOT_ID}/fPC">
+          <visual>
+              <material>
+                  <ambient>${30/255} ${30/255} ${30/255} 0.8</ambient>
+                  <diffuse>${30/255} ${30/255} ${30/255} 0.8</diffuse>
+                  <specular>0.5 0.5 0.5 0.8</specular>
+                  <emissive>0 0 0 0</emissive>
+              </material>
+          </visual>
+      </gazebo>
 
         <xacro:include filename="$(find mkmr_description)/urdf/mkmr/mkmr_wheels.gazebo.xacro"/>
         <xacro:mkmr_wheels_gazebo name="front_left_wheel"/>
