@@ -1,0 +1,34 @@
+digraph {
+	compound=true;outputmode=nodesfirst;labeljust=l;nodesep=0.5;minlen=2;mclimit=5;clusterrank=local;ranksep=0.75;ordering="";
+subgraph "cluster_/ROOT" {
+"color"="#00000000";
+"fillcolor"="#0000000F";
+"/ROOT/__proxy__"  ["fontweight"="18", "URL"="/ROOT", "rank"="min", "height"="0.01", "color"="gray", "shape"="plaintext", "fontsize"="18", "label"=" RUN TASK MANAGEMENT SYSTEM"];
+subgraph "cluster_/ROOT/__outcomes__" {
+"color"="#FFFFFFFF";
+"style"="rounded,filled";
+"fillcolor"="#FFFFFF00";
+"rank"="sink";
+}
+"/ROOT/READY_FOR_TASK"  ["color"="#000000FF", "URL"="/ROOT/READY_FOR_TASK", "style"="filled,setlinewidth(2)", "fillcolor"="#C0C0C0", "label"=" READY_FOR_TASK"];
+"/ROOT/ERROR"  ["color"="#000000FF", "URL"="/ROOT/ERROR", "style"="filled,setlinewidth(2)", "fillcolor"="#F08080", "label"=" ERROR"];
+"/ROOT/STARTUP"  ["color"="#000000FF", "URL"="/ROOT/STARTUP", "style"="filled,setlinewidth(2)", "fillcolor"="#FFFFFF00", "label"=" STARTUP"];
+"/ROOT/GOAL"  ["color"="#000000FF", "URL"="/ROOT/GOAL", "style"="filled,setlinewidth(2)", "fillcolor"="#87CEFA", "label"=" GOAL"];
+"/ROOT/PAUSED"  ["color"="#000000FF", "URL"="/ROOT/PAUSED", "style"="filled,setlinewidth(2)", "fillcolor"="#FFFFCC", "label"=" PAUSED"];
+"/ROOT/READY_FOR_TASK" -> "/ROOT/GOAL"  ["URL"="/ROOT/READY_FOR_TASK:FAIL:/ROOT/GOAL", "xlabel"="", "style"="setlinewidth(2)", "fontsize"="12", "label"="  START & TARGET NAME "];
+"/ROOT/STARTUP" -> "/ROOT/STARTUP"  ["URL"="/ROOT/STARTUP:REPEAT:/ROOT/STARTUP", "xlabel"="REPEAT", "style"="setlinewidth(2)", "fontsize"="12", "label"="  "];
+"/ROOT/GOAL" -> "/ROOT/GOAL"  ["URL"="/ROOT/GOAL:REPEAT:/ROOT/GOAL", "xlabel"="REPEAT", "style"="setlinewidth(2)", "fontsize"="12", "label"=" "];
+"/ROOT/PAUSED" -> "/ROOT/PAUSED"  ["URL"="/ROOT/PAUSED:REPEAT:/ROOT/PAUSED", "xlabel"="REPEAT", "style"="setlinewidth(2)", "fontsize"="12", "label"=" "];
+"/ROOT/READY_FOR_TASK" -> "/ROOT/READY_FOR_TASK"  ["URL"="/ROOT/READY_FOR_TASK:REPEAT:/ROOT/READY_FOR_TASK", "xlabel"="REPEAT", "style"="setlinewidth(2)", "fontsize"="12", "label"=" "];
+"/ROOT/STARTUP" -> "/ROOT/READY_FOR_TASK"  ["URL"="/ROOT/STARTUP:TIMEOUT:/ROOT/READY_FOR_TASK", "xlabel"="", "style"="setlinewidth(2)", "fontsize"="12", "label"=" TIMEOUT"];
+"/ROOT/GOAL" -> "/ROOT/PAUSED"  ["URL"="/ROOT/GOAL:PAUSE:/ROOT/PAUSED", "xlabel"="", "style"="setlinewidth(2)", "fontsize"="12", "label"=" PAUSE"];
+"/ROOT/GOAL" -> "/ROOT/READY_FOR_TASK"  ["URL"="/ROOT/GOAL:CANCEL:/ROOT/READY_FOR_TASK", "xlabel"="", "style"="setlinewidth(2)", "fontsize"="12", "label"=" CANCEL"];
+"/ROOT/PAUSED" -> "/ROOT/READY_FOR_TASK"  ["URL"="/ROOT/PAUSED:CANCEL:/ROOT/READY_FOR_TASK", "xlabel"="", "style"="setlinewidth(2)", "fontsize"="12", "label"=" CANCEL"];
+"/ROOT/ERROR" -> "/ROOT/READY_FOR_TASK"  ["URL"="/ROOT/ERROR:CANCEL:/ROOT/READY_FOR_TASK", "xlabel"="", "style"="setlinewidth(2)", "fontsize"="12", "label"=" CANCEL"];
+"/ROOT/GOAL" -> "/ROOT/READY_FOR_TASK"  ["URL"="/ROOT/GOAL:SUCCESS:/ROOT/READY_FOR_TASK", "xlabel"="", "style"="setlinewidth(2)", "fontsize"="12", "label"=" SUCCESS"];
+"/ROOT/PAUSED" -> "/ROOT/GOAL"  ["URL"="/ROOT/PAUSED:CONTINUE:/ROOT/GOAL", "xlabel"="", "style"="setlinewidth(2)", "fontsize"="12", "label"=" CONTINUE"];
+"/ROOT/GOAL" -> "/ROOT/ERROR"  ["URL"="/ROOT/GOAL:FAIL:/ROOT/ERRROR", "xlabel"="", "style"="setlinewidth(2)", "fontsize"="12", "label"=" FAIL"];
+"/ROOT/__proxy__" -> "/ROOT/STARTUP"  ["URL"="/ROOT/__proxy__::/ROOT/STARTUP", "xlabel"="", "style"="setlinewidth(2)", "fontsize"="12", "label"=" "];
+}
+
+}
