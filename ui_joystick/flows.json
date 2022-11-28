@@ -1,0 +1,577 @@
+[
+    {
+        "id": "dc8c77ac783e62a6",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "bed158752344d670",
+        "type": "tab",
+        "label": "AMR",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "2a3a611c.db4fee",
+        "type": "ui_group",
+        "name": "Group 1",
+        "tab": "83d1263cfb055153",
+        "order": 1,
+        "disp": false,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a434ad35.e8a6b",
+        "type": "ui_group",
+        "name": "Joystick demo",
+        "tab": "3a9142dda480ef73",
+        "order": 1,
+        "disp": false,
+        "width": 8,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "d238b5fa54834a7c",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "3a9142dda480ef73",
+        "order": 2,
+        "disp": false,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "72fc6571.2d53c4",
+        "type": "ros-server",
+        "url": "ws://0.0.0.0:9090"
+    },
+    {
+        "id": "83d1263cfb055153",
+        "type": "ui_tab",
+        "name": "AMR INTERFACE",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "3a9142dda480ef73",
+        "type": "ui_tab",
+        "name": "Joystick",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "28ea5aa36b888748",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-dark",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#097479",
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#0eb8c0",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#555555",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#eeeeee",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "1207f93a8ff81454",
+        "type": "function",
+        "z": "bed158752344d670",
+        "name": "sub_cmd_func",
+        "func": "var cmd_x = {payload:  msg.payload.linear.x};\nvar cmd_z= {payload:  msg.payload.angular.z};\nreturn [cmd_x , cmd_z];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 540,
+        "y": 280,
+        "wires": [
+            [
+                "c609e06ef0d8a768",
+                "3c7d13a777cdce53"
+            ],
+            [
+                "0625f02e52ddb570",
+                "76a61f57a264fcf0"
+            ]
+        ]
+    },
+    {
+        "id": "9d698106e79a5d76",
+        "type": "function",
+        "z": "bed158752344d670",
+        "name": "Set_as_flow",
+        "func": "flow.set(\"linear_vel\",msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 690,
+        "y": 420,
+        "wires": [
+            [
+                "82bc3de398ea2a60"
+            ]
+        ]
+    },
+    {
+        "id": "f6ed7bb3ba6760eb",
+        "type": "function",
+        "z": "bed158752344d670",
+        "name": "Set_as_flow",
+        "func": "flow.set(\"angular_vel\",msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 690,
+        "y": 500,
+        "wires": [
+            [
+                "e96141d530f6cea0"
+            ]
+        ]
+    },
+    {
+        "id": "cead8c86ba710b4f",
+        "type": "inject",
+        "z": "bed158752344d670",
+        "name": "init linear vel",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0.3",
+        "payloadType": "num",
+        "x": 150,
+        "y": 380,
+        "wires": [
+            [
+                "e3d5dc4163a585e0",
+                "9d698106e79a5d76"
+            ]
+        ]
+    },
+    {
+        "id": "582a9b1aaf9184f5",
+        "type": "inject",
+        "z": "bed158752344d670",
+        "name": "init angular vel",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0.3",
+        "payloadType": "num",
+        "x": 160,
+        "y": 480,
+        "wires": [
+            [
+                "67bc950c47499a9b",
+                "f6ed7bb3ba6760eb"
+            ]
+        ]
+    },
+    {
+        "id": "555f6c9f669ea602",
+        "type": "inject",
+        "z": "bed158752344d670",
+        "name": "init ",
+        "props": [
+            {
+                "p": "payload.linear.x",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "p": "payload.angular.z",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 310,
+        "y": 220,
+        "wires": [
+            [
+                "1207f93a8ff81454"
+            ]
+        ]
+    },
+    {
+        "id": "927441f292bfbe2e",
+        "type": "function",
+        "z": "bed158752344d670",
+        "name": "Publish Twist Message",
+        "func": "\nvar linear = flow.get(\"linear_vel\")||1.0;\nvar angular= flow.get(\"angular_vel\")||1.0;\nvar twist_linear = flow.get(\"twist_linear\")||0.0;\nvar twist_angular = flow.get(\"twist_angular\")||0.0;\n\n\nif (Math.abs(msg.payload.vector.x)<0.1) {\n\nmsg.payload.vector.x = 0\n}\nelse {\n  msg.payload.vector.x = msg.payload.vector.x\n}\n\n\nif (Math.abs(msg.payload.vector.y)<0.1) {\n\nmsg.payload.vector.y = 0\n}\nelse {\n  msg.payload.vector.y = msg.payload.vector.y\n}\n\nlinear = msg.payload.vector.y*linear;\nangular = msg.payload.vector.x*angular;\n\nif(linear>=0) {\n    angular=angular*-1\n}\n\ntwist_linear=linear;\ntwist_angular=angular;\n   \n        \n        \ntwist = {\nlinear: {\n    x: twist_linear,\n    y: 0,\n    z: 0\n  },\nangular: {\n    x: 0,\n    y: 0,\n    z: twist_angular\n  }\n};\n\nflow.set(\"twist_linear\",twist_linear);\nflow.set(\"twist_angular\",twist_angular);\n\nmsg.payload = twist;\n\n//if(twist_linear!=0.0 || twist_angular!=0.0) {\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 600,
+        "wires": [
+            [
+                "798b192554c4a15e"
+            ]
+        ]
+    },
+    {
+        "id": "e3d5dc4163a585e0",
+        "type": "ui_slider",
+        "z": "bed158752344d670",
+        "name": "",
+        "label": "Linear Velocity",
+        "tooltip": "",
+        "group": "2a3a611c.db4fee",
+        "order": 6,
+        "width": 5,
+        "height": 1,
+        "passthru": false,
+        "outs": "all",
+        "topic": "",
+        "topicType": "str",
+        "min": 0,
+        "max": "1.0",
+        "step": "0.1",
+        "className": "",
+        "x": 440,
+        "y": 420,
+        "wires": [
+            [
+                "9d698106e79a5d76"
+            ]
+        ]
+    },
+    {
+        "id": "67bc950c47499a9b",
+        "type": "ui_slider",
+        "z": "bed158752344d670",
+        "name": "",
+        "label": "Angular Velocity",
+        "tooltip": "",
+        "group": "2a3a611c.db4fee",
+        "order": 8,
+        "width": 5,
+        "height": 1,
+        "passthru": false,
+        "outs": "all",
+        "topic": "",
+        "topicType": "str",
+        "min": 0,
+        "max": "1.0",
+        "step": "0.1",
+        "className": "",
+        "x": 460,
+        "y": 500,
+        "wires": [
+            [
+                "f6ed7bb3ba6760eb"
+            ]
+        ]
+    },
+    {
+        "id": "82bc3de398ea2a60",
+        "type": "ui_numeric",
+        "z": "bed158752344d670",
+        "name": "Linear Velocity",
+        "label": "",
+        "tooltip": "",
+        "group": "2a3a611c.db4fee",
+        "order": 7,
+        "width": 3,
+        "height": 1,
+        "wrap": false,
+        "passthru": true,
+        "topic": "",
+        "topicType": "str",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1.0",
+        "step": "0.1",
+        "className": "",
+        "x": 920,
+        "y": 420,
+        "wires": [
+            [
+                "e3d5dc4163a585e0",
+                "9d698106e79a5d76"
+            ]
+        ]
+    },
+    {
+        "id": "e96141d530f6cea0",
+        "type": "ui_numeric",
+        "z": "bed158752344d670",
+        "name": "Angular Velocity",
+        "label": "",
+        "tooltip": "",
+        "group": "2a3a611c.db4fee",
+        "order": 9,
+        "width": 3,
+        "height": 1,
+        "wrap": false,
+        "passthru": true,
+        "topic": "",
+        "topicType": "str",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1.0",
+        "step": "0.1",
+        "className": "",
+        "x": 920,
+        "y": 500,
+        "wires": [
+            [
+                "67bc950c47499a9b",
+                "f6ed7bb3ba6760eb"
+            ]
+        ]
+    },
+    {
+        "id": "3c7d13a777cdce53",
+        "type": "ui_text",
+        "z": "bed158752344d670",
+        "group": "a434ad35.e8a6b",
+        "order": 1,
+        "width": 4,
+        "height": 1,
+        "name": "Linear",
+        "label": "Linear",
+        "format": "{{value| number:2}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 770,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "76a61f57a264fcf0",
+        "type": "ui_text",
+        "z": "bed158752344d670",
+        "group": "a434ad35.e8a6b",
+        "order": 2,
+        "width": 4,
+        "height": 1,
+        "name": "Angular",
+        "label": "Angular",
+        "format": "{{value| number:2}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 760,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "c609e06ef0d8a768",
+        "type": "ui_gauge",
+        "z": "bed158752344d670",
+        "name": "",
+        "group": "2a3a611c.db4fee",
+        "order": 4,
+        "width": 4,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Linear Velocity",
+        "label": "m/s",
+        "format": "{{value}}",
+        "min": "-1.0",
+        "max": "1.0",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 760,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "0625f02e52ddb570",
+        "type": "ui_gauge",
+        "z": "bed158752344d670",
+        "name": "",
+        "group": "2a3a611c.db4fee",
+        "order": 5,
+        "width": 4,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Angular Velocity ",
+        "label": "rad/s",
+        "format": "{{value}}",
+        "min": "-1.0",
+        "max": "1.0",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 760,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "af07d8d4097c61cd",
+        "type": "ui_joystick",
+        "z": "bed158752344d670",
+        "name": "",
+        "group": "d238b5fa54834a7c",
+        "order": 1,
+        "width": "8",
+        "height": "10",
+        "trigger": "all",
+        "timeInterval": "200",
+        "useThemeColor": true,
+        "color": "#a573c9",
+        "threshold": "0.1",
+        "directions": "all",
+        "shape": "circle",
+        "centerAtRelease": true,
+        "x": 110,
+        "y": 580,
+        "wires": [
+            [
+                "927441f292bfbe2e"
+            ]
+        ]
+    },
+    {
+        "id": "ad56b62a1686938e",
+        "type": "ros-subscribe",
+        "z": "bed158752344d670",
+        "server": "72fc6571.2d53c4",
+        "topicname": "/mkmr0/mkmr_controller/cmd_vel",
+        "x": 210,
+        "y": 280,
+        "wires": [
+            [
+                "1207f93a8ff81454"
+            ]
+        ]
+    },
+    {
+        "id": "798b192554c4a15e",
+        "type": "ros-publish",
+        "z": "bed158752344d670",
+        "server": "72fc6571.2d53c4",
+        "topicname": "/AGV1/twsit/joy_vel",
+        "typepackage": "",
+        "typename": "CmdVel",
+        "stampheader": false,
+        "x": 770,
+        "y": 600,
+        "wires": []
+    }
+]
