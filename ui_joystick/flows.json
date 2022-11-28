@@ -624,7 +624,7 @@
         "type": "ros-publish",
         "z": "dbb8b57b14111d2c",
         "server": "72fc6571.2d53c4",
-        "topicname": "/mkmr0/manual_ctrl_vel",
+        "topicname": "/mkmr0/enable_manual_control",
         "typepackage": "",
         "typename": "CmdVel",
         "stampheader": false,
