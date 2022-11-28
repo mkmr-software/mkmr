@@ -1,7 +1,7 @@
 [
     {
-        "id": "dbb8b57b14111d2c",
-        "type": "tab",  
+        "id": "20eae4b4cc15f42b",
+        "type": "tab",
         "label": "AMR",
         "disabled": false,
         "info": ""
@@ -148,7 +148,7 @@
             "allowTempTheme": "true",
             "dateFormat": "DD/MM/YYYY",
             "sizes": {
-                "sx": 48,
+                "sx": 40,
                 "sy": 48,
                 "gx": 6,
                 "gy": 6,
@@ -160,32 +160,33 @@
         }
     },
     {
-        "id": "03876c1eef3ff77e",
+        "id": "f4de378f6eda38bd",
         "type": "function",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "sub_cmd_func",
-        "func": "var cmd_x = {payload:  msg.payload.linear.x};\nvar cmd_z= {payload:  msg.payload.angular.z};\nreturn [cmd_x , cmd_z];",
+        "func": "var cmd_x = {payload:  msg.payload.linear.x.toFixed(2)};\nvar cmd_z= {payload:  msg.payload.angular.z.toFixed(2)};\nreturn [cmd_x , cmd_z];",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
+        "libs": [],
         "x": 540,
         "y": 280,
         "wires": [
             [
-                "f83a73260fe348a4",
-                "13b191bb9df2927d"
+                "04490c7d565a8347",
+                "46dde4e231f4cbf2"
             ],
             [
-                "9692dbf4f49811a7",
-                "6287337f07a238f0"
+                "a1fededd26ed0221",
+                "12e5a4a88ef50ba8"
             ]
         ]
     },
     {
-        "id": "eb16c97d0b4cdbf2",
+        "id": "9b2d71c5c83ad1ec",
         "type": "function",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "Set_as_flow",
         "func": "flow.set(\"linear_vel\",msg.payload);\nreturn msg;",
         "outputs": 1,
@@ -194,14 +195,14 @@
         "y": 420,
         "wires": [
             [
-                "9c297ea3d106ed95"
+                "14f6e1fdfff17f85"
             ]
         ]
     },
     {
-        "id": "bb84efcfa2814285",
+        "id": "9a354bb4eff1d85b",
         "type": "function",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "Set_as_flow",
         "func": "flow.set(\"angular_vel\",msg.payload);\nreturn msg;",
         "outputs": 1,
@@ -210,14 +211,14 @@
         "y": 500,
         "wires": [
             [
-                "8d556e6de5609ae0"
+                "7329444ea3025469"
             ]
         ]
     },
     {
-        "id": "59749bfe9401c6b4",
+        "id": "482efd1c3ed2113e",
         "type": "inject",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "init linear vel",
         "props": [
             {
@@ -235,15 +236,15 @@
         "y": 380,
         "wires": [
             [
-                "0ce3d081595d70e1",
-                "eb16c97d0b4cdbf2"
+                "16cebf8e5912f2dd",
+                "9b2d71c5c83ad1ec"
             ]
         ]
     },
     {
-        "id": "ee377fe8797a3790",
+        "id": "0af392e9db598388",
         "type": "inject",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "init angular vel",
         "props": [
             {
@@ -261,15 +262,15 @@
         "y": 480,
         "wires": [
             [
-                "7af624dbc5887aa2",
-                "bb84efcfa2814285"
+                "c3dad5415a360e68",
+                "9a354bb4eff1d85b"
             ]
         ]
     },
     {
-        "id": "7b2d7b0d9e6eb84b",
+        "id": "42ddacd6551c03e5",
         "type": "inject",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "init ",
         "props": [
             {
@@ -292,14 +293,14 @@
         "y": 220,
         "wires": [
             [
-                "03876c1eef3ff77e"
+                "f4de378f6eda38bd"
             ]
         ]
     },
     {
-        "id": "d99cfe5da40e3bc7",
+        "id": "8503ad388ae14509",
         "type": "function",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "Publish Twist Message",
         "func": "\nvar linear = flow.get(\"linear_vel\")||1.0;\nvar angular= flow.get(\"angular_vel\")||1.0;\nvar twist_linear = flow.get(\"twist_linear\")||0.0;\nvar twist_angular = flow.get(\"twist_angular\")||0.0;\n\n\nif (Math.abs(msg.payload.vector.x)<0.1) {\n\nmsg.payload.vector.x = 0\n}\nelse {\n  msg.payload.vector.x = msg.payload.vector.x\n}\n\n\nif (Math.abs(msg.payload.vector.y)<0.1) {\n\nmsg.payload.vector.y = 0\n}\nelse {\n  msg.payload.vector.y = msg.payload.vector.y\n}\n\nlinear = msg.payload.vector.y*linear;\nangular = msg.payload.vector.x*angular;\n\nif(linear>=0) {\n    angular=angular*-1\n}\n\ntwist_linear=linear;\ntwist_angular=angular;\n   \n        \n        \ntwist = {\nlinear: {\n    x: twist_linear,\n    y: 0,\n    z: 0\n  },\nangular: {\n    x: 0,\n    y: 0,\n    z: twist_angular\n  }\n};\n\nflow.set(\"twist_linear\",twist_linear);\nflow.set(\"twist_angular\",twist_angular);\n\nmsg.payload = twist;\n\n//if(twist_linear!=0.0 || twist_angular!=0.0) {\nreturn msg;\n\n",
         "outputs": 1,
@@ -311,14 +312,14 @@
         "y": 600,
         "wires": [
             [
-                "d2e037f5738c9753"
+                "5456493422cbe9b6"
             ]
         ]
     },
     {
-        "id": "0ce3d081595d70e1",
+        "id": "16cebf8e5912f2dd",
         "type": "ui_slider",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "",
         "label": "Linear Velocity",
         "tooltip": "",
@@ -338,14 +339,14 @@
         "y": 420,
         "wires": [
             [
-                "eb16c97d0b4cdbf2"
+                "9b2d71c5c83ad1ec"
             ]
         ]
     },
     {
-        "id": "7af624dbc5887aa2",
+        "id": "c3dad5415a360e68",
         "type": "ui_slider",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "",
         "label": "Angular Velocity",
         "tooltip": "",
@@ -365,14 +366,14 @@
         "y": 500,
         "wires": [
             [
-                "bb84efcfa2814285"
+                "9a354bb4eff1d85b"
             ]
         ]
     },
     {
-        "id": "9c297ea3d106ed95",
+        "id": "14f6e1fdfff17f85",
         "type": "ui_numeric",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "Linear Velocity",
         "label": "",
         "tooltip": "",
@@ -393,15 +394,15 @@
         "y": 420,
         "wires": [
             [
-                "0ce3d081595d70e1",
-                "eb16c97d0b4cdbf2"
+                "16cebf8e5912f2dd",
+                "9b2d71c5c83ad1ec"
             ]
         ]
     },
     {
-        "id": "8d556e6de5609ae0",
+        "id": "7329444ea3025469",
         "type": "ui_numeric",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "Angular Velocity",
         "label": "",
         "tooltip": "",
@@ -422,15 +423,15 @@
         "y": 500,
         "wires": [
             [
-                "7af624dbc5887aa2",
-                "bb84efcfa2814285"
+                "c3dad5415a360e68",
+                "9a354bb4eff1d85b"
             ]
         ]
     },
     {
-        "id": "13b191bb9df2927d",
+        "id": "46dde4e231f4cbf2",
         "type": "ui_text",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "group": "a434ad35.e8a6b",
         "order": 1,
         "width": 4,
@@ -445,9 +446,9 @@
         "wires": []
     },
     {
-        "id": "6287337f07a238f0",
+        "id": "12e5a4a88ef50ba8",
         "type": "ui_text",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "group": "a434ad35.e8a6b",
         "order": 2,
         "width": 4,
@@ -462,9 +463,9 @@
         "wires": []
     },
     {
-        "id": "f83a73260fe348a4",
+        "id": "04490c7d565a8347",
         "type": "ui_gauge",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "",
         "group": "2a3a611c.db4fee",
         "order": 1,
@@ -489,9 +490,9 @@
         "wires": []
     },
     {
-        "id": "9692dbf4f49811a7",
+        "id": "a1fededd26ed0221",
         "type": "ui_gauge",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "",
         "group": "2a3a611c.db4fee",
         "order": 2,
@@ -515,9 +516,9 @@
         "wires": []
     },
     {
-        "id": "12b5dc95f6219c0b",
+        "id": "287b2f06d329a761",
         "type": "ui_joystick",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "",
         "group": "d238b5fa54834a7c",
         "order": 1,
@@ -535,28 +536,28 @@
         "y": 580,
         "wires": [
             [
-                "d99cfe5da40e3bc7"
+                "8503ad388ae14509"
             ]
         ]
     },
     {
-        "id": "11847e556ca61c61",
+        "id": "294ea0e3d6b67f23",
         "type": "ros-subscribe",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "server": "72fc6571.2d53c4",
         "topicname": "/mkmr0/mkmr_controller/cmd_vel",
         "x": 210,
         "y": 280,
         "wires": [
             [
-                "03876c1eef3ff77e"
+                "f4de378f6eda38bd"
             ]
         ]
     },
     {
-        "id": "d2e037f5738c9753",
+        "id": "5456493422cbe9b6",
         "type": "ros-publish",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "server": "72fc6571.2d53c4",
         "topicname": "/mkmr0/manual_ctrl_joy_vel",
         "typepackage": "",
@@ -567,9 +568,9 @@
         "wires": []
     },
     {
-        "id": "b15328c39fd8e10e",
+        "id": "8703dcfaaf78e242",
         "type": "ui_switch",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "",
         "label": "Enable Manual Control",
         "tooltip": "",
@@ -596,14 +597,14 @@
         "y": 80,
         "wires": [
             [
-                "5253c19c84bcedb2"
+                "4621196c9f76c98e"
             ]
         ]
     },
     {
-        "id": "5253c19c84bcedb2",
+        "id": "4621196c9f76c98e",
         "type": "function",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "name": "Publish Twist Message",
         "func": "\n\nbool = {\n    data: msg.payload\n};\n\n\n\n\nmsg.payload = bool;\n\nreturn msg;\n\n",
         "outputs": 1,
@@ -615,14 +616,14 @@
         "y": 80,
         "wires": [
             [
-                "cb97c4ee5bd1b922"
+                "429a810c0b1d7819"
             ]
         ]
     },
     {
-        "id": "cb97c4ee5bd1b922",
+        "id": "429a810c0b1d7819",
         "type": "ros-publish",
-        "z": "dbb8b57b14111d2c",
+        "z": "20eae4b4cc15f42b",
         "server": "72fc6571.2d53c4",
         "topicname": "/mkmr0/enable_manual_control_joy",
         "typepackage": "",
