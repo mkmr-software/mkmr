@@ -566,7 +566,7 @@
         "type": "ros-publish",
         "z": "bed158752344d670",
         "server": "72fc6571.2d53c4",
-        "topicname": "/AGV1/twsit/joy_vel",
+        "topicname": "/mkmr0/manual_ctrl_vel",
         "typepackage": "",
         "typename": "CmdVel",
         "stampheader": false,
