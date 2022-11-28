@@ -1,7 +1,7 @@
 [
     {
         "id": "dbb8b57b14111d2c",
-        "type": "tab",
+        "type": "tab",  
         "label": "AMR",
         "disabled": false,
         "info": ""
@@ -558,7 +558,7 @@
         "type": "ros-publish",
         "z": "dbb8b57b14111d2c",
         "server": "72fc6571.2d53c4",
-        "topicname": "/mkmr0/manual_ctrl_vel",
+        "topicname": "/mkmr0/manual_ctrl_joy_vel",
         "typepackage": "",
         "typename": "CmdVel",
         "stampheader": false,
@@ -624,7 +624,7 @@
         "type": "ros-publish",
         "z": "dbb8b57b14111d2c",
         "server": "72fc6571.2d53c4",
-        "topicname": "/mkmr0/enable_manual_control",
+        "topicname": "/mkmr0/enable_manual_control_joy",
         "typepackage": "",
         "typename": "CmdVel",
         "stampheader": false,
