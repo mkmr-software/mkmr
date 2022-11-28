@@ -18,6 +18,9 @@
         <arg name="robot_id" value="$(arg robot_id)"/>
     </include>
 
+    <include file="$(find mkmr_bringup)/launch/rosbridge_websocket.launch">
+    </include>
+
     <group ns="$(arg robot_id)">
         <node pkg="mkmr_scripts" type="mkmr.py" name="mkmr" output="screen" respawn="true" respawn_delay="3"/>
         <node pkg="mkmr_scripts" type="ui.py" name="ui" output="screen" respawn="true" respawn_delay="3"/>
