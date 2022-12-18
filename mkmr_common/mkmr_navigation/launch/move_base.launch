@@ -2,6 +2,7 @@
 
 <launch>
     <arg name="robot_id" default="$(env MKMR_ROBOT_ID)"/>  
+    <arg name="is_sim" default="true"/>
 
     <group ns="$(arg robot_id)">
         <node pkg="move_base" type="move_base" respawn="true" name="move_base" output="screen">
@@ -18,6 +19,8 @@
 
             <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
             <rosparam file="$(find mkmr_navigation)/config/teb_local_planner_params.yaml" command="load" subst_value="true"/>
+
+            <rosparam unless="$(arg is_sim)" file="$(find mkmr_navigation)/config/teb_local_planner_params_not_sim_override.yaml" command="load" subst_value="true"/>
 
             <remap from="move_base/cancel" to="/$(arg robot_id)/move_base/cancel" />
             <remap from="cmd_vel" to="nav_vel" />

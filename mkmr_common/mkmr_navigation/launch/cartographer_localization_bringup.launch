@@ -3,6 +3,7 @@
 <launch>
     <arg name="robot_id" default="$(env MKMR_ROBOT_ID)"/>
     <arg name="config_dir" default="$(eval env ('MKMR_CONFIG_PKG'))"/>
+    <arg name="is_sim" default="true"/>
 
     <group ns="$(arg robot_id)">
         <node name="cartographer_node" pkg="cartographer_ros"
@@ -36,6 +37,7 @@
 
     <include file="$(find mkmr_navigation)/launch/move_base.launch">
         <arg name="robot_id" value="$(arg robot_id)"/>
+        <arg name="is_sim" value="$(arg is_sim)"/>
     </include>
 
     <group ns="$(arg robot_id)">

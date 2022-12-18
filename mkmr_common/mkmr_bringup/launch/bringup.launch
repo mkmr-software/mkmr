@@ -3,6 +3,7 @@
     <arg name="robot_id" default="$(env MKMR_ROBOT_ID)"/>
     <arg name="is_sim" default="true"/>
     <arg name="config_dir" default="$(eval env ('MKMR_CONFIG_PKG'))"/>
+    <arg name="test_not_sim_desktop" default="false"/>
 
     <include file="$(find mkmr_description)/launch/mkmr_description.launch">
         <arg name="robot_id" value="$(arg robot_id)"/>
@@ -16,6 +17,7 @@
 
     <include file="$(find mkmr_control)/launch/manual_controllers.launch">
         <arg name="robot_id" value="$(arg robot_id)"/>
+        <arg name="is_sim" value="$(arg is_sim)"/>
     </include>
 
     <include file="$(find mkmr_bringup)/launch/rosbridge_websocket.launch">
@@ -30,7 +32,6 @@
 
 
     <group if = "$(arg is_sim)">
-
         <node pkg="mkmr_services" type="launcher.py" name="$(arg robot_id)_launcher" 
                                                     output="screen" respawn="true" respawn_delay="3">
         </node>
@@ -43,7 +44,23 @@
             <arg name="posz" value="0.1"/>
             <arg name="yaw" value="1.57"/>
         </include>
+    </group>
 
+    <group unless = "$(arg is_sim)">
+        <group if = "$(arg test_not_sim_desktop)">
+            <node pkg="mkmr_services" type="launcher.py" name="$(arg robot_id)_launcher" 
+                                                        output="screen" respawn="true" respawn_delay="3">
+            </node>
+
+            <include file="$(find mkmr_bringup)/launch/mkmr_sim_bringup.launch">
+                <arg name="robot_id" value="$(arg robot_id)"/>
+                <arg name="is_sim" value="$(arg is_sim)"/>
+                <arg name="posx" value="15.0"/>
+                <arg name="posy" value="-38.0"/>
+                <arg name="posz" value="0.1"/>
+                <arg name="yaw" value="1.57"/>
+            </include>
+        </group>
     </group>
 
 </launch>

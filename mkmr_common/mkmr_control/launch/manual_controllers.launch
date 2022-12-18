@@ -1,16 +1,21 @@
 <launch>
   
     <arg name="robot_id"/>
+    <arg name="is_sim" default="true"/>
 
     <!-- r_vertical -->
     <arg name="robot_length_half_x" default="0.2"/>
     <!-- r_horizontal -->
     <arg name="robot_length_half_y" default="0.15"/>
 
-    <arg name="fast_speed" default="0.5"/>
-    <arg name="normal_speed" default="0.3"/>
-    <arg name="slow_speed" default="0.1"/>
-    
+    <!-- speed -->
+    <arg if="$(arg is_sim)" name="fast_speed" default="0.5"/>
+    <arg if="$(arg is_sim)" name="normal_speed" default="0.3"/>
+    <arg if="$(arg is_sim)" name="slow_speed" default="0.1"/>
+    <arg unless="$(arg is_sim)" name="fast_speed" default="0.3"/>
+    <arg unless="$(arg is_sim)" name="normal_speed" default="0.2"/>
+    <arg unless="$(arg is_sim)" name="slow_speed" default="0.1"/>
+
     <!-- lidar_offset -->
     <arg name="lidar_x" default="0.07"/>  
 
@@ -40,11 +45,16 @@
         <param name="normal_speed"       value="$(arg normal_speed)"/>
         <param name="slow_speed"         value="$(arg slow_speed)"/>
 
-        <param name="normal_dist"        value="$(eval 4 * arg('robot_length_half_x'))"/>
-        <param name="normal_side_dist"   value="$(eval 2.5 * arg('robot_length_half_y'))"/>
-        <param name="slow_dist"      value="$(eval 3 * arg('robot_length_half_x'))"/>
-        <param name="slow_side_dist" value="$(eval 1.5 * arg('robot_length_half_y'))"/>
-    
+        <param if="$(arg is_sim)" name="normal_dist"        value="$(eval 4 * arg('robot_length_half_x'))"/>
+        <param if="$(arg is_sim)" name="normal_side_dist"   value="$(eval 2.5 * arg('robot_length_half_y'))"/>
+        <param if="$(arg is_sim)" name="slow_dist"      value="$(eval 3 * arg('robot_length_half_x'))"/>
+        <param if="$(arg is_sim)" name="slow_side_dist" value="$(eval 1.5 * arg('robot_length_half_y'))"/>
+
+        <param unless="$(arg is_sim)" name="normal_dist"        value="$(eval 2 * arg('robot_length_half_x'))"/>
+        <param unless="$(arg is_sim)" name="normal_side_dist"   value="$(eval 1.5 * arg('robot_length_half_y'))"/>
+        <param unless="$(arg is_sim)" name="slow_dist"      value="$(eval 1.5 * arg('robot_length_half_x'))"/>
+        <param unless="$(arg is_sim)" name="slow_side_dist" value="$(eval 0.5 * arg('robot_length_half_y'))"/>
+
 
     </node>
 

@@ -1,0 +1,7 @@
+
+project_id: 1
+is_sim: false
+map: prod
+floor: "0"
+ui_debug: true
+localization: "cartographer"
