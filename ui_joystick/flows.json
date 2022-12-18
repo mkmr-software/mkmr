@@ -1,5 +1,13 @@
 [
     {
+        "id": "aaf2f5fd1c793b7c",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "20eae4b4cc15f42b",
         "type": "tab",
         "label": "AMR",
@@ -38,11 +46,6 @@
         "width": "8",
         "collapse": false,
         "className": ""
-    },
-    {
-        "id": "72fc6571.2d53c4",
-        "type": "ros-server",
-        "url": "ws://0.0.0.0:9090"
     },
     {
         "id": "83d1263cfb055153",
@@ -304,7 +307,7 @@
         "name": "Publish Twist Message",
         "func": "\nvar linear = flow.get(\"linear_vel\")||1.0;\nvar angular= flow.get(\"angular_vel\")||1.0;\nvar twist_linear = flow.get(\"twist_linear\")||0.0;\nvar twist_angular = flow.get(\"twist_angular\")||0.0;\n\n\nif (Math.abs(msg.payload.vector.x)<0.1) {\n\nmsg.payload.vector.x = 0\n}\nelse {\n  msg.payload.vector.x = msg.payload.vector.x\n}\n\n\nif (Math.abs(msg.payload.vector.y)<0.1) {\n\nmsg.payload.vector.y = 0\n}\nelse {\n  msg.payload.vector.y = msg.payload.vector.y\n}\n\nlinear = msg.payload.vector.y*linear;\nangular = msg.payload.vector.x*angular;\n\nif(linear>=0) {\n    angular=angular*-1\n}\n\ntwist_linear=linear;\ntwist_angular=angular;\n   \n        \n        \ntwist = {\nlinear: {\n    x: twist_linear,\n    y: 0,\n    z: 0\n  },\nangular: {\n    x: 0,\n    y: 0,\n    z: twist_angular\n  }\n};\n\nflow.set(\"twist_linear\",twist_linear);\nflow.set(\"twist_angular\",twist_angular);\n\nmsg.payload = twist;\n\n//if(twist_linear!=0.0 || twist_angular!=0.0) {\nreturn msg;\n\n",
         "outputs": 1,
-        "noerr": 0,
+        "noerr": 2,
         "initialize": "",
         "finalize": "",
         "libs": [],
@@ -312,7 +315,7 @@
         "y": 600,
         "wires": [
             [
-                "5456493422cbe9b6"
+                "226992fd4bfc7bf3"
             ]
         ]
     },
@@ -541,33 +544,6 @@
         ]
     },
     {
-        "id": "294ea0e3d6b67f23",
-        "type": "ros-subscribe",
-        "z": "20eae4b4cc15f42b",
-        "server": "72fc6571.2d53c4",
-        "topicname": "/mkmr0/mkmr_controller/cmd_vel",
-        "x": 210,
-        "y": 280,
-        "wires": [
-            [
-                "f4de378f6eda38bd"
-            ]
-        ]
-    },
-    {
-        "id": "5456493422cbe9b6",
-        "type": "ros-publish",
-        "z": "20eae4b4cc15f42b",
-        "server": "72fc6571.2d53c4",
-        "topicname": "/mkmr0/manual_ctrl_joy_vel",
-        "typepackage": "",
-        "typename": "CmdVel",
-        "stampheader": false,
-        "x": 770,
-        "y": 600,
-        "wires": []
-    },
-    {
         "id": "8703dcfaaf78e242",
         "type": "ui_switch",
         "z": "20eae4b4cc15f42b",
@@ -605,8 +581,8 @@
         "id": "4621196c9f76c98e",
         "type": "function",
         "z": "20eae4b4cc15f42b",
-        "name": "Publish Twist Message",
-        "func": "\n\nbool = {\n    data: msg.payload\n};\n\n\n\n\nmsg.payload = bool;\n\nreturn msg;\n\n",
+        "name": "Publish Bool Message",
+        "func": "\n\nvar bool_msg = {\n    data: msg.payload\n};\n\n\n\n\nmsg.payload = bool_msg;\n\nreturn msg;\n\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -616,21 +592,45 @@
         "y": 80,
         "wires": [
             [
-                "429a810c0b1d7819"
+                "6cfad00b103a7e6c"
             ]
         ]
     },
     {
-        "id": "429a810c0b1d7819",
-        "type": "ros-publish",
+        "id": "fa3a1a1ef3fb36a2",
+        "type": "ros-subscriber",
         "z": "20eae4b4cc15f42b",
-        "server": "72fc6571.2d53c4",
+        "topicname": "/mkmr0/mkmr_controller/cmd_vel",
+        "typepackage": "geometry_msgs",
+        "typename": "Twist",
+        "x": 190,
+        "y": 280,
+        "wires": [
+            [
+                "f4de378f6eda38bd"
+            ]
+        ]
+    },
+    {
+        "id": "6cfad00b103a7e6c",
+        "type": "ros-publisher",
+        "z": "20eae4b4cc15f42b",
         "topicname": "/mkmr0/enable_manual_control_joy",
-        "typepackage": "",
-        "typename": "CmdVel",
-        "stampheader": false,
-        "x": 990,
+        "typepackage": "std_msgs",
+        "typename": "Bool",
+        "x": 1040,
         "y": 80,
+        "wires": []
+    },
+    {
+        "id": "226992fd4bfc7bf3",
+        "type": "ros-publisher",
+        "z": "20eae4b4cc15f42b",
+        "topicname": "/mkmr0/manual_ctrl_joy_vel",
+        "typepackage": "geometry_msgs",
+        "typename": "Twist",
+        "x": 820,
+        "y": 600,
         "wires": []
     }
 ]
