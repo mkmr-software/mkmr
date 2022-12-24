@@ -6,9 +6,11 @@
     <xacro:property name="robot_length_x" value="0.2"/>
     <xacro:property name="robot_length_y" value="0.15"/>
 
-    <xacro:property name="safety_offset" value="0.1"/>
+    
 
     <xacro:if value="${IS_SIM}">
+        <xacro:property name="safety_offset" value="0.1"/>
+
         <xacro:property name="normal_dist" value="${robot_length_x*4}"/>
         <xacro:property name="normal_side_dist" value="${robot_length_y*2.5}"/>
         <xacro:property name="slow_dist" value="${robot_length_x*3}"/>
@@ -16,10 +18,12 @@
     </xacro:if>
 
     <xacro:unless value="${IS_SIM}">
-        <xacro:property name="normal_dist" value="${robot_length_x*2}"/>
+        <xacro:property name="safety_offset" value="0.04"/>
+
+        <xacro:property name="normal_dist" value="${robot_length_x*2.5}"/>
         <xacro:property name="normal_side_dist" value="${robot_length_y*1.5}"/>
-        <xacro:property name="slow_dist" value="${robot_length_x*1.5}"/>
-        <xacro:property name="slow_side_dist" value="${robot_length_y*0.5}"/>
+        <xacro:property name="slow_dist" value="${robot_length_x*1.75}"/>
+        <xacro:property name="slow_side_dist" value="${robot_length_y*1.0}"/>
     </xacro:unless>
     
     <!-- Base footprint -->
