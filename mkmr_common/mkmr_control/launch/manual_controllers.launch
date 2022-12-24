@@ -12,8 +12,8 @@
     <arg if="$(arg is_sim)" name="fast_speed" default="0.5"/>
     <arg if="$(arg is_sim)" name="normal_speed" default="0.3"/>
     <arg if="$(arg is_sim)" name="slow_speed" default="0.1"/>
-    <arg unless="$(arg is_sim)" name="fast_speed" default="0.3"/>
-    <arg unless="$(arg is_sim)" name="normal_speed" default="0.2"/>
+    <arg unless="$(arg is_sim)" name="fast_speed" default="0.25"/>
+    <arg unless="$(arg is_sim)" name="normal_speed" default="0.17"/>
     <arg unless="$(arg is_sim)" name="slow_speed" default="0.1"/>
 
     <!-- lidar_offset -->
