@@ -4,12 +4,14 @@
     <arg name="robot_id" default="$(env MKMR_ROBOT_ID)"/>
     <arg name="config_dir" default="$(eval env ('MKMR_CONFIG_PKG'))"/>
     <arg name="is_sim" default="true"/>
+    <arg unless="$(arg is_sim)" name="config_file" default="localization.lua"/>
+    <arg if="$(arg is_sim)" name="config_file" default="localization_sim.lua"/>
 
     <group ns="$(arg robot_id)">
         <node name="cartographer_node" pkg="cartographer_ros"
             type="cartographer_node" args="
             -configuration_directory $(find mkmr_cfg_files)/config/cartographer
-            -configuration_basename localization.lua
+            -configuration_basename $(arg config_file)
             -load_state_filename $(arg pbstream_file)"
             output="log">
             <remap from="odom" to="mkmr_controller/odom" />
@@ -22,7 +24,7 @@
 
         <node name="pose" pkg="mkmr_scripts" type="pose" output="screen">
             <param name="configuration_directory" value="$(find mkmr_cfg_files)/config/cartographer" />
-            <param name="configuration_basename" value="localization.lua" />
+            <param name="configuration_basename" value="$(arg config_file)" />
 
             <param name="initial_pose_x" value="0.0" />
             <param name="initial_pose_y" value="0.0" />
