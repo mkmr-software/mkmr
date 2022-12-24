@@ -1,4 +1,9 @@
 TebLocalPlannerROS:
 
   max_vel_x: 0.35
+  odom_topic: /$(arg robot_id)/odom
+  
+  xy_goal_tolerance: 0.25
+  yaw_goal_tolerance: 0.3
+
   
