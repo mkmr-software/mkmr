@@ -2,7 +2,7 @@
 /*
   MKMR Arduino Code 
 
-  modified 30 Oct 2022
+  modified 24 Dec 2022
   by Melih KORKMAZ
 
 */
@@ -147,10 +147,10 @@ void setup() {
     allPIDS[thisId].SetSampleTime(1);
   }
   
-  allPIDS[0].SetOutputLimits(45, 165); // FL
-  allPIDS[1].SetOutputLimits(30, 150); // FR
-  allPIDS[2].SetOutputLimits(40, 160); // BR
-  allPIDS[3].SetOutputLimits(35, 155); // BL
+  allPIDS[0].SetOutputLimits(55, 125); // FL
+  allPIDS[1].SetOutputLimits(40, 110); // FR
+  allPIDS[2].SetOutputLimits(50, 120); // BR
+  allPIDS[3].SetOutputLimits(45, 115); // BL
 
   
    pinMode(analogInput, INPUT);
