@@ -1,0 +1,10 @@
+- '{"type": "target", "name": "P1", "map": "Test1415", "floor": "0", "px": "0.69",
+  "py": "-0.02", "yaw": "-177.94"}'
+- '{"type": "target", "name": "P2", "map": "Test1415", "floor": "0", "px": "-0.09",
+  "py": "-0.09", "yaw": "177.24"}'
+- '{"type": "target", "name": "initial", "map": "building", "floor": "4", "px": "0.17",
+  "py": "0.01", "yaw": "10.44"}'
+- '{"type": "target", "name": "p1", "map": "building", "floor": "4", "px": "3.79",
+  "py": "-0.11", "yaw": "2.77"}'
+- '{"type": "target", "name": "p2", "map": "building", "floor": "4", "px": "3.49",
+  "py": "-1.22", "yaw": "-36.77"}'
