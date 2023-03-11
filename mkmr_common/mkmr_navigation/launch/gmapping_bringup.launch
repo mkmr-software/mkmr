@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="robot_id" default="$(env MKMR_ROBOT_ID)"/>
+    <arg name="config_dir" default="$(eval find(env ('MKMR_CONFIG_PKG')))"/>
+    <arg name="is_sim" default="true"/>
+    <arg unless="$(arg is_sim)" name="config_file" default="mapping.lua"/>
+    <arg if="$(arg is_sim)" name="config_file" default="mapping_sim.lua"/>
+    
+    <group ns="$(arg robot_id)">
+
+        <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+            <!-- <remap from="scan" to="scan"/> -->
+
+            <param name="base_frame" value="$(arg robot_id)/base_footprint" />
+            <param name="odom_frame" value="$(arg robot_id)/odom"/>
+            <param name="map_frame" value="$(arg robot_id)/map"/>
+
+            <param name="throttle_scans" value="1"/>
+            <param name="map_update_interval" value="5.0"/>
+
+            <param name="maxUrange" value="25.0"/>
+            <param name="maxRange" value="30.0"/>
+
+            <param name="sigma" value="0.025"/>
+            <param name="kernelSize" value="1"/>
+            <param name="lstep" value="0.10"/>
+            <param name="astep" value="0.05"/>
+            <param name="iterations" value="5"/>
+            <param name="lsigma" value="0.075"/>
+            <param name="ogain" value="3.0"/>
+            <param name="lskip" value="0"/>
+            <param name="minimumScore" value="0"/>
+
+            <param name="srr" value="0.01"/>
+            <param name="srt" value="0.02"/>
+            <param name="str" value="0.01"/>
+            <param name="stt" value="0.02"/>
+
+            <param name="linearUpdate" value="0.5"/>
+            <param name="angularUpdate" value="0.436"/>
+            <param name="temporalUpdate" value="-1.0"/>
+            <param name="resampleThreshold" value="0.5"/>
+
+            <param name="particles" value="30"/>
+
+            <param name="xmin" value="-20.0"/>
+            <param name="ymin" value="-20.0"/>
+            <param name="xmax" value="20.0"/>
+            <param name="ymax" value="20.0"/>
+            <param name="delta" value="0.05"/>
+
+            <param name="llsamplerange" value="0.01"/>
+            <param name="llsamplestep" value="0.01"/>
+            <param name="lasamplerange" value="0.005"/>
+            <param name="lasamplestep" value="0.005"/>
+
+            <param name="occ_thresh" value="0.25"/>
+            <param name="transform_publish_period" value="0.05"/>
+        </node>
+
+
+        <node pkg="mkmr_services" type="save_map.py" name="save_map" output="screen">
+            <param name="config_dir" value="$(arg config_dir)" />
+        </node> 
+
+        <node name="pose" pkg="mkmr_scripts" type="pose" output="screen">
+            <param name="configuration_directory" value="$(find mkmr_cfg_files)/config/cartographer" />
+            <param name="configuration_basename" value="$(arg config_file)" />
+
+            <param name="initial_pose_x" value="0.0" />
+            <param name="initial_pose_y" value="0.0" />
+            <param name="initial_yaw" value="0.0" />
+
+            <param name="publish_pose_topic" value="true" />
+            <param name="map_frame" value="$(arg robot_id)/map" />
+            <param name="base_frame" value="$(arg robot_id)/base_footprint" />
+        </node>
+    </group>
+
+    <group if="$(arg is_sim)">
+        <include file="$(find mkmr_navigation)/launch/move_base.launch">
+            <arg name="robot_id" value="$(arg robot_id)"/>
+        </include>
+    </group>
+
+</launch>
