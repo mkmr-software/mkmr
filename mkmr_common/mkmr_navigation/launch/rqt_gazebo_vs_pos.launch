@@ -1,0 +1,9 @@
+<launch>
+
+    <node name="fl_rqt_plot" pkg="rqt_plot" type="rqt_plot" ns="mkmr0"
+    args="/gazebo/model_states/pose[51]/position/x /mkmr0/mkmr/py" />
+
+    <node name="fr_rqt_plot" pkg="rqt_plot" type="rqt_plot" ns="mkmr0"
+    args="/gazebo/model_states/pose[51]/position/y /mkmr0/mkmr/px" />
+
+</launch>
