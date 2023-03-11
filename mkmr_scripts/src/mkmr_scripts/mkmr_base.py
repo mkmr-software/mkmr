@@ -115,7 +115,7 @@ class MkmrBase:
         return rospy.get_param(prefix, 0)
 
     def callRosService(self, name: str, msg_type: type, msg, print_info: bool = True) -> bool:
-        rospy.wait_for_service(name)
+        rospy.wait_for_service(name, timeout=5)
         data_str = str(msg)
         resp = False
         try:
